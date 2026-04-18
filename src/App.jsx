@@ -5,6 +5,9 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Listing from './pages/Listing'
 import { Routes, Route } from 'react-router-dom'
+import Footer from './components/Footer'
+import Blog from './pages/Blog'
+import Contact from'./pages/Contact'
 
 const App = () => {
   return (
@@ -14,8 +17,11 @@ const App = () => {
       <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/listing' element={<Listing/>}/>
+          <Route path='/blog' element={<Blog/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+          
       </Routes>
-      
+      <Footer/>
     </main>
   )
 }
