@@ -1,0 +1,30 @@
+<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg {
+      fill: #0F172A;
+      rx: 20;
+    }
+    .n-shape {
+      fill: none;
+      stroke: #C9A14A;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .window {
+      fill: #C9A14A;
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="180" height="180" class="bg"/>
+
+  <!-- N Letter (Architect Style) -->
+  <path d="M40 130 V50 L140 130 V50" class="n-shape"/>
+
+  <!-- Windows detail -->
+  <rect x="48" y="70" width="6" height="6" class="window"/>
+  <rect x="48" y="85" width="6" height="6" class="window"/>
+  <rect x="126" y="90" width="6" height="6" class="window"/>
+  <rect x="126" y="105" width="6" height="6" class="window"/>
+</svg>
