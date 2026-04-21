@@ -12,6 +12,12 @@ const Header = () => {
   const [showSearch, setshowSearch] = useState(false)
   const location = useLocation()
 
+
+  const toggleMenu = () => {
+    setMenuOpened((prev) => !prev);
+    setshowSearch(false);
+  };
+
   useEffect(() => {
     const handleScroll =() => {
     if (location.pathname === "/") {
@@ -42,7 +48,7 @@ const Header = () => {
         {/** Logo */}
         <div className=' flex flex-1'>
             <Link to={'/'}>
-            <img src={assets.logoImg} alt="LogoImg" className={`${active && "invert"} h-20 `}/>
+          <img src={assets.logoImg} alt="LogoImg" className={`${!active ? "invert" : ""} h-20 transition-all duration-200`}/>
 
             </Link>
             </div>
@@ -60,12 +66,45 @@ const Header = () => {
             {/*Buttons SearchBar  & Profile*/}
             <div className='flex sm:flex-1 items-center sm:justify-end gap-x-4 sm:gap-x-8'>
               {/** SearchBar */}  
-            <div>
-            SearchBar
+            <div className='relative hidden sm:flex items-center'>
+            <div
+             className={`${
+              active ? "bg-secondary/10" : "bg-white"
+            } transition-all duration-300 ease-in-out ring-1 ring-slate-900/10 rounded-full overflow-hidden ${
+              showSearch 
+              ? "w-[266px] opacity-100 px-4 py-2"
+              : "w-11 opacity-0 px-0 py-0"
+            }`}
+            >
+              <input type="text" placeholder="Type here..." className="w-full text-sm outline-none pr-10 placeholder:text-gray-400"/>
+              </div>
+              <div
+              onClick={() => setshowSearch((prev) => !prev)}
+              className={`${active ? "bg-secondary/10" : "bg-primary"} absolute right-0 ring-1 ring-slate-900/10 p-[8px] rounded-full
+              cursor-pointer z-10`}>
+                <img src={assets.search} alt="searchIcon"/>
+            </div>
             </div>
             {/** Menu Togggle  */}
             <>
-            MenuBtn
+            {menuOpened ? (
+              <img src={assets.close} 
+              alt="CloseMenuIcon"
+              onClick={toggleMenu}
+              className={`${
+              !active && "invert"
+              } lg:hidden cursor-pointer text-xl`}
+              />
+            ):(
+              <img 
+              src={assets.menu} 
+              alt="openMenuIcon" 
+              onClick={toggleMenu} 
+              className={`${
+              !active && "invert"
+            } lg:hidden cursor-pointer text-xl`}
+            />
+            )}
             </>
             {/** User Profile */}
             <div>
