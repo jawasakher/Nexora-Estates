@@ -13,10 +13,9 @@ const Header = () => {
   const location = useLocation()
 
 
-  const toggleMenu = () => {
+  const toggleMenu = () => 
     setMenuOpened((prev) => !prev);
-    setshowSearch(false);
-  };
+    
 
   useEffect(() => {
     const handleScroll =() => {
@@ -24,6 +23,9 @@ const Header = () => {
       setActive(window.scrollY  > 10);
     } else {
       setActive(true); // always stay active on other pages
+    }
+    if(window.scrollY > 10){
+      setMenuOpened(false);
     }
   };
 
