@@ -42,7 +42,7 @@ const Header = () => {
   }, [location.pathname ]);
 
   return (
-    <header className={ `${active ? "bg-white py-3 shadow-md" : "py-4"} fixed top-0 w-full left-0 right-0 z-50 transition-all duration-200`}>
+    <header className={ `${active ? "bg-white/95 backdrop-blur-md py-3 shadow-lg shadow-black/5" : "py-4"} fixed top-0 w-full left-0 right-0 z-50 transition-all duration-300`}>
 
     <div className='max-padd-container'>
       {/*Container */}
@@ -66,26 +66,38 @@ const Header = () => {
               
         />
             {/*Buttons SearchBar  & Profile*/}
-            <div className='flex sm:flex-1 items-center sm:justify-end gap-x-4 sm:gap-x-8'>
+            <div className='flex sm:flex-1 items-center sm:justify-end gap-x-3 sm:gap-x-6'>
               {/** SearchBar */}  
             <div className='relative hidden sm:flex items-center'>
-            <div
-             className={`${
-              active ? "bg-secondary/10" : "bg-white"
-            } transition-all duration-300 ease-in-out ring-1 ring-slate-900/10 rounded-full overflow-hidden ${
-              showSearch 
-              ? "w-[266px] opacity-100 px-4 py-2"
-              : "w-11 opacity-0 px-0 py-0"
-            }`}
-            >
-              <input type="text" placeholder="Type here..." className="w-full text-sm outline-none pr-10 placeholder:text-gray-400"/>
-              </div>
               <div
-              onClick={() => setshowSearch((prev) => !prev)}
-              className={`${active ? "bg-secondary/10" : "bg-primary"} absolute right-0 ring-1 ring-slate-900/10 p-[8px] rounded-full
-              cursor-pointer z-10`}>
-                <img src={assets.search} alt="searchIcon"/>
-            </div>
+                className={`${
+                  active ? "bg-primary/80" : "bg-white/90"
+                } transition-all duration-500 ease-out ring-1 ring-slate-900/10 rounded-full overflow-hidden shadow-sm ${
+                  showSearch
+                    ? "w-[300px] opacity-100 pr-2 pl-4 py-2.5"
+                    : "w-[148px] opacity-100 pl-3 pr-2 py-2"
+                }`}
+              >
+                <div className='flex items-center gap-2'>
+                  <img src={assets.search} alt="searchIcon" className='size-4 opacity-60'/>
+                  {showSearch && (
+                    <input
+                      type="text"
+                      placeholder="Search areas, properties..."
+                      className="w-full text-sm outline-none bg-transparent placeholder:text-gray-400"
+                    />
+                  )}
+                </div>
+              </div>
+
+              <button
+                type='button'
+                onClick={() => setshowSearch((prev) => !prev)}
+                className='absolute right-1 flex items-center gap-1.5 rounded-full bg-gradient-to-r from-secondary to-tertiary px-3.5 py-1.5 text-[12px] font-semibold text-black ring-1 ring-slate-900/10 shadow-md shadow-secondary/30 cursor-pointer'
+              >
+                <img src={assets.search} alt="searchIcon" className='size-3.5'/>
+                <span>{showSearch ? "Close" : "Search"}</span>
+              </button>
             </div>
             {/** Menu Togggle  */}
             <>
@@ -113,7 +125,7 @@ const Header = () => {
                 {/** User */}
                   <div>
                     <div>
-                        <button className='btn-secondary flexCenter gap-2 rounded-full'>
+                        <button className='btn-secondary flexCenter gap-2 rounded-full shadow-md shadow-secondary/20 hover:scale-[1.02] transition-transform'>
                             Login
                             <img src={assets.user} alt="userIcon"/>
                         </button>
