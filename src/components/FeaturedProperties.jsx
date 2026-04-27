@@ -22,31 +22,32 @@ const FeaturedProperties = () => {
         </Link>
        </div>
        {/** container */}
-       <Swiper
-         slidesPerView={3}
-         spaceBetween={30}
-         loop={true}
-         autoplay={{
-           delay: 2500,
-           disableOnInteraction: false,
-         }}
-         pagination={{
-           clickable: true,
-         }}
-         navigation={true}
-         modules={[Autoplay, Pagination, Navigation]}
-         className="mySwiper"
-       >
-         <SwiperSlide>
-           <img src={assets.property1} alt="" />
-         </SwiperSlide>
-         <SwiperSlide>
-           <img src={assets.property2} alt="" />
-         </SwiperSlide>
-         <SwiperSlide>
-           <img src={assets.property3} alt="" />
-         </SwiperSlide>
-       </Swiper>
+          <Swiper
+        
+        autoplay={{
+          delay: 3500,
+          disableOnInteraction: false,
+        }}
+       breakpoints={{
+        600: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1124: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+        1300: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      }} 
+        modules={[Autoplay]}
+        className="h-[488px] md:h-[533px] xl:h-[422px] mt-s"
+      >
+        <SwiperSlide>Slide 1</SwiperSlide>
+       
+      </Swiper>
       </div>
     </section>
   )
