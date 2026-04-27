@@ -47,6 +47,11 @@ import img6 from "../assets/img6.png"
 import pImg2 from "../assets/pImg2.png"
 import pImg3 from "../assets/pImg3.png"
 import pImg4 from "../assets/pImg4.png"
+import client1 from "../assets/client1.jpg"
+import client2 from "../assets/client2.jpg"
+import client3 from "../assets/client3.jpg"
+import client4 from "../assets/client4.jpg"
+import about from "../assets/about.png"
 import createPrp from "../assets/createPrp.png"
 
 // Blogs
@@ -58,6 +63,7 @@ import blog5 from "../assets/blogs/blog5.jpg";
 import blog6 from "../assets/blogs/blog6.jpg";
 import blog7 from "../assets/blogs/blog7.jpg";
 import blog8 from "../assets/blogs/blog8.jpg";
+import About from "../components/About";
 
 
 export const assets = {
@@ -101,7 +107,12 @@ export const assets = {
     user2,
     user3,
     user4,
-    createPrp
+    createPrp,
+    client1,
+    client2,
+    client3,
+    client4,
+    about,
 }
 
 export const cities = [
