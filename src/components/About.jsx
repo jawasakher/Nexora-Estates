@@ -6,9 +6,9 @@ const About = () => {
   return (
     <section className="max-padd-container py-16 xl:py-28 pt-36">
       {/** container */}
-      <div>
+      <div className="flex items-center flex-col lg:flex-row gap-12">
       {/** Info -Lefts Side*/}
-        <div>
+        <div className="flex-1">
           <Title 
           title1={"Your Trusted Real Estate Partner"}
            title2={"Helping You Find Your Dream Home"}
@@ -33,7 +33,7 @@ const About = () => {
              
             <div className='flex  gap-3'>
               <img src={assets.pound} alt="" width={20}/>
-              <p></p>
+              <p>Access to exclusive property listings</p>
               </div>
           </div>
 
@@ -55,6 +55,7 @@ const About = () => {
                   <img src={assets.star} alt="starIcon" width={17}/>
                    <img src={assets.star} alt="starIcon" width={17}/>
                     <img src={assets.star} alt="starIcon" width={17}/>
+                    <p className="text-gray-600 medium-16 ml-2">5.0</p>
               </div>
                 <p className='text-[12px] text-slate-600'>
                  Trusted by{""}
