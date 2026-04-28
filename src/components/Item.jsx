@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {assets} from '../assets/data'
 
 const Item = ({property}) => {
   return (

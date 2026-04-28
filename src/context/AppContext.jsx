@@ -1,5 +1,6 @@
 import React,{ createContext, useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
+import { dummyProperties } from '../assets/data'
  
 
 const AppContext = createContext();
@@ -31,5 +32,3 @@ export const AppContextProvider = ({children}) => {
 }
 
 export const useAppContext = () => useContext(AppContext);
-
-const dummyProperties = [];
