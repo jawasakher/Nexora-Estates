@@ -7,7 +7,7 @@ import Cta from '../components/Cta'
 import Testimonial from '../components/Testimonial'
 const Home = () => {
   return (
-    <div>
+    <div className="bg-gradient-to-r from-[#fffbee] to-white">
       <Hero/>
       <About />
       <FeaturedProperties/>

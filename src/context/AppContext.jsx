@@ -1,4 +1,4 @@
-import React,{ createContext, useState} from 'react'
+import React,{ createContext, useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
  
 
@@ -30,4 +30,6 @@ export const AppContextProvider = ({children}) => {
   )
 }
 
-export default AppContextProvider
+export const useAppContext = () => useContext(AppContext);
+
+const dummyProperties = [];
