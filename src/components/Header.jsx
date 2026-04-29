@@ -2,17 +2,39 @@ import  React,{ useState, useEffect } from "react"
 import{Link, useLocation } from 'react-router-dom'
 import{assets} from '../assets/data'
 import Navbar from './Navbar'
-
-
+import {useClerk, UserButton, useUser } from '@clerk/react'
+import { useAppContext } from "../context/AppContext";
 
 const Header = () => {
 
-  const [active, setActive] = useState(false)
-  const [menuOpened, setMenuOpened] = useState(false)
-  const [showSearch, setshowSearch] = useState(false)
-  const location = useLocation()
+  const [active, setActive] = useState(false);
+  const [menuOpened, setMenuOpened] = useState(false);
+  const [showSearch, setshowSearch] = useState(false);
+  const location = useLocation();
+  const {navigate} = useAppContext();
+  const {user} = useUser();
+  const {openSignIn} = useClerk();
 
-
+   
+  const BookingIcon = () =>(
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 36 36"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="lucide lucide-scroll-text-icon lucide-scroll-text"
+  >
+    <path d="M15 12h-5" />
+    <path d="M15 8h-5" />
+    <path d="M19 17V5a2 2 0 0 0-2-2H4" />
+    <path d="M8 21h12a 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0V5a2 2 0 1 0-4 0V2a1 1 0 0 0 1 1h3" />
+    </svg>
+  );
   const toggleMenu = () => 
     setMenuOpened((prev) => !prev);
     
@@ -121,23 +143,50 @@ const Header = () => {
             )}
             </>
             {/** User Profile */}
-            <div>
+            <div className="group relative top-1">
                 {/** User */}
                   <div>
-                    <div>
-                        <button className='btn-secondary flexCenter gap-2 rounded-full shadow-md shadow-secondary/20 hover:scale-[1.02] transition-transform'>
+                    
+
+                  
+                     {user ? (
+                     <UserButton 
+                     appearance={{
+                        elements: {
+                          userButtonAvatarBox: {
+                           width :"42px",
+                           height :"42px",
+                          }
+                        }
+                      }}
+                      >
+                      <UserButton.MenuItems>
+                        <UserButton.Action
+                        label="My Bookings"
+                        labelIcon={<BookingIcon/>}
+                        onClick={() =>navigate ('/my-bookings')}
+                        />
+                       </UserButton.MenuItems> 
+                     </UserButton>
+
+                     ) : (
+
+                     
+                        <button onClick={openSignIn} className='btn-secondary flexCenter gap-2 rounded-full shadow-md shadow-secondary/20 hover:scale-[1.02] transition-transform'>
                             Login
                             <img src={assets.user} alt="userIcon"/>
                         </button>
-                    </div>
-                  </div>
-            </div>
-            </div>
-      </div>
-    </div>
-    </header>
-  )
-}
+                          )
+                    
+                      }   
+              </div>
+            </div>  
+         </div>
+       </div>
+     </div>
+  </header>
+  );
+};
 
-export default Header
+export default Header;
 
