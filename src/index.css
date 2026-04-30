@@ -72,6 +72,32 @@ html, body {
 
 @layer utilities{
 
+  @keyframes marquee-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-right {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-marquee-left {
+    animation: marquee-left 22s linear infinite;
+  }
+
+  .animate-marquee-right {
+    animation: marquee-right 22s linear infinite;
+  }
+
   .font-paci {
     font-family: 'Pacifico', cursive;
   }

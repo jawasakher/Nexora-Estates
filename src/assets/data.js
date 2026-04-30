@@ -318,6 +318,94 @@ export const dummyProperties = [
   }
 ]
 
+// Team Members Data
+export const teamMembers = [
+  {
+    id: 1,
+    name: "Sarah Mitchell",
+    role: "Chief Executive Officer",
+    image: user1,
+    specialty: "Strategic Leadership"
+  },
+  {
+    id: 2,
+    name: "James Rodriguez",
+    role: "Head of Sales",
+    image: user2,
+    specialty: "Business Development"
+  },
+  {
+    id: 3,
+    name: "Emily Chen",
+    role: "Senior Property Manager",
+    image: user3,
+    specialty: "Property Management"
+  },
+  {
+    id: 4,
+    name: "Michael Thompson",
+    role: "Real Estate Agent",
+    image: user4,
+    specialty: "Client Relations"
+  },
+  {
+    id: 5,
+    name: "Jessica Anderson",
+    role: "Marketing Director",
+    image: user1,
+    specialty: "Brand Strategy"
+  },
+  {
+    id: 6,
+    name: "David Kim",
+    role: "Financial Manager",
+    image: user2,
+    specialty: "Financial Planning"
+  },
+  {
+    id: 7,
+    name: "Laura Martinez",
+    role: "Client Services Lead",
+    image: user3,
+    specialty: "Customer Support"
+  },
+  {
+    id: 8,
+    name: "Christopher Lee",
+    role: "Technical Director",
+    image: user4,
+    specialty: "Digital Solutions"
+  },
+  {
+    id: 9,
+    name: "Amanda Foster",
+    role: "Senior Advisor",
+    image: user1,
+    specialty: "Investment Advisory"
+  },
+  {
+    id: 10,
+    name: "Robert Wilson",
+    role: "Operations Manager",
+    image: user2,
+    specialty: "Process Management"
+  },
+  {
+    id: 11,
+    name: "Michelle Garcia",
+    role: "Design Specialist",
+    image: user3,
+    specialty: "Interior Design"
+  },
+  {
+    id: 12,
+    name: "Kevin Turner",
+    role: "Community Manager",
+    image: user4,
+    specialty: "Community Engagement"
+  }
+]
+
 
 
 // User Bookings Dummy Data

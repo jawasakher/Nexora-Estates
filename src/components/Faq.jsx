@@ -3,7 +3,7 @@ import {assets} from '../assets/data'
 import Title from '../components/Title'
 
 const Faq = () => {
-  const [openIndex, setOpenIndex] = React.useState(null)
+  const [openIndex, setOpenIndex] = useState(null)
 
   const faqsData = [
     {
@@ -60,14 +60,14 @@ const Faq = () => {
             <div className='max-w-xl w-full mt-6 flex flex-col gap-4 items-start text-left'>
               {faqsData.map((faq, index) => (
                 
-                  <div key={index} className='flex flex-col items-startw-full' >
-                    <div className='flex items-center justify-between w-full cursor-pointer bg-secondary/10 border border-slate-900/10 p-2 px-4 rounded-lg'
+                  <div key={index} className='flex w-full flex-col items-start'>
+                    <div className='flex min-h-14 w-full items-center justify-between cursor-pointer rounded-lg border border-slate-900/10 bg-secondary/10 px-4 py-2'
                       
                       onClick={() => setOpenIndex( openIndex === index ? null:index)} >
                       
                     
-                      <h2 className='text-sm'>{faq.question}</h2>
-                       <img src={assets.down} alt=""/>   
+                        <h2 className='text-sm leading-5'>{faq.question}</h2>
+                         <img src={assets.down} alt="" className='h-4 w-4 shrink-0'/>   
                    </div>
                     <p className={`text-sm text-slate-500 px-4 transition-all duration-500 ease-in-out ${openIndex === index ? "opacity-100 max-h-[300px] translate-y-0 pt-4" : "opacity-0 max-h-0 -translate-y-2"}`}>
                       {faq.answer}

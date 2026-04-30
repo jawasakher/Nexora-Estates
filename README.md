@@ -1,20 +1,48 @@
-<<<<<<< HEAD
-# React + Vite
+# Nexora Estates - Real Estate Marketing Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern real estate marketing website built with React, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Modern, responsive design
+- Property listings with advanced filtering
+- Clerk authentication integration
+- Newsletter subscription
+- Professional footer with social links
+- SEO optimized
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19.2.4
+- Vite 8.0.4
+- Tailwind CSS 4.2.2
+- React Router v7
+- Clerk Authentication
+- Swiper for carousels
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# Nexora-Estates
->>>>>>> 53bffe6324d23288eaf17e087d7d625a0dc8b0c2
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Set up environment variables in `.env.local`:
+```
+VITE_CLERK_PUBLISHABLE_KEY=your_key_here
+VITE_NEWSLETTER_API_URL=your_api_url_here
+```
+
+3. Start development server:
+```bash
+npm run dev
+```
+
+4. Build for production:
+```bash
+npm run build
+```
+
+## Development
+
+- `npm run lint` - Run ESLint
