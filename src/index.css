@@ -3,6 +3,7 @@
 
 @import "tailwindcss";
 @import 'swiper/css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @theme {
   /* --color-primary: #f2f2f2; */
   --color-primary: #f5f5f5;
@@ -106,6 +107,11 @@ html, body {
   /* FONTS */
   .regular-64 {
     @apply text-[64px] font-[400];
+  }
+
+  /* Component-scoped Poppins helper used by Faq */
+  .faq-poppins {
+    font-family: 'Poppins', sans-serif;
   }
 
   .regular-52 {
