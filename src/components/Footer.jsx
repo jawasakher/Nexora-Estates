@@ -54,8 +54,8 @@ const Footer = () => {
   }
 
   return (
-    <footer className='bg-[#fff4b8] text-slate-950'>
-      <div className='border-b border-slate-900/10 bg-linear-to-r from-secondary/25 via-white/20 to-secondary/10'>
+    <footer className='bg-gradient-to-r from-secondary/20 via-tertiary/10 to-secondary/15 text-slate-950'>
+      <div className='border-b border-slate-900/10 bg-gradient-to-r from-secondary/30 via-white/25 to-tertiary/20'>
         <div className='max-padd-container py-12 xl:py-16'>
           <div className='flex flex-col gap-8 rounded-[28px] border border-slate-900/10 bg-white/70 p-6 backdrop-blur md:flex-row md:items-center md:justify-between md:p-8'>
             <div className='max-w-xl'>
@@ -101,9 +101,9 @@ const Footer = () => {
       <div className='max-padd-container py-16 xl:py-20'>
         <div className='grid gap-10 lg:grid-cols-5'>
           <div className='lg:col-span-2'>
-            <div className='mb-5 flex items-center gap-3'>
-              <img src={assets.logoImg} alt='Nexora Estates' width={36} height={36} />
-              <span className='h4'>Nexora Estates</span>
+            <div className='mb-8 flex items-center gap-4'>
+              <img src={assets.logoImg} alt='Nexora Estates' width={56} height={56} className='drop-shadow-md' />
+              <span className='text-2xl font-bold bg-gradient-to-r from-secondary to-tertiary bg-clip-text text-transparent'>Nexora Estates</span>
             </div>
             <p className='max-w-md text-slate-700'>
               A premium real estate experience built for buyers, sellers, and investors who expect clarity, speed, and results.
@@ -185,19 +185,19 @@ const Footer = () => {
         </div>
 
         <div className='mt-14 grid gap-4 border-t border-slate-900/10 pt-8 sm:grid-cols-2 xl:grid-cols-4'>
-          <div className='rounded-3xl bg-white/70 p-5 shadow-sm'>
+          <div className='rounded-3xl bg-gradient-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
             <p className='text-2xl font-bold text-slate-950'>5K+</p>
             <p className='text-sm text-slate-600'>Properties Available</p>
           </div>
-          <div className='rounded-3xl bg-white/70 p-5 shadow-sm'>
+          <div className='rounded-3xl bg-gradient-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
             <p className='text-2xl font-bold text-slate-950'>50K+</p>
             <p className='text-sm text-slate-600'>Happy Clients</p>
           </div>
-          <div className='rounded-3xl bg-white/70 p-5 shadow-sm'>
+          <div className='rounded-3xl bg-gradient-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
             <p className='text-2xl font-bold text-slate-950'>200+</p>
             <p className='text-sm text-slate-600'>Trusted Agents</p>
           </div>
-          <div className='rounded-3xl bg-white/70 p-5 shadow-sm'>
+          <div className='rounded-3xl bg-gradient-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
             <p className='text-2xl font-bold text-slate-950'>20+</p>
             <p className='text-sm text-slate-600'>Years of Experience</p>
           </div>

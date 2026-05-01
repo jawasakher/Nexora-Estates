@@ -1,7 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { assets ,cities} from '../assets/data'
 
 const Hero = () => {
+  const [showExploreModal, setShowExploreModal] = useState(false);
+  const [formData, setFormData] = useState({
+    destination: '',
+    checkIn: '',
+    checkOut: '',
+    guests: ''
+  });
+
+  const handleExploreClick = () => {
+    setShowExploreModal(true);
+  };
+
+  const handleFormChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id === 'destinationInput' ? 'destination' : id]: value
+    }));
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log('Search submitted:', formData);
+    alert(`Searching properties in ${formData.destination} from ${formData.checkIn} to ${formData.checkOut} for ${formData.guests} guest(s)`);
+    setShowExploreModal(false);
+  };
+
   return (
     <section className="h-screen w-screen bg-[url('/src/assets/bg.png')] bg-cover bg-center bg-no-repeat ">
       <div className='max-padd-container h-screen w-screen'>
@@ -12,7 +39,9 @@ const Hero = () => {
         flex-col gap-4 h-full py-6 sm:pt-18 z-10'>
           {/** content  */}
           <div className='flex flex-col mt-12 text-white'>
-            <button className='max-w-80 flex items-center space-x-3 border border-white medium-13 rounded-full px-4 pr-0.5 py-1 cursor-pointer '>
+            <button 
+              onClick={handleExploreClick}
+              className='max-w-80 flex items-center space-x-3 border border-white medium-13 rounded-full px-4 pr-0.5 py-1 cursor-pointer hover:bg-white/10 transition-all duration-300'>
               <span>Simplify the way you stay Transform the way you live</span>
 
                 <span className='flexCenter size-6 p-1 rounded-full bg-white'>
@@ -84,6 +113,128 @@ const Hero = () => {
           </form>
       </div>
      </div>
+
+     {/* Explore Modal */}
+     {showExploreModal && (
+       <div 
+         className='fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm'
+         onClick={() => setShowExploreModal(false)}
+       >
+         <div 
+           className='bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8'
+           onClick={(e) => e.stopPropagation()}
+         >
+           {/* Close Button */}
+           <div className='flex items-center justify-between mb-6'>
+             <h2 className='text-3xl font-bold text-slate-950'>Explore Properties</h2>
+             <button
+               onClick={() => setShowExploreModal(false)}
+               className='flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-100 transition-all'
+             >
+               <img src={assets.close} alt='close' className='h-5 w-5' />
+             </button>
+           </div>
+
+           <p className='text-slate-600 mb-6'>
+             Find your perfect property by specifying your preferences below.
+           </p>
+
+           {/* Explore Form */}
+           <form onSubmit={handleSearchSubmit} className='space-y-5'>
+             {/* Destination */}
+             <div>
+               <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
+                 <img src={assets.pin} alt='pin' width={16} />
+                 Destination
+               </label>
+               <input
+                 list='destinations'
+                 id='destinationInput'
+                 type='text'
+                 value={formData.destination}
+                 onChange={handleFormChange}
+                 className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
+                 placeholder='Enter city name...'
+                 required
+               />
+               <datalist id='destinations'>
+                 {cities.map((city, index) => (
+                   <option value={city} key={index} />
+                 ))}
+               </datalist>
+             </div>
+
+             {/* Check-in Date */}
+             <div>
+               <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
+                 <img src={assets.calendar} alt='calendar' width={16} />
+                 Check-in Date
+               </label>
+               <input
+                 type='date'
+                 id='checkIn'
+                 value={formData.checkIn}
+                 onChange={handleFormChange}
+                 className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
+                 required
+               />
+             </div>
+
+             {/* Check-out Date */}
+             <div>
+               <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
+                 <img src={assets.calendar} alt='calendar' width={16} />
+                 Check-out Date
+               </label>
+               <input
+                 type='date'
+                 id='checkOut'
+                 value={formData.checkOut}
+                 onChange={handleFormChange}
+                 className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
+                 required
+               />
+             </div>
+
+             {/* Number of Guests */}
+             <div>
+               <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
+                 <img src={assets.user} alt='user' width={16} />
+                 Number of Guests
+               </label>
+               <input
+                 type='number'
+                 id='guests'
+                 value={formData.guests}
+                 onChange={handleFormChange}
+                 min={1}
+                 max={5}
+                 className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
+                 placeholder='0'
+                 required
+               />
+             </div>
+
+             {/* Action Buttons */}
+             <div className='flex gap-3 pt-4'>
+               <button
+                 type='button'
+                 onClick={() => setShowExploreModal(false)}
+                 className='flex-1 rounded-lg border border-slate-200 py-3 px-6 font-semibold text-slate-700 transition-all hover:bg-slate-100'
+               >
+                 Cancel
+               </button>
+               <button
+                 type='submit'
+                 className='flex-1 rounded-lg bg-gradient-to-r from-secondary to-tertiary py-3 px-6 font-semibold text-white transition-all hover:shadow-lg shadow-secondary/30'
+               >
+                 Search Properties
+               </button>
+             </div>
+           </form>
+         </div>
+       </div>
+     )}
     </section>
 
   )

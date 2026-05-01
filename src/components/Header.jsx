@@ -1,7 +1,7 @@
 import  React,{ useState, useEffect } from "react"
 import{Link, useLocation } from 'react-router-dom'
 import{assets} from '../assets/data'
-import Navbar from './Navbar'
+import  {Navbar } from './Navbar'
 import {useClerk, UserButton, useUser } from '@clerk/react'
 import { useAppContext } from "../context/AppContext";
 

@@ -6,6 +6,7 @@ import Faq from '../components/Faq'
 import Cta from '../components/Cta'
 import Testimonial from '../components/Testimonial'
 import Team from '../components/Team'
+import Footer from '../components/Footer'
 const Home = () => {
   return (
     <div className="bg-linear-to-r from-[#fffbee] to-white">
@@ -14,8 +15,8 @@ const Home = () => {
       <FeaturedProperties/>
       <Faq />
       <Team />
-      <Cta />
-      <Testimonial />
+      
+      <Footer />
      </div>
   )
 }
