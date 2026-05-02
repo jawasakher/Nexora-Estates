@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { assets } from '../assets/data';
 
 const teamImages = [
-  assets.client1,
-  assets.client2,
-  assets.client3,
-  assets.client4,
-  assets.user1,
-  assets.user2,
-  assets.user3,
-  assets.user4,
-  assets.img5,
-  assets.img6
+  'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80'
 ];
 
 const teamMembers = [
@@ -209,6 +209,29 @@ const TeamMember = ({ member, onViewDetails, index, showCards }) => {
 const Team = () => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [showCards, setShowCards] = useState(false);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [joinSubmitted, setJoinSubmitted] = useState(false);
+  const [joinForm, setJoinForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleJoinInputChange = (e) => {
+    const { name, value } = e.target;
+    setJoinForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleJoinSubmit = (e) => {
+    e.preventDefault();
+    setJoinSubmitted(true);
+    setJoinForm({ name: '', email: '', message: '' });
+  };
+
+  const openJoinModal = () => {
+    setJoinSubmitted(false);
+    setIsJoinModalOpen(true);
+  };
 
   useEffect(() => {
     const id = window.setTimeout(() => setShowCards(true), 120);
@@ -249,7 +272,12 @@ const Team = () => {
           <p className='mb-6 text-slate-600'>
             We're always looking for talented professionals to join Nexora Estates. Explore career opportunities with us.
           </p>
-          <button className='btn-secondary rounded-full px-8'>Explore Careers</button>
+          <button
+            onClick={openJoinModal}
+            className='btn-secondary rounded-full px-8'
+          >
+            Join The Team
+          </button>
         </div>
       </div>
 
@@ -367,6 +395,100 @@ const Team = () => {
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Join Team Modal */}
+      {isJoinModalOpen && (
+        <div
+          className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'
+          onClick={() => setIsJoinModalOpen(false)}
+        >
+          <div
+            className='w-full max-w-xl rounded-3xl bg-white p-6 shadow-2xl sm:p-8'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className='mb-6 flex items-start justify-between gap-4'>
+              <div>
+                <h3 className='text-2xl font-bold text-slate-950'>Join Our Team</h3>
+                <p className='mt-1 text-sm text-slate-600'>
+                  Tell us about yourself and we will get back to you soon.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsJoinModalOpen(false)}
+                className='flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200'
+                aria-label='Close join team form'
+              >
+                <img src={assets.close} alt='close' className='h-4 w-4' />
+              </button>
+            </div>
+
+            {joinSubmitted ? (
+              <div className='rounded-2xl border border-emerald-200 bg-emerald-50 p-5'>
+                <p className='text-sm font-semibold text-emerald-700'>
+                  Thank you. Your application message has been sent successfully.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleJoinSubmit} className='space-y-4'>
+                <div>
+                  <label htmlFor='join-name' className='mb-1.5 block text-sm font-semibold text-slate-800'>
+                    Full Name
+                  </label>
+                  <input
+                    id='join-name'
+                    name='name'
+                    type='text'
+                    value={joinForm.name}
+                    onChange={handleJoinInputChange}
+                    placeholder='Enter your full name'
+                    className='w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-secondary focus:ring-2 focus:ring-secondary/20'
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor='join-email' className='mb-1.5 block text-sm font-semibold text-slate-800'>
+                    Email Address
+                  </label>
+                  <input
+                    id='join-email'
+                    name='email'
+                    type='email'
+                    value={joinForm.email}
+                    onChange={handleJoinInputChange}
+                    placeholder='example@email.com'
+                    className='w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-secondary focus:ring-2 focus:ring-secondary/20'
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor='join-message' className='mb-1.5 block text-sm font-semibold text-slate-800'>
+                    Message
+                  </label>
+                  <textarea
+                    id='join-message'
+                    name='message'
+                    rows={5}
+                    value={joinForm.message}
+                    onChange={handleJoinInputChange}
+                    placeholder='Write a short message about your experience and role interest.'
+                    className='w-full resize-none rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-secondary focus:ring-2 focus:ring-secondary/20'
+                    required
+                  />
+                </div>
+
+                <button
+                  type='submit'
+                  className='w-full rounded-xl bg-linear-to-r from-secondary to-tertiary px-6 py-3 font-semibold text-white transition-all hover:shadow-lg shadow-secondary/30'
+                >
+                  Send Application
+                </button>
+              </form>
+            )}
           </div>
         </div>
       )}

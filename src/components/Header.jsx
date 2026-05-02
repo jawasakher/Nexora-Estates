@@ -5,6 +5,26 @@ import  {Navbar } from './Navbar'
 import {useClerk, UserButton, useUser } from '@clerk/react'
 import { useAppContext } from "../context/AppContext";
 
+const BookingIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 36 36"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-scroll-text-icon lucide-scroll-text"
+  >
+    <path d="M15 12h-5" />
+    <path d="M15 8h-5" />
+    <path d="M19 17V5a2 2 0 0 0-2-2H4" />
+    <path d="M8 21h12a 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0V5a2 2 0 1 0-4 0V2a1 1 0 0 0 1 1h3" />
+  </svg>
+);
+
 const Header = () => {
 
   const [active, setActive] = useState(false);
@@ -14,27 +34,6 @@ const Header = () => {
   const {navigate} = useAppContext();
   const {user} = useUser();
   const {openSignIn} = useClerk();
-
-   
-  const BookingIcon = () =>(
-    <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 36 36"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="lucide lucide-scroll-text-icon lucide-scroll-text"
-  >
-    <path d="M15 12h-5" />
-    <path d="M15 8h-5" />
-    <path d="M19 17V5a2 2 0 0 0-2-2H4" />
-    <path d="M8 21h12a 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0V5a2 2 0 1 0-4 0V2a1 1 0 0 0 1 1h3" />
-    </svg>
-  );
   const toggleMenu = () => 
     setMenuOpened((prev) => !prev);
     
@@ -82,11 +81,19 @@ const Header = () => {
             active={active}
             setMenuOpened={setMenuOpened}
             containerStyles={`${
-              menuOpened ? " flex items-start flex-col ga-y-8 fixed top-16 right-6 p-5 bg-white shadow-md w-52 ring-1 ring-slate-900/5 rounded-xl z-50"
-              : " hidden lg:flex gap-x-5 xl:gap-x-1 medium-15 p-1 "
+              menuOpened
+                ? "fixed top-20 right-4 z-50 flex w-[84vw] max-w-72 translate-y-0 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-100 shadow-xl ring-1 ring-slate-900/5 backdrop-blur-md transition-all duration-300 sm:right-6 sm:w-64"
+                : "fixed top-20 right-4 z-50 flex w-[84vw] max-w-72 -translate-y-4 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-0 shadow-xl ring-1 ring-slate-900/5 backdrop-blur-md transition-all duration-300 pointer-events-none sm:right-6 sm:w-64 lg:pointer-events-auto lg:static lg:top-auto lg:right-auto lg:w-auto lg:max-w-none lg:translate-y-0 lg:flex-row lg:items-center lg:gap-x-2 lg:rounded-full lg:bg-transparent lg:p-1 lg:opacity-100 lg:shadow-none lg:ring-0"
             }${!menuOpened && !active ? "text-white" : ""}`}
               
         />
+            {menuOpened && (
+              <div
+                className='fixed inset-0 z-40 bg-black/10 backdrop-blur-[1px] lg:hidden'
+                onClick={() => setMenuOpened(false)}
+                aria-hidden='true'
+              />
+            )}
             {/*Buttons SearchBar  & Profile*/}
             <div className='flex sm:flex-1 items-center sm:justify-end gap-x-3 sm:gap-x-6'>
               {/** SearchBar */}  

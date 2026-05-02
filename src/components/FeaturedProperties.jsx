@@ -14,15 +14,15 @@ const FeaturedProperties = () => {
 
   const {properties} = useAppContext ()
   return (
-    <section className="max-padd-container py-16 xl:py22 ">
+    <section className="max-padd-container py-14 sm:py-16 xl:py-22">
      
-       <span className='meidum-18'>Your New Home Awaits!</span>
+       <span className='medium-18 block text-secondary'>Your New Home Awaits!</span>
        <h2 className="h2">Discover Your Dream Property</h2>
-       <div className="flexBetween mt-8 mb-6 ">
-        <h5>
+       <div className="mt-7 mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h5 className='text-sm sm:text-base'>
           <span className="font-bold"> Displaying 1-9</span>from 3k listings
           </h5>
-        <Link to={'/listing'} onClick={() => scrollTo(0,0)} className="bg-secondary/10 ring-1 ring-slate-900/15 text-white text-2xl rounded-md p-2 flexCenter ">
+        <Link to={'/listing'} onClick={() => scrollTo(0,0)} className="bg-secondary/10 ring-1 ring-slate-900/15 text-white text-2xl rounded-md p-2 flexCenter self-start sm:self-auto ">
         <img src={assets.sliders} alt="" />
         </Link>
        </div>
@@ -48,7 +48,7 @@ const FeaturedProperties = () => {
         },
       }} 
         modules={[Autoplay]}
-        className="h-[488px] md:h-[533px] xl:h-[422px] mt-s"
+        className="mt-2 h-122.5 sm:h-127.5 md:h-133.25 xl:h-105.5"
       >
         {properties.slice(0,6).map((property) =>(
          

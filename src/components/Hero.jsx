@@ -30,18 +30,17 @@ const Hero = () => {
   };
 
   return (
-    <section className="h-screen w-screen bg-[url('/src/assets/bg.png')] bg-cover bg-center bg-no-repeat ">
-      <div className='max-padd-container h-screen w-screen'>
+    <section className="relative min-h-svh w-full overflow-hidden bg-[url('/src/assets/bg.png')] bg-cover bg-center bg-no-repeat">
+      <div className='max-padd-container relative min-h-svh w-full'>
         {/** overlay */}
         <div className="absolute inset-0 bg-black/10 z-0"/>
         {/** container  */}
-        <div className='relative flex justify-end mx-auto
-        flex-col gap-4 h-full py-6 sm:pt-18 z-10'>
+        <div className='relative z-10 mx-auto flex min-h-svh max-w-6xl flex-col justify-end gap-5 pb-10 pt-24 sm:pt-18 lg:pb-14'>
           {/** content  */}
-          <div className='flex flex-col mt-12 text-white'>
+          <div className='flex max-w-3xl flex-col items-start text-left text-white'>
             <button 
               onClick={handleExploreClick}
-              className='max-w-80 flex items-center space-x-3 border border-white medium-13 rounded-full px-4 pr-0.5 py-1 cursor-pointer hover:bg-white/10 transition-all duration-300'>
+              className='flex max-w-full items-center gap-3 rounded-full border border-white px-4 py-1 text-[12px] font-medium transition-all duration-300 hover:bg-white/10 sm:max-w-88 sm:text-[13px]'>
               <span>Simplify the way you stay Transform the way you live</span>
 
                 <span className='flexCenter size-6 p-1 rounded-full bg-white'>
@@ -49,12 +48,12 @@ const Hero = () => {
                 </span>
 
                </button>
-               <h2 className='h2 capitalize leading-tight mt-3 my-2 text-white'>Transform <span className='bg-gradient-to-r from-secondary to-white bg-clip-text text-transparent'> exceptional properties </span>
+              <h2 className='h2 max-w-4xl capitalize leading-[1.1] mt-3 my-2 text-white sm:leading-tight'>Transform <span className='bg-linear-to-r from-secondary to-white bg-clip-text text-transparent'> exceptional properties </span>
                Located in stunning surroundings.</h2>
           </div>
           {/**search/booking form */}
-          <form className='bg-white/95 backdrop-blur-md text-gray-600 rounded-2xl px-5 py-5 sm:px-6 flex flex-col lg:flex-row gap-4 lg:gap-x-6 max-w-md lg:max-w-full ring-1 ring-white/60 shadow-2xl shadow-black/15 relative overflow-hidden'>
-          <span className='absolute left-0 top-0 h-1.5 w-full bg-gradient-to-r from-secondary via-tertiary to-secondary/70'/>
+            <form className='relative grid w-full max-w-5xl gap-4 rounded-3xl bg-white/95 px-4 py-4 text-gray-600 ring-1 ring-white/60 shadow-2xl shadow-black/15 backdrop-blur-md sm:px-6 md:grid-cols-2 xl:grid-cols-5'>
+          <span className='absolute left-0 top-0 h-1.5 w-full bg-linear-to-r from-secondary via-tertiary to-secondary/70'/>
           <div className='flex flex-col w-full'>
             <div className='flex items-center gap-2'>
              <img src={assets.pin} alt="pinIcon" width={20}/>
@@ -106,7 +105,7 @@ const Hero = () => {
             placeholder='0'
             />
             </div>
-            <button type='submit' className='group flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-secondary to-tertiary py-3.5 px-7 text-black my-auto cursor-pointer max-md:w-full ring-1 ring-slate-900/10 shadow-lg shadow-secondary/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/45 transition-all'>
+            <button type='submit' className='group flex h-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-secondary to-tertiary px-6 py-3.5 text-black cursor-pointer max-md:w-full ring-1 ring-slate-900/10 shadow-lg shadow-secondary/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/45 transition-all xl:self-end'>
               <img src={assets.search} alt="searchIcon" width={18} className='transition-transform group-hover:rotate-6'/>
               <span className='font-semibold tracking-wide'>Search Deals</span>
               </button>
@@ -226,7 +225,7 @@ const Hero = () => {
                </button>
                <button
                  type='submit'
-                 className='flex-1 rounded-lg bg-gradient-to-r from-secondary to-tertiary py-3 px-6 font-semibold text-white transition-all hover:shadow-lg shadow-secondary/30'
+                 className='flex-1 rounded-lg bg-linear-to-r from-secondary to-tertiary py-3 px-6 font-semibold text-white transition-all hover:shadow-lg shadow-secondary/30'
                >
                  Search Properties
                </button>

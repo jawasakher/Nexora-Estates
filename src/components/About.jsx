@@ -37,7 +37,7 @@ const About = () => {
               </div>
           </div>
 
-          <div className='mt-10 inline-flex items-center gap-4 rounded-2xl border border-secondary/30 bg-primary px-5 py-4 shadow-md shadow-secondary/10'>
+          <div className='mt-10 inline-flex max-w-full flex-col items-start gap-3 rounded-2xl border border-secondary/30 bg-primary px-4 py-4 shadow-md shadow-secondary/10 sm:flex-row sm:items-center sm:gap-4 sm:px-5'>
             <div className='flex -space-x-3'>
               <img src={assets.user1} alt="Happy client" className='size-10 rounded-full object-cover ring-2 ring-white'/>
               <img src={assets.user2} alt="Happy client" className='size-10 rounded-full object-cover ring-2 ring-white'/>
@@ -45,21 +45,21 @@ const About = () => {
               <img src={assets.user4} alt="Happy client" className='size-10 rounded-full object-cover ring-2 ring-white'/>
             </div>
 
-            <div className='h-10 w-px bg-slate-200'/>
+            <div className='hidden h-10 w-px bg-slate-200 sm:block'/>
 
             <div className='space-y-1'>
               
-              <div className='flex items-center gap-2'>
+              <div className='flex flex-wrap items-center gap-1 sm:gap-2'>
                 <img src={assets.star} alt="starIcon" width={17}/>
                  <img src={assets.star} alt="starIcon" width={17}/>
                   <img src={assets.star} alt="starIcon" width={17}/>
                    <img src={assets.star} alt="starIcon" width={17}/>
                     <img src={assets.star} alt="starIcon" width={17}/>
-                    <p className="text-gray-600 medium-16 ml-2">5.0</p>
+                    <p className="ml-1 whitespace-nowrap text-sm font-medium text-gray-600 sm:ml-2 sm:text-base">5.0</p>
               </div>
-                <p className='text-[12px] text-slate-600'>
-                 Trusted by{""}
-                 <span className="font-medium text-gray-800">100,000+</span>{""}
+                <p className='flex flex-wrap items-center gap-x-1 text-[12px] text-slate-600'>
+                 Trusted by
+                 <span className="font-medium text-gray-800">100,000+</span>
                  users
                  </p>
               </div>
