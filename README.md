@@ -1,12 +1,7 @@
 ````md
 # 🏡 Nexora Estates — Premium Real Estate Experience
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-Modern_UI-61DAFB?style=for-the-badge&logo=react" />
-  <img src="https://img.shields.io/badge/Vite-Fast_Build-646CFF?style=for-the-badge&logo=vite" />
-  <img src="https://img.shields.io/badge/TailwindCSS-Styled-38B2AC?style=for-the-badge&logo=tailwind-css" />
-  <img src="https://img.shields.io/badge/Responsive-Desktop%20%7C%20Tablet%20%7C%20Mobile-success?style=for-the-badge" />
-</p>
+
 
 <p align="center">
 A modern real estate website built to deliver luxury, trust, and seamless property discovery.  
