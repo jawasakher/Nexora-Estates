@@ -7,7 +7,7 @@ import Listing from './pages/Listing'
 import Blog from './pages/Blog'
 import Contact from'./pages/Contact'
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
-
+import PropertyDetails from './pages/PropertyDetails'
 const App = () => {
 
   
@@ -18,6 +18,7 @@ const App = () => {
         
           <Route path='/' element={<Home/>}/>
           <Route path='/listing' element={<Listing/>}/>
+          <Route path='/listing/:id' element={<PropertyDetails/>}/>
           <Route path='/blog' element={<Blog/>}/>
           <Route path='/contact' element={<Contact/>}/>
           
