@@ -1,6 +1,7 @@
 import React from 'react';
 import {useAppContext} from "../context/AppContext";
 import Item from '../components/Item';
+import PropertyImages from '../components/PropertyImages';
 
 
 const Listing = () => {
@@ -27,6 +28,9 @@ const Listing = () => {
 
   return (
     <div className="bg-gradient-to-r from-[#fffbee] to-white py-28">
+      <div className="max-padd-container mb-16">
+        <PropertyImages />
+      </div>
       <div className="max-padd-container flex flex-col sm:flex-row gap-8 mb-16">
         {/**left side Filters */}
         <div className="bg-secondary/10 ring-1 ring-slate-900/5 p-4 sm:min-w-60 sm:h-[600px] rounded-xl">
