@@ -1,6 +1,8 @@
-import React, {useEffect} from 'react'
+import React, {useEffect,useState} from 'react'
 import {useAppContext} from "../context/AppContext";
 import { useParams } from 'react-router-dom';
+import PropertyImages from '../components/PropertyImages';
+import { assets } from '../assets/data';
 
 const PropertyDetails = () => {
     const {properties} = useAppContext()
@@ -12,9 +14,27 @@ const PropertyDetails = () => {
         property && setProperty(property)
     }, [ properties])
   return (
-    <div>
-      
+    property && (
+    <div className="bg-gradient-to-r from-[#fffbee] to-white py-28">
+      <div className="max-padd-container">
+        {/** Image */}
+        <PropertyImages property={property}/>
+        {/** Content */}
+        <div>
+            {/** Left side */}
+            <div>
+           <p>
+
+            <img src={assets.pin} alt="" width={19}/>
+            <span>{property.address}</span>
+
+           </p>
+            
+          </div>
+        </div>
+      </div>
     </div>
+    )
   )
 }
 
