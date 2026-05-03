@@ -1,7 +1,7 @@
 ````md
 # 🏡 Nexora Estates — Premium Real Estate Experience
 
-
+<img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80 ?auto=format&fit=crop&w=1200&q=80" />
 
 <p align="center">
 A modern real estate website built to deliver luxury, trust, and seamless property discovery.  
