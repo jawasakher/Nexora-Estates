@@ -8,6 +8,7 @@ import Blog from './pages/Blog'
 import Contact from'./pages/Contact'
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
 import PropertyDetails from './pages/PropertyDetails'
+import MyBookings from './pages/MyBookings'
 const App = () => {
 
   
@@ -21,7 +22,7 @@ const App = () => {
           <Route path='/listing/:id' element={<PropertyDetails/>}/>
           <Route path='/blog' element={<Blog/>}/>
           <Route path='/contact' element={<Contact/>}/>
-          
+          <Route path='/contact' element={<MyBookings/>}/>
       </Routes>
       <Footer/>
     </main>
