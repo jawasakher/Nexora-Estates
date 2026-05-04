@@ -203,7 +203,7 @@ const PropertyDetails = () => {
           </div>
           {/** Right side */}
           <div className='flex-1 max-w-sm'>
-            <div>
+            <div className='p-6 rounded-xl border border-slate-900/10'>
               <h4 className="h4 mb-3">Contact Information</h4>
               <from className="flex flex-col gap-4">
                 <input type="text" placeholder="Your Name" className="p-2 py-1 border border-gray-300 rounded-md text-sm" required />
@@ -211,13 +211,43 @@ const PropertyDetails = () => {
                 <textarea rows={4} placeholder="Your Message" className="p-2 py-1 border border-gray-300 rounded-md text-sm" required />
                 <button type="submit" className="bg-secondary text-white py-2 rounded-md font-semibold hover:bg-secondary/90 transition-all">Send Message</button>
               </from>
-              <h4 className='h4 mb-3 mt-8'>
-                <div>
-                  <div>
-                    
+              <h4 className='h4 mb-3 mt-8'>For Buying Contact</h4>
+                <div className='flex-sm w-80 divide-y divide-gray-500/30 border border-gray-500/30 rounded'>
+                  <div className='flex items-start justify-between p-3 '>
+                    <div>
+                      <div className='flex items-center space-x-2'>
+                        <h5 className='h5'>{property.agency.name}</h5>
+                        <p className='bg-green-500/20 px-2 rounded-full text-x5 text-green-600 border border-green-500/30'>Agency</p>
+                      </div>
+                      <p>Agency Office</p>
+                    </div>
+                    <img src={property.agency.owner.image} alt="" className='h-10 w-10 rounded-full'/>
                   </div>
+                  <div className="flexStart gap-2 p-1.5">
+                    <div className='bg-green-500/20 p-1 rounded-full border border-green-500/30'>
+                      <img src={assets.phone} alt="" width={14}/>
+                    </div>
+                    <p>{property.agency.contact}</p>
                 </div>
-              </h4>
+                
+                <div className="flexStart gap-2 p-1.5">
+                  <div className="bg-green-500/20 p-1 rounded-full border-green-500/30">
+                    <img src={assets.phone} alt="" width={14}/>
+                  </div>
+                  <p>{property.agency.email}</p>
+                </div>
+                <div className='flex items-center divide-x divide-gray-500/30'>
+                 <button className='flex items-center justify-center gap-2 w-1/2 py-3 cursor-pointer'>
+                  <img src={assets.mail} alt="" width={19}/>
+                  Send Email
+                 </button>
+                 <button className='flex items-center justify-center gap-2 w-1/2 py-3 cursor-pointer'>
+                  <img src={assets.phone} alt="" width={19}/>
+                  Call Now
+                 </button>
+                </div>
+                </div>
+              
             </div>
           </div>
         </div>
