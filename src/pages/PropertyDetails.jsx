@@ -201,6 +201,25 @@ const PropertyDetails = () => {
                         </div>
                       </form>
           </div>
+          {/** Right side */}
+          <div className='flex-1 max-w-sm'>
+            <div>
+              <h4 className="h4 mb-3">Contact Information</h4>
+              <from className="flex flex-col gap-4">
+                <input type="text" placeholder="Your Name" className="p-2 py-1 border border-gray-300 rounded-md text-sm" required />
+                <input type="email" placeholder="Your Email" className="p-2 py-1 border border-gray-300 rounded-md text-sm" required />
+                <textarea rows={4} placeholder="Your Message" className="p-2 py-1 border border-gray-300 rounded-md text-sm" required />
+                <button type="submit" className="bg-secondary text-white py-2 rounded-md font-semibold hover:bg-secondary/90 transition-all">Send Message</button>
+              </from>
+              <h4 className='h4 mb-3 mt-8'>
+                <div>
+                  <div>
+                    
+                  </div>
+                </div>
+              </h4>
+            </div>
+          </div>
         </div>
       </div>
     </div>
