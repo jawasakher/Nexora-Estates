@@ -13,15 +13,15 @@ export const sendContactMessage = async (payload) => {
     const message = payload?.message?.trim() ?? '';
 
     if (!name || name.length < 2) {
-      return { success: false, message: 'الرجاء إدخال الاسم بشكل صحيح', error: 'INVALID_NAME' };
+      return { success: false, message: 'Please enter a valid name.', error: 'INVALID_NAME' };
     }
 
     if (!email || !isValidEmail(email)) {
-      return { success: false, message: 'يرجى إدخال بريد إلكتروني صحيح', error: 'INVALID_EMAIL' };
+      return { success: false, message: 'Please enter a valid email address.', error: 'INVALID_EMAIL' };
     }
 
     if (!message || message.length < 10) {
-      return { success: false, message: 'الرجاء كتابة رسالة أوضح (على الأقل 10 أحرف)', error: 'INVALID_MESSAGE' };
+      return { success: false, message: 'Please write a clearer message (at least 10 characters).', error: 'INVALID_MESSAGE' };
     }
 
     const response = await fetch(CONTACT_API_URL, {
@@ -47,7 +47,7 @@ export const sendContactMessage = async (payload) => {
 
     return {
       success: true,
-      message: 'مشي لحال — تم إرسال رسالتك بنجاح',
+      message: 'All set — your message has been sent.',
       data,
     };
   } catch (error) {
@@ -56,8 +56,8 @@ export const sendContactMessage = async (payload) => {
     return {
       success: false,
       message: error.message?.includes('fetch')
-        ? 'الرسالة ما انبعتت — في مشكلة اتصال/إعداد API'
-        : 'الرسالة ما انبعتت — جرّب مرة ثانية لاحقاً',
+        ? "Message not sent — check your API connection/configuration."
+        : 'Message not sent — please try again later.',
       error: String(error?.message || error),
     };
   }
