@@ -1,32 +1,63 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 
-const fallbackImages = [
-    'https://images.unsplash.com/photo-1719368472026-dc26f70a9b76?q=80&h=800&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1649265825072-f7dd6942baed?q=80&h=800&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&h=800&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1729086046027-09979ade13fd?q=80&h=800&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1601568494843-772eb04aca5d?q=80&h=800&w=800&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1585687501004-615dfdfde7f1?q=80&h=800&w=800&auto=format&fit=crop',
-]
 
-const PropertyImages = ({property}) => {
-    const images = property && property.images && property.images.length > 0 ? property.images : fallbackImages;
 
-    return (
-        <>
-            <style>{`\n                @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');\n                * { font-family: 'Poppins', sans-serif; }\n            `}</style>
-            <h1 className="text-3xl font-semibold text-center mx-auto">Our Latest Creations</h1>
-            <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">A visual collection of our most recent works - each piece crafted with intention, emotion, and style.</p>
+const PropertyImages = ({ property }) => {
+    const images = useMemo(() => (Array.isArray(property?.images) ? property.images : []), [property]);
+    const [hoveredIndex, setHoveredIndex] = useState(0);  // Initially first image is expanded
+     
+    const imageCaptions = [
+        {
+            heading:"Front View",
+            desc:"Experience the inviting front facade of this property, showcasing its charming curb appeal and welcoming entrance.",
 
-            <div className="flex items-center gap-2 h-[400px] w-full max-w-4xl mt-10 mx-auto">
-                {images.map((src, idx) => (
-                    <div key={idx} className="relative group flex-grow transition-all w-56 rounded-lg overflow-hidden h-[400px] duration-500 hover:w-full">
-                        <img className="h-full w-full object-cover object-center" src={src} alt={`property-${idx}`} />
+        },
+        {
+            heading:"Living Area",
+            desc:"Spacious interiors designed for comfort and style.",
+        },
+        {
+            heading:"Master Bedroom",
+            desc:"A serene retreat with ample space and natural light.",
+        },
+        {
+            heading:"Modern Kitchen",
+            desc:"Fully equipped kitchen with sleek appliances and ample storage.",
+        },
+    ];
+    if (images.length === 0) return null;
+
+    return(
+
+    <div className="flex max-sm:gap-1 max-md:gap-3 gap-5 h-100 w-full">
+
+        {images.map((pImg, index) => {
+            const caption = imageCaptions[index] ?? null;
+            const isHovered =  hoveredIndex === index
+
+            return (
+                <div key={index} className={`relative group transition-all duration-500 h-100  overflow-hidden rounded-2xl ${
+                    isHovered ? "grow w-full " : "max-sm:w-10 max-md:w-20 w-56"
+                }`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(0)} // Reset to first image when mouse leaves
+                onClick={() => setHoveredIndex(index)}
+                >
+                    <img src={pImg} alt="property" className="h-full w-full object-cover object-center rounded-2xl"/>
+                    <div
+                        className={`absolute inset-0 flex flex-col justify-end p-10 text-white bg-black/40 transition-all duration-300 rounded-2xl ${
+                            isHovered ? "opacity-100" : "opacity-0"
+                        }`}
+                    >
+                        {caption?.heading && <h3 className="h3">{caption.heading}</h3>}
+                        {caption?.desc && <p className="text-white/90">{caption.desc}</p>}
                     </div>
-                ))}
-            </div>
-        </>
-    )
-}
+                </div>
+            );
+        })} 
+
+    </div>
+    );
+};
 
 export default PropertyImages;

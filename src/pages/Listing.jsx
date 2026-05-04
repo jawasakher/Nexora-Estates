@@ -8,6 +8,8 @@ const Listing = () => {
   const {properties} = useAppContext();
   const sortOptions = [ "Relevant", "Low to High", "High to Low"];
 
+  const featuredProperty = properties?.[0];
+
   const propertyTypes = [
     "House",
     "AparTment",
@@ -27,13 +29,13 @@ const Listing = () => {
    ];
 
   return (
-    <div className="bg-gradient-to-r from-[#fffbee] to-white py-28">
+    <div className="bg-linear-to-r from-[#fffbee] to-white py-28">
       <div className="max-padd-container mb-16">
-        <PropertyImages />
+        {featuredProperty ? <PropertyImages property={featuredProperty} /> : null}
       </div>
       <div className="max-padd-container flex flex-col sm:flex-row gap-8 mb-16">
         {/**left side Filters */}
-        <div className="bg-secondary/10 ring-1 ring-slate-900/5 p-4 sm:min-w-60 sm:h-[600px] rounded-xl">
+        <div className="bg-secondary/10 ring-1 ring-slate-900/5 p-4 sm:min-w-60 sm:h-150 rounded-xl">
           {/** Sort by price */}
           <div className='py-3 mt-4'>
             <h5 className='h5 mb-3'>Sort By</h5>
