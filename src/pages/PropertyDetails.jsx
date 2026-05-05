@@ -37,7 +37,7 @@ const PropertyDetails = () => {
   if (!property) return null;
 
   return (
-    <div className="bg-linear-to-r from-[#fffbee] to-white py-28">
+    <div className="bg-linear-to-r from-[#fffbee] to-white py-16 pt-28">
       <div className="max-padd-container">
         {/** Image */}
         <PropertyImages property={property} />

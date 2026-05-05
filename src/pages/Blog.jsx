@@ -3,7 +3,7 @@ import { blogs } from '../assets/data'
 
 const Blog = () => {
   return (
-    <div className='bg-gradient-to-r from-[#fffbee] to-white py-28'>
+    <div className='bg-gradient-to-r from-[#fffbee] to-white py-16 pt-28'>
       <div className='max-padd-container'>
         {/** container */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-12">

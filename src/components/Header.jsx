@@ -5,6 +5,17 @@ import  {Navbar } from './Navbar'
 import {useClerk, UserButton, useUser } from '@clerk/react'
 import { useAppContext } from "../context/AppContext";
 
+
+
+const Header = () => {
+
+  const [active, setActive] = useState(false);
+  const [menuOpened, setMenuOpened] = useState(false);
+  const [showSearch, setshowSearch] = useState(false);
+  const location = useLocation();
+  const {navigate, user} = useAppContext();
+  const {openSignIn} = useClerk();
+  
 const BookingIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -25,18 +36,6 @@ const BookingIcon = (
   </svg>
 );
 
-const Header = () => {
-
-  const [active, setActive] = useState(false);
-  const [menuOpened, setMenuOpened] = useState(false);
-  const [showSearch, setshowSearch] = useState(false);
-  const location = useLocation();
-  const {navigate} = useAppContext();
-  const {user} = useUser();
-  const {openSignIn} = useClerk();
-  const toggleMenu = () => 
-    setMenuOpened((prev) => !prev);
-    
 
   useEffect(() => {
     const handleScroll =() => {
@@ -71,7 +70,9 @@ const Header = () => {
         {/** Logo */}
         <div className=' flex flex-1'>
             <Link to={'/'}>
-          <img src={assets.logoImg} alt="LogoImg" className={`${!active ? "invert" : ""} h-20 transition-all duration-200`}/>
+          <img src={assets.logoImg} 
+          alt="LogoImg"
+           className={`${!active ? "invert" : ""} h-20 transition-all duration-200`}/>
 
             </Link>
             </div>

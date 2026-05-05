@@ -29,7 +29,7 @@ const Listing = () => {
    ];
 
   return (
-    <div className="bg-linear-to-r from-[#fffbee] to-white py-28">
+    <div className="bg-linear-to-r from-[#fffbee] to-white py-16 pt-28">
       <div className="max-padd-container mb-16">
         {featuredProperty ? <PropertyImages property={featuredProperty} /> : null}
       </div>

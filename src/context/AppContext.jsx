@@ -1,17 +1,20 @@
 import React,{ createContext, useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dummyProperties } from '../assets/data'
- 
+import {useUser } from "@clerk/clerk-react"
 
 const AppContext = createContext();
+
+
 export const AppContextProvider = ({children}) => {
-       
+    const currency = import.meta.env.VITE_CURRENCY 
     const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
+    const {user} = useUser();
 
     const getProperties = () => {
         setProperties(dummyProperties);
-    }
+    };
 
     useEffect (() => {
         getProperties();
@@ -20,8 +23,9 @@ export const AppContextProvider = ({children}) => {
     const value ={
         navigate,
         properties,
-        
-    }
+        currency,
+        user,
+    };
 
   return (
  
