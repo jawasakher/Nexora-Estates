@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {assets} from '../assets/data'
-import { useAppContext } from '../context/AppContext'
+import { useAppContext } from '../context/AppContext.jsx'
 
 const Item = ({property}) => {
   const {currency} = useAppContext();

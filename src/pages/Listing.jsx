@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAppContext} from "../context/AppContext";
+import {useAppContext} from "../context/AppContext.jsx";
 import Item from '../components/Item';
 import PropertyImages from '../components/PropertyImages';
 

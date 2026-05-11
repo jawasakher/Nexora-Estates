@@ -1,23 +1,31 @@
-import React,{useState,useEffect} from 'react'
-import { useAppContext } from '../context/AppContext'
-import {assets} from '../assets/data'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { useAppContext } from '../context/AppContext.jsx'
+import { assets, dummyBookingsData } from '../assets/data'
 
 const MyBookings = () => {
-  const {bookings, setBookings} = useState([])
-  const {currency, user} = useAppContext();
+  const { currency } = useAppContext()
 
-  const getUserBookings = () => {
-   setBookings(dummyBookingsData) 
-  }
-  useEffect (() =>{
-    if(user){
-      getUserBookings()
-    }
-  }, [user])
+  const bookings = dummyBookingsData
   return (
-    <div className='bg-gradient-to-r from-[#fffbee] to-white py-16 pt-28'>
-      {bookings?.map((booking) =>(
-        <div key={booking._id} className=''>
+    <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
+      <div className='max-padd-container'>
+        <div className='mb-8 flex items-center justify-between gap-4 flex-wrap'>
+          <div>
+            <h2 className='h2'>My Bookings</h2>
+            <p className='text-gray-500'>View your saved reservations and payment status.</p>
+          </div>
+          <Link to='/listing' className='btn-secondary'>Browse listings</Link>
+        </div>
+
+        {bookings.length === 0 ? (
+          <div className='rounded-xl bg-secondary/10 ring-1 ring-slate-900/5 p-6 text-gray-600'>
+            No bookings yet.
+          </div>
+        ) : null}
+
+        {bookings?.map((booking) => (
+        <div key={booking._id} className='rounded-xl bg-white ring-1 ring-slate-900/5 p-4 mb-4'>
           {/** property list */}
           <div className="flexStart gap-3 mb-3">
             <img src={booking.property.images[0]} alt="property img" className='h-14 w-26 object-cover rounded-lg'/>
@@ -45,10 +53,10 @@ const MyBookings = () => {
           </div>
           {/** Booking Summary */}
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
-        <div>
+        <div className="flex gap-2 gap-x-4 flex-wrap">
           <div className="flex items-center gap-x-2">
              <h5 className='medium-14'>Booking ID:</h5>
-             <p className="text-gray-400 text-xs ">
+             <p className="text-gray-400 text-xs break-all ">
                {booking._id}</p>
           </div>
           <div className="flex items-center gap-x-2">
@@ -72,12 +80,13 @@ const MyBookings = () => {
             </div>
             </div>
             {!booking.isPaid && (
-              <button className="btn-secondary !py-1 !text-xs rounded-sm">Pay Now</button>
+              <button className="btn-secondary py-1! text-xs! rounded-sm">Pay Now</button>
             )}
             </div>
         </div>
         </div>
       ))}
+      </div>
     </div>
     
   );

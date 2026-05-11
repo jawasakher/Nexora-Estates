@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 // import required modules
 import { Autoplay } from 'swiper/modules';
-import {useAppContext} from "../context/AppContext";
+import {useAppContext} from "../context/AppContext.jsx";
 import Item from "./Item";
 
 const FeaturedProperties = () => {

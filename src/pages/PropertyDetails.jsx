@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext.jsx";
 import { useParams } from 'react-router-dom';
 import PropertyImages from '../components/PropertyImages';
 import { assets, cities } from '../assets/data';

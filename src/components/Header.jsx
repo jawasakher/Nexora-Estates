@@ -3,7 +3,7 @@ import { useClerk, UserButton } from "@clerk/clerk-react";
 import { Link, useLocation } from "react-router-dom";
 import { assets } from "../assets/data";
 import { Navbar } from "./Navbar";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext.jsx";
 
 const Header = () => {
   const [active, setActive] = useState(false);
