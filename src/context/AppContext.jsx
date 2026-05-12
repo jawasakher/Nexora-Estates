@@ -11,6 +11,7 @@ export const AppContextProvider = ({children}) => {
     const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
     const {user} = useUser();
+    const [showAgencyReg, setShowAgencyReg] = useState(false);
 
     const getProperties = () => {
         setProperties(dummyProperties);
@@ -25,6 +26,8 @@ export const AppContextProvider = ({children}) => {
         properties,
         currency,
         user,
+        showAgencyReg,
+        setShowAgencyReg
     };
 
   return (
