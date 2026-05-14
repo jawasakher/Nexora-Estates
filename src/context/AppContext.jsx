@@ -12,7 +12,8 @@ export const AppContextProvider = ({children}) => {
     const [properties, setProperties] = useState([]);
     const {user} = useUser();
     const [showAgencyReg, setShowAgencyReg] = useState(false);
-
+   const [isOwner, setIsOwner] = useState(true)
+    
     const getProperties = () => {
         setProperties(dummyProperties);
     };
@@ -27,7 +28,9 @@ export const AppContextProvider = ({children}) => {
         currency,
         user,
         showAgencyReg,
-        setShowAgencyReg
+        setShowAgencyReg,
+        isOwner,
+        setIsOwner,
     };
 
   return (
