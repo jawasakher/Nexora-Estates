@@ -17,14 +17,14 @@ import Listproperty from './pages/owner/Listproperty.jsx'
 
 
 const App = () => {
-  const lacation = useLocation();
-  const isOwnerPath = location.pathname.includes('/owner');
+  const location = useLocation();
+  const isOwnerPath = location.pathname.startsWith('/owner');
   const {showAgencyReg} = useAppContext()
   
   return (
     <main>
       { !isOwnerPath && <Header/>}
-      { !showAgencyReg  && <AgencyReg/> }
+      { !isOwnerPath && !showAgencyReg  && <AgencyReg/> }
        <Routes>
 
           <Route path='/' element={<Home/>}/>
@@ -34,9 +34,9 @@ const App = () => {
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/my-bookings' element={<MyBookings/>}/>
           <Route path='/owner' element={<Sidebar/>} >
-          <Route index element={<Dashboard/>}/>
-           <Route path='./owner/add-property' element={<AddProperty/>}/>
-            <Route path='./owner/list-property' element={<Listproperty/>}/>
+            <Route index element={<Dashboard/>}/>
+            <Route path='add-property' element={<AddProperty/>}/>
+            <Route path='list-property' element={<Listproperty/>}/>
           </Route>
       </Routes>
       { !isOwnerPath && <Footer/> }

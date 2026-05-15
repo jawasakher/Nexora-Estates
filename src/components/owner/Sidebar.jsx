@@ -19,7 +19,7 @@ const Sidebar = () => {
       icon:assets.housePlus
     },
      {
-       path:"/owner/List-property",
+       path:"/owner/list-property",
       label:"List Property",
       icon:assets.list
     },
@@ -29,13 +29,13 @@ const Sidebar = () => {
     if(!isOwner){
     navigate('/')
     }
-  },[isOwner])
+  },[isOwner, navigate])
   
   return (
     <div className='bg-gradient-to-r from-[#fffbee] to-white'>
       <div className="mx-auto max-w-[1440px] flex flex-col md:flex-row">
         {/** sidebar */}
-        <div className="max-md:flexCenter flex flex-col justify-between bg-white sm:m-3 md:min-w-[20%] md:min-w-[20%] md:min-h-[97vh] rounded-xl shadow">
+        <div className="max-md:flexCenter flex flex-col justify-between bg-white sm:m-3 md:min-w-[20%] md:min-h-[97vh] rounded-xl shadow">
           <div className="flex flex-col gap-y-6 max-md:items-center md:flex-col md:pt-5">
             {/** logo & profile */}
             <div className="w-full flex justify-between md:flex-col">
@@ -81,7 +81,7 @@ const Sidebar = () => {
           ))}
         </div>
     </div>
-    <div className="hidden md:flex items-center gap-3 md:bg-primary md:bg-primary md:border-t border-slate-900/15 rounded-b-xl p-2 pl-5 lg:pl-10 md:mt-10" >
+    <div className="hidden md:flex items-center gap-3 md:bg-primary md:border-t border-slate-900/15 rounded-b-xl p-2 pl-5 lg:pl-10 md:mt-10" >
       <UserButton
                   
                   appearance={{
@@ -99,8 +99,10 @@ const Sidebar = () => {
     </div>
 
     </div>
-   {/** <Outlet /> */}
-    </div>
+        <div className="flex-1 sm:m-3">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };
