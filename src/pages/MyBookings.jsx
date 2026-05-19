@@ -2,11 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext.jsx'
 import { assets, dummyBookingsData } from '../assets/data'
+import Card from '../components/ui/Card'
+import Button from '../components/ui/Button'
+import Badge from '../components/ui/Badge'
+import EmptyState from '../components/ui/EmptyState'
+import BookingSkeleton from '../components/skeletons/BookingSkeleton'
 
 const MyBookings = () => {
   const { currency } = useAppContext()
 
   const bookings = dummyBookingsData
+  const loadingBookings = !bookings
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
       <div className='max-padd-container'>
@@ -18,36 +24,44 @@ const MyBookings = () => {
           <Link to='/listing' className='btn-secondary'>Browse listings</Link>
         </div>
 
-        {bookings.length === 0 ? (
-          <div className='rounded-xl bg-secondary/10 ring-1 ring-slate-900/5 p-6 text-gray-600'>
-            No bookings yet.
-          </div>
+        {loadingBookings ? (
+          <BookingSkeleton count={3} />
+        ) : bookings.length === 0 ? (
+          <EmptyState
+            title='No bookings yet'
+            description='Your reservations will appear here once you complete a booking.'
+            action={
+              <Link to='/listing'>
+                <Button variant='primary'>Browse listings</Button>
+              </Link>
+            }
+          />
         ) : null}
 
         {bookings?.map((booking) => (
-        <div key={booking._id} className='rounded-xl bg-white ring-1 ring-slate-900/5 p-4 mb-4'>
+        <Card key={booking._id} className='p-4 mb-4'>
           {/** property list */}
           <div className="flexStart gap-3 mb-3">
-            <img src={booking.property.images[0]} alt="property img" className='h-14 w-26 object-cover rounded-lg'/>
+            <img src={booking?.property?.images?.[0] || ''} alt={booking?.property?.title || 'property img'} loading='lazy' className='h-14 w-26 object-cover rounded-lg'/>
             <div>
               <h5 className="h5 capitalize line-clamp-1">
-                {booking.property.title}
+                {booking?.property?.title}
                 </h5>
                 <div className="flex gap-4">
                   <div className="flex items-center gap-x-2">
                     <h5 className="medium-14">Guests:</h5>
-                    <p>{booking.guests}</p>
+                    <p>{booking?.guests}</p>
                     </div>
                      
                   <div className="flex items-center gap-x-2">
                     <h5 className="medium-14">Total:</h5>
                     <p className='text-gray-400 text-sm'>
-                      {currency} {booking.totalPrice.toFixed(2)}</p>
+                      {currency} {booking?.totalPrice?.toFixed?.(2) ?? booking?.totalPrice ?? '-'}</p>
                     </div>
                 </div>
                 <p className="flex place-items-baseline gap-1 mt-0.5">
                   <img src={assets.pin} alt="" width={13}/>
-                  {booking.property.address}
+                  {booking?.property?.address}
                 </p>
             </div>
           </div>
@@ -62,29 +76,31 @@ const MyBookings = () => {
           <div className="flex items-center gap-x-2">
              <h5 className='medium-14'>Check-In:</h5>
              <p className="text-gray-400 text-xs ">
-               {new Date(booking.checkInDate).toDateString()}</p>
+               {new Date(booking?.checkInDate).toDateString()}</p>
           </div>
           <div className="flex items-center gap-x-2">
              <h5 className='medium-14'>Check-Out:</h5>
              <p className="text-gray-400 text-xs ">
-               {new Date(booking.checkOutDate).toDateString()}</p>
+               {new Date(booking?.checkOutDate).toDateString()}</p>
           </div>
           </div>
           <div className="flex gap-2 gap-x-3">
             <div className="flex items-center gap-x-2">
             <h5 className="medium-14">Payment:</h5>
             <div className='flex items-center gap-x-1'>
-            <span className={`min-w-2.5 h-2.5 rounded-full ${booking.isPaid ? 'bg-green-500' : 'bg-yellow-500'}`}/>
-
-            <p>{booking.isPaid ? 'Paid' : 'unpaid'}</p>
+            <Badge variant={booking?.isPaid ? 'success' : 'warning'} className='px-2.5 py-1'>
+              {booking?.isPaid ? 'Paid' : 'Unpaid'}
+            </Badge>
             </div>
             </div>
             {!booking.isPaid && (
-              <button className="btn-secondary py-1! text-xs! rounded-sm">Pay Now</button>
+              <Button variant='secondary' size='sm' className="rounded-full">
+                Pay Now
+              </Button>
             )}
             </div>
         </div>
-        </div>
+        </Card>
       ))}
       </div>
     </div>

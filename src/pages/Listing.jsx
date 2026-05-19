@@ -1,11 +1,12 @@
 import React from 'react';
 import {useAppContext} from "../context/AppContext.jsx";
-import Item from '../components/Item';
+import ListingCard from '../components/property/ListingCard';
 import PropertyImages from '../components/PropertyImages';
+import ListingSkeleton from '../components/skeletons/ListingSkeleton';
 
 
 const Listing = () => {
-  const {properties} = useAppContext();
+  const {properties, loadingProperties, currency} = useAppContext();
   const sortOptions = [ "Relevant", "Low to High", "High to Low"];
 
   const featuredProperty = properties?.[0];
@@ -70,15 +71,19 @@ const Listing = () => {
         </div>
         {/** right side listing */}
         <div className="">
+          {loadingProperties ? (
+            <ListingSkeleton count={6} />
+          ) : (
           {properties.length > 0 ? (
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
               {properties.map((property) => (
-                <Item key={property._id} property={property}/>
+                <ListingCard key={property._id} property={property} currency={currency} />
               ))}
             </div>
            ):(
             <div className="text-center text-gray-500 mt-20">No matches found.</div>
            )}
+          )}
            </div>
         </div> 
     </div>

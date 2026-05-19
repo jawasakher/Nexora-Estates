@@ -8,11 +8,12 @@ import 'swiper/css';
 // import required modules
 import { Autoplay } from 'swiper/modules';
 import {useAppContext} from "../context/AppContext.jsx";
-import Item from "./Item";
+import ListingCard from "./property/ListingCard";
+import ListingSkeleton from './skeletons/ListingSkeleton';
 
 const FeaturedProperties = () => {
 
-  const {properties} = useAppContext ()
+  const {properties, currency} = useAppContext ()
   return (
     <section className="max-padd-container py-14 sm:py-16 xl:py-22">
      
@@ -27,6 +28,9 @@ const FeaturedProperties = () => {
         </Link>
        </div>
        {/** container */}
+      {loadingProperties ? (
+        <ListingSkeleton count={4} />
+      ) : (
           <Swiper
         
         autoplay={{
@@ -54,10 +58,11 @@ const FeaturedProperties = () => {
          
          <SwiperSlide key={property._id}> 
 
-          <Item  property={property}/>
+          <ListingCard property={property} currency={currency} />
          </SwiperSlide>
         ))}
         </Swiper>
+      )}
       
     </section>
   );
