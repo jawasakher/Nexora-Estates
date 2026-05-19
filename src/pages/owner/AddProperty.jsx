@@ -61,7 +61,7 @@ const AddProperty = () => {
             value={inputs.city}
             onChange={(e)=>setInputs({...inputs, city:e.target.value})}
             placeholder='Type here...'
-            className='min-w-[220px] flex-1'
+            className='min-w-55 flex-1'
           />
 
           <Input
@@ -69,7 +69,7 @@ const AddProperty = () => {
             value={inputs.country}
             onChange={(e)=>setInputs({...inputs, country:e.target.value})}
             placeholder='Type here...'
-            className='min-w-[220px] flex-1'
+            className='min-w-55 flex-1'
           />
 
           <div className='w-full sm:w-44'>
@@ -89,14 +89,15 @@ const AddProperty = () => {
             <option value="Land Plot">Land Plot</option>
           </select>
         </div>
+        </div>
 
-          <div className='flex gap-4 flex-wrap w-full'>
+        <div className='flex gap-4 flex-wrap w-full'>
           <Textarea
             label='Address'
             value={inputs.address}
             onChange={(e)=>setInputs({...inputs, address:e.target.value})}
             placeholder='Type here...'
-            className='min-w-[260px] flex-1'
+            className='min-w-65 flex-1'
           />
           <Input
             label='Area'

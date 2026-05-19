@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { assets ,cities} from '../assets/data'
 
 const Hero = () => {
@@ -9,6 +10,7 @@ const Hero = () => {
     checkOut: '',
     guests: ''
   });
+  const navigate = useNavigate();
 
   const handleExploreClick = () => {
     setShowExploreModal(true);
@@ -24,8 +26,13 @@ const Hero = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log('Search submitted:', formData);
-    alert(`Searching properties in ${formData.destination} from ${formData.checkIn} to ${formData.checkOut} for ${formData.guests} guest(s)`);
+    const query = new URLSearchParams();
+    if (formData.destination) query.set('q', formData.destination);
+    if (formData.destination) query.set('city', formData.destination);
+    if (formData.checkIn) query.set('checkIn', formData.checkIn);
+    if (formData.checkOut) query.set('checkOut', formData.checkOut);
+    if (formData.guests) query.set('guests', String(formData.guests));
+    navigate(`/listing?${query.toString()}`);
     setShowExploreModal(false);
   };
 
@@ -65,6 +72,8 @@ const Hero = () => {
             list='destinations'
             id='destinationInput'
             type="text"
+            value={formData.destination}
+            onChange={handleFormChange}
             className='rounded-xl border border-slate-200/90 bg-white px-3 py-2 mt-1.5 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
             placeholder='Type here...'
             required
@@ -83,6 +92,8 @@ const Hero = () => {
             <label htmlFor="checkIn" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>Check in</label>
             </div>
             <input type="date" id='checkIn'
+            value={formData.checkIn}
+            onChange={handleFormChange}
             className='rounded-xl border border-slate-200/90 bg-white px-3 py-2 mt-1.5 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
             />
            </div>
@@ -92,6 +103,8 @@ const Hero = () => {
             <label htmlFor="checkOut" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>Check out</label>
             </div>
             <input type="date" id='checkOut'
+            value={formData.checkOut}
+            onChange={handleFormChange}
             className='rounded-xl border border-slate-200/90 bg-white px-3 py-2 mt-1.5 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
             />
             </div>
@@ -101,6 +114,8 @@ const Hero = () => {
             <label htmlFor="guests" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>Guests</label>
             </div>
             <input id='guests' type='number' min={1} max={5} 
+            value={formData.guests}
+            onChange={handleFormChange}
             className='rounded-xl border border-slate-200/90 bg-white px-3 py-2 mt-1.5 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
             placeholder='0'
             />
