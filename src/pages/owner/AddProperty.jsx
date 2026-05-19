@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { assets } from '../../assets/data'
+import EmptyState from '../../components/ui/EmptyState'
 
 const AddProperty = () => {
   const [images, setImages ] = useState ({

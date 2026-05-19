@@ -7,25 +7,35 @@ const AppContext = createContext();
 
 
 export const AppContextProvider = ({children}) => {
-    const currency = import.meta.env.VITE_CURRENCY 
+    const currency = import.meta.env.VITE_CURRENCY ?? '$'
     const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
-    const {user} = useUser();
+    const {user} = useUser() ?? {};
     const [showAgencyReg, setShowAgencyReg] = useState(false);
-   const [isOwner, setIsOwner] = useState(true)
+     const [isOwner, setIsOwner] = useState(true)
+    const [loadingProperties, setLoadingProperties] = useState(false)
     
     const getProperties = () => {
-        setProperties(dummyProperties);
+      setLoadingProperties(true)
+      try {
+        setProperties(Array.isArray(dummyProperties) ? dummyProperties : [])
+      } catch (err) {
+        console.error('Error loading properties', err)
+        setProperties([])
+      } finally {
+        setLoadingProperties(false)
+      }
     };
 
     useEffect (() => {
-        getProperties();
+      getProperties();
     }, []);
 
     const value ={
         navigate,
         properties,
-        currency,
+      loadingProperties,
+      currency,
         user,
         showAgencyReg,
         setShowAgencyReg,

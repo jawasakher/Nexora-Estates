@@ -1,20 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { useAppContext } from '../../context/AppContext'
+import EmptyState from '../../components/ui/EmptyState'
+import Loader from '../../components/ui/Loader'
 
 const Listproperty = () => {
-  const { user, currency } = useAppContext()
+  const { user, currency, loadingProperties } = useAppContext()
   const [properties, setProperties] = useState([])
 
-  // Get the properties listed by the owner
+  // Get the properties listed by the owner (safe)
   const getProperties = async () => {
-    setProperties(user.properties)
+    setProperties(Array.isArray(user?.properties) ? user.properties : [])
   }
 
   useEffect(() => {
-    if (user) {
-      getProperties()
-    }
+    getProperties()
   }, [user])
+
+  if (loadingProperties) {
+    return (
+      <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] flex items-center justify-center lg:w-11/12'>
+        <Loader />
+      </div>
+    )
+  }
+
+  if (!properties?.length) {
+    return (
+      <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 lg:w-11/12'>
+        <EmptyState title='No properties found' description='You have not listed any properties yet.' />
+      </div>
+    )
+  }
 
   return (
     <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] overflow-y-scroll lg:w-11/12 bg-white shadow rounded-xl'>
@@ -50,8 +66,9 @@ const Listproperty = () => {
 
                 <div className='overflow-hidden rounded-lg'>
                   <img
-                    src={property?.images?.[0]}
+                    src={property?.images?.[0] || ''}
                     alt={property?.title || 'Property'}
+                    loading="lazy"
                     className="w-16 h-16 object-cover rounded-lg"
                   />
                 </div>
@@ -64,12 +81,12 @@ const Listproperty = () => {
 
               {/* Address */}
               <div className="line-clamp-2">
-                {property.address}
+                {property?.address}
               </div>
 
               {/* Price */}
               <div>
-                {currency}{property.price.sale}
+                {currency}{property?.price?.sale}
               </div>
 
               {/* Available */}

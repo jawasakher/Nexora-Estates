@@ -6,12 +6,12 @@ import { useAppContext } from '../context/AppContext.jsx'
 const Item = ({property}) => {
   const {currency} = useAppContext();
   return (
-    <Link to={'/listing/' + property._id}
+    <Link to={'/listing/' + property?._id}
       className='block rounded-lg bg-white ring-1 ring-slate-900/5'
       >
         {/** Image */}
         <div className="relative">
-            <img src={property.images[0]} alt={property.title}
+            <img src={property?.images?.[0] || ''} alt={property?.title || 'Property'} loading="lazy"
             className="h-[13rem] w-full aspect-square object-cover rounded-t-xl"/>
             </div>
             {/** Info */}

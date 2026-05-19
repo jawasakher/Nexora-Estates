@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
-
-
+import EmptyState from './ui/EmptyState'
 
 const PropertyImages = ({ property }) => {
     const images = useMemo(() => (Array.isArray(property?.images) ? property.images : []), [property]);
@@ -25,7 +24,7 @@ const PropertyImages = ({ property }) => {
             desc:"Fully equipped kitchen with sleek appliances and ample storage.",
         },
     ];
-    if (images.length === 0) return null;
+    if (images.length === 0) return <EmptyState title="No images" description="No property images available." />;
 
     return(
 
@@ -43,7 +42,7 @@ const PropertyImages = ({ property }) => {
                 onMouseLeave={() => setHoveredIndex(0)} // Reset to first image when mouse leaves
                 onClick={() => setHoveredIndex(index)}
                 >
-                    <img src={pImg} alt="property" className="h-full w-full object-cover object-center rounded-2xl"/>
+                    <img src={pImg || ''} loading="lazy" alt="property" className="h-full w-full object-cover object-center rounded-2xl"/>
                     <div
                         className={`absolute inset-0 flex flex-col justify-end p-10 text-white bg-black/40 transition-all duration-300 rounded-2xl ${
                             isHovered ? "opacity-100" : "opacity-0"
