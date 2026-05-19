@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/data'
-import { subscribeNewsletter } from '../services/newsletter'
 import Button from './ui/Button'
-import Input from './ui/Input'
+import { useAppContext } from '../context/AppContext.jsx'
+import { LEAD_SOURCES } from '../constants/leadSources.js'
 
 const footerLinks = {
   company: [
@@ -33,31 +33,11 @@ const socialLinks = [
 ]
 
 const Footer = () => {
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState({ type: '', text: '' })
-
-  const handleNewsletterSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage({ type: '', text: '' })
-
-    const result = await subscribeNewsletter(email)
-
-    if (result.success) {
-      setMessage({ type: 'success', text: result.message })
-      setEmail('')
-      setTimeout(() => setMessage({ type: '', text: '' }), 5000)
-    } else {
-      setMessage({ type: 'error', text: result.message })
-    }
-
-    setLoading(false)
-  }
+  const { navigate } = useAppContext()
 
   return (
-    <footer className='bg-gradient-to-r from-secondary/20 via-tertiary/10 to-secondary/15 text-slate-950'>
-      <div className='border-b border-slate-900/10 bg-gradient-to-r from-secondary/30 via-white/25 to-tertiary/20'>
+    <footer className='bg-linear-to-r from-secondary/20 via-tertiary/10 to-secondary/15 text-slate-950'>
+      <div className='border-b border-slate-900/10 bg-linear-to-r from-secondary/30 via-white/25 to-tertiary/20'>
         <div className='max-padd-container py-12 xl:py-16'>
           <div className='flex flex-col gap-8 rounded-[28px] border border-slate-900/10 bg-white/70 p-6 backdrop-blur md:flex-row md:items-center md:justify-between md:p-8'>
             <div className='max-w-xl'>
@@ -71,34 +51,26 @@ const Footer = () => {
               </p>
             </div>
 
-            <form onSubmit={handleNewsletterSubmit} className='w-full md:max-w-xl'>
+            <div className='w-full md:max-w-xl'>
               <div className='flex flex-col gap-3 sm:flex-row'>
-                <Input
-                  type='email'
-                  placeholder='Enter your email address'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  className='rounded-full'
-                  required
-                />
                 <Button
-                  type='submit'
-                  disabled={loading}
-                  loading={loading}
+                  onClick={() => navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)}
                   variant='dark'
                   size='lg'
                   className='rounded-full whitespace-nowrap'
                 >
-                  Subscribe
+                  Contact Us
+                </Button>
+                <Button
+                  onClick={() => navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)}
+                  variant='secondary'
+                  size='lg'
+                  className='rounded-full whitespace-nowrap'
+                >
+                  Book Viewing
                 </Button>
               </div>
-              {message.text && (
-                <div className={`mt-3 rounded-2xl border px-4 py-3 text-sm ${message.type === 'success' ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700' : 'border-red-500/30 bg-red-500/10 text-red-700'}`}>
-                  {message.text}
-                </div>
-              )}
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -108,7 +80,7 @@ const Footer = () => {
           <div className='lg:col-span-2'>
             <div className='mb-8 flex items-center gap-4'>
               <img src={assets.logoImg} alt='Nexora Estates' width={56} height={56} className='drop-shadow-md' />
-              <span className='text-2xl font-bold bg-gradient-to-r from-secondary to-tertiary bg-clip-text text-transparent'>Nexora Estates</span>
+              <span className='text-2xl font-bold bg-linear-to-r from-secondary to-tertiary bg-clip-text text-transparent'>Nexora Estates</span>
             </div>
             <p className='max-w-md text-slate-700'>
               A premium real estate experience built for buyers, sellers, and investors who expect clarity, speed, and results.
@@ -190,19 +162,19 @@ const Footer = () => {
         </div>
 
         <div className='mt-14 grid gap-4 border-t border-slate-900/10 pt-8 sm:grid-cols-2 xl:grid-cols-4'>
-          <div className='rounded-3xl bg-gradient-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
+          <div className='rounded-3xl bg-linear-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
             <p className='text-2xl font-bold text-slate-950'>5K+</p>
             <p className='text-sm text-slate-600'>Properties Available</p>
           </div>
-          <div className='rounded-3xl bg-gradient-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
+          <div className='rounded-3xl bg-linear-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
             <p className='text-2xl font-bold text-slate-950'>50K+</p>
             <p className='text-sm text-slate-600'>Happy Clients</p>
           </div>
-          <div className='rounded-3xl bg-gradient-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
+          <div className='rounded-3xl bg-linear-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
             <p className='text-2xl font-bold text-slate-950'>200+</p>
             <p className='text-sm text-slate-600'>Trusted Agents</p>
           </div>
-          <div className='rounded-3xl bg-gradient-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
+          <div className='rounded-3xl bg-linear-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
             <p className='text-2xl font-bold text-slate-950'>20+</p>
             <p className='text-sm text-slate-600'>Years of Experience</p>
           </div>
@@ -217,6 +189,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
     </footer>
   )
 }

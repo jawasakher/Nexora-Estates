@@ -11,12 +11,12 @@ const AgencyReg = () => {
     const [city, setCity] = useState('');
 
   return (
-    <div onClick={() => setShowAgencyReg(true)} className='fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/80'>
+        <div onClick={() => setShowAgencyReg(true)} className='fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/80'>
       
-      <from onClick={(e) => e.stopPropagation()} className='flexCenter bg-white rounded-xl max-w-4xl max-md:mx-2 relative'>
+            <form onClick={(e) => e.stopPropagation()} className='flexCenter bg-white rounded-xl max-w-4xl max-md:mx-2 relative'>
        <img  src={assets.createPrp} alt="createPrp img" className='w-1/2 rounded-1-xl hidden md:block ' />
        <div className='flex flex-col md:w-1/2 p-8 md:p-10'>
-        <img onClick={() => setShowAgencyReg(true)} src={assets.close} alt="" className='absolute top-4 right-4 h-6 w-6 p-1 cursor-pointer bg-secondary/50 rounded-full shadow-md' />
+                <img onClick={() => setShowAgencyReg(true)} src={assets.close} alt="" className='absolute top-4 right-4 h-6 w-6 p-1 cursor-pointer bg-secondary/50 rounded-full shadow-md' />
         <h3 className="h3 mb-6">Create Property</h3>
         <div className='flex gap-2 xl:gap-3'>
             <div>
@@ -51,7 +51,7 @@ const AgencyReg = () => {
                 </select>
             </div>
        </div>
-      </from>
+            </form>
     </div>
   )
 }

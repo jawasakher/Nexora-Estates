@@ -9,6 +9,7 @@ import Contact from'./pages/Contact'
 import PropertyDetails from './pages/PropertyDetails'
 import MyBookings from './pages/MyBookings'
 import AgencyReg from './components/AgencyReg'
+import LeadModal from './components/lead/LeadModal'
 import { useAppContext } from './context/AppContext.jsx'
 import Sidebar from './components/owner/Sidebar.jsx'
 import Dashboard from './pages/owner/Dashboard.jsx'
@@ -19,12 +20,12 @@ import Listproperty from './pages/owner/Listproperty.jsx'
 const App = () => {
   const location = useLocation();
   const isOwnerPath = location.pathname.startsWith('/owner');
-  const {showAgencyReg} = useAppContext()
+  const {showAgencyReg, leadModalConfig, closeLeadModal} = useAppContext()
   
   return (
     <main>
       { !isOwnerPath && <Header/>}
-      { !isOwnerPath && !showAgencyReg  && <AgencyReg/> }
+      { !isOwnerPath && showAgencyReg && <AgencyReg/> }
        <Routes>
 
           <Route path='/' element={<Home/>}/>
@@ -40,6 +41,16 @@ const App = () => {
           </Route>
       </Routes>
       { !isOwnerPath && <Footer/> }
+      <LeadModal
+        open={Boolean(leadModalConfig)}
+        onClose={closeLeadModal}
+        title={leadModalConfig?.title || 'Send an inquiry'}
+        description={leadModalConfig?.description || 'Use the same lead pipeline to capture your request.'}
+        source={leadModalConfig?.source}
+        propertyId={leadModalConfig?.propertyId}
+        listingTitle={leadModalConfig?.listingTitle}
+        onSuccess={leadModalConfig?.onSuccess || closeLeadModal}
+      />
     </main>
   )
 }

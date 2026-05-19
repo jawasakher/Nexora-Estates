@@ -1,36 +1,22 @@
-import React, { useState } from 'react'
-import { sendContactMessage } from '../services/contact'
+import React, { useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 import Card from '../components/ui/Card'
-import Button from '../components/ui/Button'
-import Input from '../components/ui/Input'
-import Textarea from '../components/ui/Textarea'
 import SectionTitle from '../components/ui/SectionTitle'
+import LeadForm from '../components/lead/LeadForm'
+import { LEAD_SOURCES } from '../constants/leadSources.js'
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [loading, setLoading] = useState(false)
-  const [status, setStatus] = useState({ type: '', text: '' })
+  const location = useLocation()
 
-  const handleChange = (e) => {
-    const { id, value } = e.target
-    setForm((prev) => ({ ...prev, [id]: value }))
-  }
+  const leadMeta = useMemo(() => {
+    const params = new URLSearchParams(location.search)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setStatus({ type: '', text: '' })
-
-    const result = await sendContactMessage(form)
-    if (result.success) {
-      setStatus({ type: 'success', text: result.message })
-      setForm({ name: '', email: '', message: '' })
-    } else {
-      setStatus({ type: 'error', text: result.message })
+    return {
+      source: params.get('source') || LEAD_SOURCES.CONTACT_PAGE,
+      title: params.get('title') || 'Contact page inquiry',
+      propertyId: params.get('propertyId') || undefined,
     }
-
-    setLoading(false)
-  }
+  }, [location.search])
 
   return (
     <section className='relative overflow-hidden bg-linear-to-b from-primary via-white to-white py-16 pt-28'>
@@ -53,60 +39,12 @@ const Contact = () => {
                 description='Tell us what you’re looking for and we’ll get back to you with clear, tailored options.'
                 className='mb-7'
               />
-
-              <form onSubmit={handleSubmit} className='space-y-4'>
-                <Input
-                  id='name'
-                  label='Full name'
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder='Your name'
-                  required
-                />
-
-                <Input
-                  id='email'
-                  type='email'
-                  label='Email address'
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder='name@email.com'
-                  required
-                />
-
-                <Textarea
-                  id='message'
-                  label='Message'
-                  value={form.message}
-                  onChange={handleChange}
-                  placeholder='Tell us what you need (buy/rent, city, budget, timeline...)'
-                  rows={5}
-                  required
-                />
-
-                {status.text && (
-                  <div
-                    className={`rounded-2xl border px-4 py-3 text-sm transition-all duration-300 ${
-                      status.type === 'success'
-                        ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700'
-                        : 'border-red-500/30 bg-red-500/10 text-red-700'
-                    }`}
-                  >
-                    {status.text}
-                  </div>
-                )}
-
-                <Button
-                  type='submit'
-                  disabled={loading}
-                  loading={loading}
-                  variant='primary'
-                  size='lg'
-                  className='w-full rounded-2xl'
-                >
-                  Send message
-                </Button>
-              </form>
+              <LeadForm
+                source={leadMeta.source}
+                propertyId={leadMeta.propertyId}
+                listingTitle={leadMeta.title}
+                onSuccess={() => undefined}
+              />
               <p className='mt-4 text-xs text-slate-500'>We’ll never share your details. Reply time depends on volume.</p>
             </Card>
           </div>

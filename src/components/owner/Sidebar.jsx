@@ -32,8 +32,8 @@ const Sidebar = () => {
   },[isOwner, navigate])
   
   return (
-    <div className='bg-gradient-to-r from-[#fffbee] to-white'>
-      <div className="mx-auto max-w-[1440px] flex flex-col md:flex-row">
+    <div className='bg-linear-to-r from-[#fffbee] to-white'>
+      <div className="mx-auto max-w-360 flex flex-col md:flex-row">
         {/** sidebar */}
         <div className="max-md:flexCenter flex flex-col justify-between bg-white sm:m-3 md:min-w-[20%] md:min-h-[97vh] rounded-xl shadow">
           <div className="flex flex-col gap-y-6 max-md:items-center md:flex-col md:pt-5">
@@ -67,7 +67,7 @@ const Sidebar = () => {
             key={link.label}
             to={link.path}
             end={link.path === "/owner"}
-            className={({isActive}) => isActive ? "flexStart gap-x-2 p-5 lg:pl-12 bold-13 sm:!text-sm cursor-pointer h-10 bg-secondary/10 max-md:border-b-4 md:border-r-4 border-r-4 border-secondary" : "flexStart gap-x-2 p-5 lg:pl-12 bold-13 sm:!text-sm cursor-pointer h-10 rounded-xl"}
+            className={({isActive}) => isActive ? "flexStart gap-x-2 p-5 lg:pl-12 bold-13 sm:text-sm! cursor-pointer h-10 bg-secondary/10 max-md:border-b-4 md:border-r-4 border-r-4 border-secondary" : "flexStart gap-x-2 p-5 lg:pl-12 bold-13 sm:text-sm! cursor-pointer h-10 rounded-xl"}
             >
               <img  
               src={link.icon} 

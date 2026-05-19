@@ -13,7 +13,7 @@ import ListingSkeleton from './skeletons/ListingSkeleton';
 
 const FeaturedProperties = () => {
 
-  const {properties, currency} = useAppContext ()
+  const {properties, currency, loadingProperties} = useAppContext ()
   return (
     <section className="max-padd-container py-14 sm:py-16 xl:py-22">
      

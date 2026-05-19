@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { assets ,cities} from '../assets/data'
+import Button from './ui/Button'
+import { useAppContext } from '../context/AppContext.jsx'
+import { LEAD_SOURCES } from '../constants/leadSources.js'
 
 const Hero = () => {
   const [showExploreModal, setShowExploreModal] = useState(false);
@@ -10,7 +12,7 @@ const Hero = () => {
     checkOut: '',
     guests: ''
   });
-  const navigate = useNavigate();
+  const { navigate } = useAppContext()
 
   const handleExploreClick = () => {
     setShowExploreModal(true);
@@ -57,6 +59,24 @@ const Hero = () => {
                </button>
               <h2 className='h2 max-w-4xl capitalize leading-[1.1] mt-3 my-2 text-white sm:leading-tight'>Transform <span className='bg-linear-to-r from-secondary to-white bg-clip-text text-transparent'> exceptional properties </span>
                Located in stunning surroundings.</h2>
+            <div className='mt-5 flex flex-wrap gap-3'>
+              <Button
+                onClick={() => navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)}
+                variant='primary'
+                size='lg'
+                className='rounded-full'
+              >
+                Book Viewing
+              </Button>
+              <Button
+                onClick={() => navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)}
+                variant='secondary'
+                size='lg'
+                className='rounded-full'
+              >
+                Contact Agent
+              </Button>
+            </div>
           </div>
           {/**search/booking form */}
             <form className='relative grid w-full max-w-5xl gap-4 rounded-3xl bg-white/95 px-4 py-4 text-gray-600 ring-1 ring-white/60 shadow-2xl shadow-black/15 backdrop-blur-md sm:px-6 md:grid-cols-2 xl:grid-cols-5'>
@@ -249,6 +269,7 @@ const Hero = () => {
          </div>
        </div>
      )}
+
     </section>
 
   )

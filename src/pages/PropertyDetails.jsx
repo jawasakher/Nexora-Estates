@@ -7,6 +7,8 @@ import Card from '../components/ui/Card'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import EmptyState from '../components/ui/EmptyState'
+import LeadForm from '../components/lead/LeadForm'
+import { LEAD_SOURCES } from '../constants/leadSources.js'
 import { assets, cities } from '../assets/data'
 
 const PropertyDetails = () => {
@@ -19,14 +21,6 @@ const PropertyDetails = () => {
     checkOut: '',
     guests: 1,
   })
-
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
-
-  const [contactStatus, setContactStatus] = useState({ type: '', text: '' })
 
   const property = useMemo(() => {
     return properties?.find((item) => item._id === id) ?? null
@@ -62,19 +56,6 @@ const PropertyDetails = () => {
 
   const handleBookingCancel = () => {
     setBookingForm({ destination: '', checkIn: '', checkOut: '', guests: 1 })
-  }
-
-  const handleContactChange = (e) => {
-    const { id: fieldId, value } = e.target
-    setContactForm((prev) => ({ ...prev, [fieldId]: value }))
-  }
-
-  const handleContactSubmit = (e) => {
-    e.preventDefault()
-    setContactStatus({
-      type: 'success',
-      text: 'Lead form is ready. Connect it to your backend/contact service in the next step.',
-    })
   }
 
   if (!property) {
@@ -369,51 +350,11 @@ const PropertyDetails = () => {
             </div>
 
             <div className='mt-5 border-t border-slate-900/10 pt-5'>
-              <div className='mb-4 flex items-center justify-between gap-3 flex-wrap'>
-                <div>
-                  <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Message</p>
-                  <h4 className='h4'>Send an inquiry</h4>
-                </div>
-                <Badge variant='info'>Lead capture ready</Badge>
-              </div>
-
-              <form onSubmit={handleContactSubmit} className='space-y-3'>
-                <input
-                  id='name'
-                  value={contactForm.name}
-                  onChange={handleContactChange}
-                  type='text'
-                  placeholder='Your Name'
-                  className='w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/20'
-                  required
-                />
-                <input
-                  id='email'
-                  value={contactForm.email}
-                  onChange={handleContactChange}
-                  type='email'
-                  placeholder='Your Email'
-                  className='w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/20'
-                  required
-                />
-                <textarea
-                  id='message'
-                  value={contactForm.message}
-                  onChange={handleContactChange}
-                  rows={4}
-                  placeholder='Your Message'
-                  className='w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/20'
-                  required
-                />
-                {contactStatus.text && (
-                  <div className={`rounded-xl border px-4 py-3 text-sm ${contactStatus.type === 'success' ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-700' : 'border-red-500/20 bg-red-500/10 text-red-700'}`}>
-                    {contactStatus.text}
-                  </div>
-                )}
-                <Button type='submit' className='w-full rounded-xl'>
-                  Send Message
-                </Button>
-              </form>
+              <LeadForm
+                source={LEAD_SOURCES.LISTING_DETAIL}
+                propertyId={property._id}
+                listingTitle={property.title}
+              />
             </div>
           </Card>
         </div>

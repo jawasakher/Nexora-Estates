@@ -14,6 +14,7 @@ export const AppContextProvider = ({children}) => {
     const [showAgencyReg, setShowAgencyReg] = useState(false);
      const [isOwner, setIsOwner] = useState(true)
     const [loadingProperties, setLoadingProperties] = useState(false)
+    const [leadModalConfig, setLeadModalConfig] = useState(null)
     
     const getProperties = () => {
       setLoadingProperties(true)
@@ -31,6 +32,14 @@ export const AppContextProvider = ({children}) => {
       getProperties();
     }, []);
 
+    const openLeadModal = (config = {}) => {
+      setLeadModalConfig(config)
+    }
+
+    const closeLeadModal = () => {
+      setLeadModalConfig(null)
+    }
+
     const value ={
         navigate,
         properties,
@@ -41,6 +50,9 @@ export const AppContextProvider = ({children}) => {
         setShowAgencyReg,
         isOwner,
         setIsOwner,
+        leadModalConfig,
+        openLeadModal,
+        closeLeadModal,
     };
 
   return (

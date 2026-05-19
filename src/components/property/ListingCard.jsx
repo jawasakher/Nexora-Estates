@@ -2,15 +2,25 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { assets } from '../../assets/data'
 import { radius, shadow, surface, spacing } from '../../styles/theme'
+import Button from '../ui/Button'
+import { useAppContext } from '../../context/AppContext.jsx'
+import { LEAD_SOURCES } from '../../constants/leadSources.js'
 
 const ListingCard = ({ property, currency = '$', showDescription = true, className = '' }) => {
+  const { navigate } = useAppContext()
+
   if (!property) return null
 
+  const handleInquireClick = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    navigate(`/contact?source=${LEAD_SOURCES.LISTING_CTA}&propertyId=${encodeURIComponent(property._id)}&title=${encodeURIComponent(property.title)}`)
+  }
+
   return (
-    <Link
-      to={'/listing/' + property?._id}
-      className={`block overflow-hidden ${radius.section} ${surface.card} ${shadow.soft} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5 ${className}`}
-    >
+    <div className={`block overflow-hidden ${radius.section} ${surface.card} ${shadow.soft} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5 ${className}`}>
+      <Link to={'/listing/' + property?._id} className='block'>
       <div className="relative">
         <img
           src={property?.images?.[0] || ''}
@@ -52,7 +62,14 @@ const ListingCard = ({ property, currency = '$', showDescription = true, classNa
           <p className="mt-4 line-clamp-2 text-sm text-slate-600">{property?.description}</p>
         )}
       </div>
-    </Link>
+      </Link>
+
+      <div className='border-t border-slate-900/10 p-4 pt-3'>
+        <Button variant='secondary' className='w-full rounded-full' onClick={handleInquireClick}>
+          Inquire
+        </Button>
+      </div>
+    </div>
   )
 }
 

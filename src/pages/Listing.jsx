@@ -116,7 +116,7 @@ const Listing = () => {
       </div>
       <div className="max-padd-container flex flex-col xl:flex-row gap-8 mb-16">
         {/**left side Filters */}
-        <Card className="xl:w-[22rem] p-5 space-y-5">
+        <Card className="xl:w-88 p-5 space-y-5">
           <div>
             <h3 className='h3 mb-2'>Search</h3>
             <Input
