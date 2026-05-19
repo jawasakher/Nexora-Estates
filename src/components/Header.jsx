@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { assets } from "../assets/data";
 import { Navbar } from "./Navbar";
 import { useAppContext } from "../context/AppContext.jsx";
+import Button from "./ui/Button";
+import Input from "./ui/Input";
 
 const Header = () => {
   const [active, setActive] = useState(false);
@@ -106,20 +108,22 @@ const Header = () => {
               <div className="bg-white/90 rounded-full px-3 py-2 flex items-center gap-2">
                 <img src={assets.search} className="size-4 opacity-60" />
                 {showSearch && (
-                  <input
+                  <Input
                     type="text"
                     placeholder="Search..."
-                    className="outline-none bg-transparent text-sm"
+                    className="border-0 bg-transparent px-0 py-0 text-sm focus:ring-0"
                   />
                 )}
               </div>
 
-              <button
+              <Button
                 onClick={() => setshowSearch((p) => !p)}
-                className="absolute right-0 bg-gradient-to-r from-secondary to-tertiary px-3 py-1 rounded-full text-xs font-semibold"
+                variant="primary"
+                size="sm"
+                className="absolute right-0 rounded-full text-xs"
               >
                 {showSearch ? "Close" : "Search"}
-              </button>
+              </Button>
             </div>
 
             {/* Menu */}
@@ -153,13 +157,14 @@ const Header = () => {
                   </UserButton.MenuItems>
                 </UserButton>
               ) : (
-                <button
+                <Button
                   onClick={openSignIn}
-                  className="btn-secondary flexCenter gap-2 rounded-full"
+                  variant="secondary"
+                  className="flexCenter gap-2 rounded-full"
                 >
                   Login
                   <img src={assets.user} />
-                </button>
+                </Button>
               )}
             </div>
 

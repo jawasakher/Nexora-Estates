@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import {assets} from '../assets/data'
+import Button from './ui/Button'
+import Card from './ui/Card'
 
 const Cta = () => {
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +44,7 @@ const Cta = () => {
     <>
       <section className='bg-gradient-to-b from-white to-slate-50 pt-16 xl:pt-22'>
         <div className='max-padd-container mx-2 md:mx-auto p-px'>
-          <div className='flex flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-secondary/10 via-white/50 to-tertiary/10 border border-secondary/20 py-12 text-center md:py-16'>  
+          <Card className='flex flex-col items-center justify-center bg-gradient-to-r from-secondary/10 via-white/50 to-tertiary/10 border-secondary/20 py-12 text-center md:py-16'>  
             <div className='flex center gap-1 rounded-full bg-secondary/10 px-3 py-1.5 text-xs font-semibold text-secondary border border-secondary/20'>
               <img src={assets.rocket} alt='' width={17} />
               <span>Trusted by Experts</span>
@@ -53,13 +55,15 @@ const Cta = () => {
             <p className='mt-6 max-w-lg text-slate-600 max-md:text-sm'>
               Achieve your goals faster with personalized strategies, hands-on support, and results that speak for themselves.
             </p>
-            <button 
+            <Button 
               onClick={handleSubscribeClick}
-              className='btn-secondary mt-6 rounded-full px-8 py-3 shadow-lg shadow-secondary/30 hover:shadow-secondary/50 transition-all hover:-translate-y-0.5'
+              className='mt-6 rounded-full'
+              variant='primary'
+              size='lg'
             > 
               Get Started
-            </button>
-          </div>
+            </Button>
+          </Card>
         </div>
       </section>
 

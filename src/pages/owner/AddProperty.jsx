@@ -1,6 +1,9 @@
 import React,{useState} from 'react'
 import { assets } from '../../assets/data'
-import EmptyState from '../../components/ui/EmptyState'
+import Button from '../../components/ui/Button'
+import Input from '../../components/ui/Input'
+import Textarea from '../../components/ui/Textarea'
+import Card from '../../components/ui/Card'
 
 const AddProperty = () => {
   const [images, setImages ] = useState ({
@@ -34,58 +37,47 @@ const AddProperty = () => {
  
 
   return (
-    <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] overflow-y-scroll
-     lg:w-11/12 bg-white shadow rounded-xl'>
+    <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] overflow-y-scroll lg:w-11/12'>
+      <Card className='p-4 sm:p-6'>
       <form className="flex flex-col gap-y-3.5 px-2 text-sm xl:max-w-3xl">
-        <div className='w-full'>
-          <h5 className='h5'>Property Name</h5>
-          <input onChange={(e)=>setInputs({...inputs, title:e.target.value})}
+        <Input
+          label='Property Name'
           value={inputs.title}
-           type="text"
-           placeholder='Type here...'
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-        </div>
-               
-                
-        <div className='w-full'>
-          <h5 className='h5'>Property Description</h5>
-          <textarea
-          onChange={(e)=>setInputs({...inputs, description:e.target.value})}
+          onChange={(e)=>setInputs({...inputs, title:e.target.value})}
+          placeholder='Type here...'
+        />
+
+        <Textarea
+          label='Property Description'
           value={inputs.description}
+          onChange={(e)=>setInputs({...inputs, description:e.target.value})}
           rows={5}
-           type="text"
-           placeholder='Type here...'
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-        </div>
-        <div className='flex gap-4'>
-          <div className='w-full'>
-          <h5 className='h5'>City</h5>
-          <textarea
-          onChange={(e)=>setInputs({...inputs, city:e.target.value})}
-          value={inputs.city}
-           type="text"
-           placeholder='Type here...'
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-        </div>
-          <div className='w-full'>
-          <h5 className='h5'>Country</h5>
-          <textarea
-          onChange={(e)=>setInputs({...inputs, country:e.target.value})}
-          value={inputs.country}
-           type="text"
-           placeholder='Type here...'
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-        </div>
-          <div className='w-full'>
+          placeholder='Type here...'
+        />
+
+        <div className='flex gap-4 flex-wrap'>
+          <Input
+            label='City'
+            value={inputs.city}
+            onChange={(e)=>setInputs({...inputs, city:e.target.value})}
+            placeholder='Type here...'
+            className='min-w-[220px] flex-1'
+          />
+
+          <Input
+            label='Country'
+            value={inputs.country}
+            onChange={(e)=>setInputs({...inputs, country:e.target.value})}
+            placeholder='Type here...'
+            className='min-w-[220px] flex-1'
+          />
+
+          <div className='w-full sm:w-44'>
           <h5 className='h5'>Property Type</h5>
           <select
           onChange={(e)=>setInputs({...inputs, propertyType:e.target.value})}
           value={inputs.propertyType}
-           className='w-36 px-3 py-2 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1'
+           className='w-full px-3 py-2 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1'
            >
             <option value="">Select Property Type</option>
              <option value="House">House</option>
@@ -97,92 +89,75 @@ const AddProperty = () => {
             <option value="Land Plot">Land Plot</option>
           </select>
         </div>
-        </div>
+
           <div className='flex gap-4 flex-wrap w-full'>
-          <div className='flex-1'>
-          <h5 className='h5'>Address</h5>
-          <textarea
-          onChange={(e)=>setInputs({...inputs, address:e.target.value})}
-          value={inputs.address}
-           type="text"
-           placeholder='Type here...'
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
+          <Textarea
+            label='Address'
+            value={inputs.address}
+            onChange={(e)=>setInputs({...inputs, address:e.target.value})}
+            placeholder='Type here...'
+            className='min-w-[260px] flex-1'
+          />
+          <Input
+            label='Area'
+            type='number'
+            value={inputs.area}
+            onChange={(e)=>setInputs({...inputs, area:e.target.value})}
+            placeholder='Area (sq ft)'
+            className='w-40'
+          />
         </div>
-        <div className='w-32'>
-          <h5 className='h5'>Area</h5>
-          <input
-          onChange={(e)=>setInputs({...inputs,Area:e.target.value})}
-          value={inputs.Area}
-         
-           type="number"
-           placeholder='Area (sq ft)'
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-        </div>
-        </div>
+
         <div className='flex gap-4 flex-wrap'>
-          <div>
-            <h5 className='h5'>Rent Price<span className='text-xs'>/night</span></h5>
-            <input
-          onChange={(e)=>setInputs({...inputs,priceRent:e.target.value})}
-          value={inputs.priceRent}
-         
-           type="number"
-           placeholder='99'
-           min={99}
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-28'
-           />
-          </div>
+          <Input
+            label='Rent Price / night'
+            type='number'
+            value={inputs.priceRent}
+            onChange={(e)=>setInputs({...inputs, priceRent:e.target.value})}
+            placeholder='99'
+            min={99}
+            className='w-40'
+          />
            
-          <div>
-            <h5 className='h5'>Sale Price</h5>
-            <input
-          onChange={(e)=>setInputs({...inputs,priceSale:e.target.value})}
-          value={inputs.priceSale}
-         
-           type="number"
-           placeholder='9999'
-           min={9999}
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-28'
-           />
-           <div>
-            <h5 className='h5'>Bedroom</h5>
-            <input
-          onChange={(e)=>setInputs({...inputs,bedroom:e.target.value})}
-          value={inputs.bedroom}
-         
-           type="number"
-           placeholder='1'
-           min={1}
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-20'
-           />
-          
-          </div>
-          <div>
-            <h5 className='h5'>Bathrooms</h5>
-            <input
-          onChange={(e)=>setInputs({...inputs,bathrooms:e.target.value})}
-          value={inputs.bathrooms}
-         
-           type="number"
-           placeholder='1'
-           min={1}
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-           </div>
-           <div>
-            <h5 className='h5'>Garages</h5>
-            <input
-          onChange={(e)=>setInputs({...inputs,garages:e.target.value})}
-          value={inputs.garages}
-         
-           type="number"
-           placeholder='1'
-           min={1}
-           className='px-3 py-1.5 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1 w-full'
-           />
-        </div>
+          <Input
+            label='Sale Price'
+            type='number'
+            value={inputs.priceSale}
+            onChange={(e)=>setInputs({...inputs, priceSale:e.target.value})}
+            placeholder='9999'
+            min={9999}
+            className='w-40'
+          />
+
+          <Input
+            label='Bedrooms'
+            type='number'
+            value={inputs.bedrooms}
+            onChange={(e)=>setInputs({...inputs, bedrooms:e.target.value})}
+            placeholder='1'
+            min={1}
+            className='w-32'
+          />
+
+          <Input
+            label='Bathrooms'
+            type='number'
+            value={inputs.bathrooms}
+            onChange={(e)=>setInputs({...inputs, bathrooms:e.target.value})}
+            placeholder='1'
+            min={1}
+            className='w-32'
+          />
+
+          <Input
+            label='Garages'
+            type='number'
+            value={inputs.garages}
+            onChange={(e)=>setInputs({...inputs, garages:e.target.value})}
+            placeholder='1'
+            min={1}
+            className='w-32'
+          />
         </div>
         {/**Amenities */}
         <div>
@@ -234,11 +209,11 @@ const AddProperty = () => {
             </label>
             ))}
         </div>
-        <button type="submit" disabled={loading} className="btn-secondary text-black font-semibold mt-3 p-2 max-w-36 sm:w-full rounded-xl">
-          {loading ? "Submitting..." : "Submit Property"}
-        </button>
-        </div>
-      </form>
+        <Button type="submit" disabled={loading} loading={loading} size='lg' className="mt-3 max-w-56 sm:w-full rounded-xl">
+          Submit Property
+        </Button>
+        </form>
+      </Card>
     </div>
   )
 }

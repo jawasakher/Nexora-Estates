@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/data'
 import { subscribeNewsletter } from '../services/newsletter'
+import Button from './ui/Button'
+import Input from './ui/Input'
 
 const footerLinks = {
   company: [
@@ -71,22 +73,25 @@ const Footer = () => {
 
             <form onSubmit={handleNewsletterSubmit} className='w-full md:max-w-xl'>
               <div className='flex flex-col gap-3 sm:flex-row'>
-                <input
+                <Input
                   type='email'
                   placeholder='Enter your email address'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
-                  className='w-full rounded-full border border-slate-900/10 bg-white px-5 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-secondary/50 disabled:opacity-60'
+                  className='rounded-full'
                   required
                 />
-                <button
+                <Button
                   type='submit'
                   disabled={loading}
-                  className='btn-dark rounded-full px-6 py-3 text-sm whitespace-nowrap disabled:opacity-70'
+                  loading={loading}
+                  variant='dark'
+                  size='lg'
+                  className='rounded-full whitespace-nowrap'
                 >
-                  {loading ? 'Subscribing...' : 'Subscribe'}
-                </button>
+                  Subscribe
+                </Button>
               </div>
               {message.text && (
                 <div className={`mt-3 rounded-2xl border px-4 py-3 text-sm ${message.type === 'success' ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700' : 'border-red-500/30 bg-red-500/10 text-red-700'}`}>

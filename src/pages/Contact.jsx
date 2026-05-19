@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
 import { sendContactMessage } from '../services/contact'
+import Card from '../components/ui/Card'
+import Button from '../components/ui/Button'
+import Input from '../components/ui/Input'
+import Textarea from '../components/ui/Textarea'
+import SectionTitle from '../components/ui/SectionTitle'
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
@@ -37,74 +42,47 @@ const Contact = () => {
       <div className='max-padd-container'>
         <div className='mx-auto max-w-3xl'>
           <div className='rounded-[28px] bg-linear-to-r from-secondary/35 via-white/40 to-tertiary/35 p-px'>
-            <div className='relative rounded-[27px] border border-slate-900/10 bg-white/80 p-6 shadow-sm backdrop-blur md:p-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/10'>
+            <Card className='relative bg-white/80 p-6 backdrop-blur md:p-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/10'>
               <div className='mb-5 inline-flex items-center gap-2 rounded-full border border-secondary/20 bg-secondary/10 px-4 py-1.5 text-xs font-semibold text-slate-950'>
                 <span className='h-2 w-2 rounded-full bg-linear-to-r from-secondary to-tertiary' />
                 Priority support
               </div>
 
-              <h2 className='h2 mb-2'>Send us a message</h2>
-              <p className='text-slate-600 mb-7'>
-                Tell us what you’re looking for and we’ll get back to you with clear, tailored options.
-              </p>
+              <SectionTitle
+                title='Send us a message'
+                description='Tell us what you’re looking for and we’ll get back to you with clear, tailored options.'
+                className='mb-7'
+              />
 
               <form onSubmit={handleSubmit} className='space-y-4'>
-                <div className='group rounded-2xl bg-linear-to-r from-slate-900/10 via-secondary/10 to-slate-900/10 p-px transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-secondary/10 focus-within:-translate-y-0.5 focus-within:from-secondary/35 focus-within:via-tertiary/20 focus-within:to-secondary/35 focus-within:shadow-lg focus-within:shadow-secondary/15'>
-                  <div className='rounded-2xl bg-white/90 px-4 py-3'>
-                    <label className='mb-2 flex items-center justify-between text-sm font-semibold text-slate-700 transition-colors duration-300 group-hover:text-slate-900 group-focus-within:text-slate-950'>
-                      <span>Full name</span>
-                      <span className='text-[11px] text-slate-400 transition-colors duration-300 group-hover:text-slate-500 group-focus-within:text-slate-600'>Required</span>
-                    </label>
-                    <input
-                      id='name'
-                      type='text'
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder='Your name'
-                      className='w-full bg-transparent text-sm text-slate-950 placeholder:text-slate-400 outline-none'
-                      required
-                    />
-                    <div className='mt-3 h-px w-full bg-slate-900/10 transition-colors duration-300 group-hover:bg-secondary/30 group-focus-within:bg-secondary/45' />
-                  </div>
-                </div>
+                <Input
+                  id='name'
+                  label='Full name'
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder='Your name'
+                  required
+                />
 
-                <div className='group rounded-2xl bg-linear-to-r from-slate-900/10 via-secondary/10 to-slate-900/10 p-px transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-secondary/10 focus-within:-translate-y-0.5 focus-within:from-secondary/35 focus-within:via-tertiary/20 focus-within:to-secondary/35 focus-within:shadow-lg focus-within:shadow-secondary/15'>
-                  <div className='rounded-2xl bg-white/90 px-4 py-3'>
-                    <label className='mb-2 flex items-center justify-between text-sm font-semibold text-slate-700 transition-colors duration-300 group-hover:text-slate-900 group-focus-within:text-slate-950'>
-                      <span>Email address</span>
-                      <span className='text-[11px] text-slate-400 transition-colors duration-300 group-hover:text-slate-500 group-focus-within:text-slate-600'>Required</span>
-                    </label>
-                    <input
-                      id='email'
-                      type='email'
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder='name@email.com'
-                      className='w-full bg-transparent text-sm text-slate-950 placeholder:text-slate-400 outline-none'
-                      required
-                    />
-                    <div className='mt-3 h-px w-full bg-slate-900/10 transition-colors duration-300 group-hover:bg-secondary/30 group-focus-within:bg-secondary/45' />
-                  </div>
-                </div>
+                <Input
+                  id='email'
+                  type='email'
+                  label='Email address'
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder='name@email.com'
+                  required
+                />
 
-                <div className='group rounded-2xl bg-linear-to-r from-slate-900/10 via-secondary/10 to-slate-900/10 p-px transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-secondary/10 focus-within:-translate-y-0.5 focus-within:from-secondary/35 focus-within:via-tertiary/20 focus-within:to-secondary/35 focus-within:shadow-lg focus-within:shadow-secondary/15'>
-                  <div className='rounded-2xl bg-white/90 px-4 py-3'>
-                    <label className='mb-2 flex items-center justify-between text-sm font-semibold text-slate-700 transition-colors duration-300 group-hover:text-slate-900 group-focus-within:text-slate-950'>
-                      <span>Message</span>
-                      <span className='text-[11px] text-slate-400 transition-colors duration-300 group-hover:text-slate-500 group-focus-within:text-slate-600'>Required</span>
-                    </label>
-                    <textarea
-                      id='message'
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder='Tell us what you need (buy/rent, city, budget, timeline...)'
-                      rows={5}
-                      className='w-full resize-none bg-transparent text-sm text-slate-950 placeholder:text-slate-400 outline-none'
-                      required
-                    />
-                    <div className='mt-3 h-px w-full bg-slate-900/10 transition-colors duration-300 group-hover:bg-secondary/30 group-focus-within:bg-secondary/45' />
-                  </div>
-                </div>
+                <Textarea
+                  id='message'
+                  label='Message'
+                  value={form.message}
+                  onChange={handleChange}
+                  placeholder='Tell us what you need (buy/rent, city, budget, timeline...)'
+                  rows={5}
+                  required
+                />
 
                 {status.text && (
                   <div
@@ -118,19 +96,19 @@ const Contact = () => {
                   </div>
                 )}
 
-                <button
+                <Button
                   type='submit'
                   disabled={loading}
-                  className='group relative w-full overflow-hidden rounded-2xl bg-linear-to-r from-secondary to-tertiary py-3.5 px-6 font-semibold text-slate-950 transition-all duration-300 shadow-md shadow-secondary/20 disabled:opacity-70 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/25 active:translate-y-0'
+                  loading={loading}
+                  variant='primary'
+                  size='lg'
+                  className='w-full rounded-2xl'
                 >
-                  <span className='pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                    <span className='absolute -left-1/3 top-0 h-full w-2/3 -skew-x-12 bg-white/20 transition-transform duration-500 group-hover:translate-x-[140%]' />
-                  </span>
-                  <span className='relative'>{loading ? 'Sending…' : 'Send message'}</span>
-                </button>
+                  Send message
+                </Button>
               </form>
               <p className='mt-4 text-xs text-slate-500'>We’ll never share your details. Reply time depends on volume.</p>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
