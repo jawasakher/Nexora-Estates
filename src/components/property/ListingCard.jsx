@@ -26,6 +26,7 @@ const ListingCard = ({ property, currency = '$', showDescription = true, classNa
           src={property?.images?.[0] || ''}
           alt={property?.title || 'Property'}
           loading="lazy"
+          decoding="async"
           className="h-52 w-full object-cover"
         />
         <div className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 shadow-sm backdrop-blur">
@@ -65,7 +66,7 @@ const ListingCard = ({ property, currency = '$', showDescription = true, classNa
       </Link>
 
       <div className='border-t border-slate-900/10 p-4 pt-3'>
-        <Button variant='secondary' className='w-full rounded-full' onClick={handleInquireClick}>
+        <Button variant='secondary' className='w-full rounded-full' onClick={handleInquireClick} aria-label={`Inquire about ${property?.title || 'this property'}`}>
           Inquire
         </Button>
       </div>
@@ -73,4 +74,4 @@ const ListingCard = ({ property, currency = '$', showDescription = true, classNa
   )
 }
 
-export default ListingCard
+export default React.memo(ListingCard)

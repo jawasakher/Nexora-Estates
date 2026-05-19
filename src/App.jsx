@@ -1,32 +1,34 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Routes, Route, useLocation} from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Home from './pages/Home'
-import Listing from './pages/Listing'
-import Blog from './pages/Blog'
-import Contact from'./pages/Contact'
-import PropertyDetails from './pages/PropertyDetails'
-import MyBookings from './pages/MyBookings'
 import AgencyReg from './components/AgencyReg'
-import LeadModal from './components/lead/LeadModal'
 import { useAppContext } from './context/AppContext.jsx'
-import Sidebar from './components/owner/Sidebar.jsx'
-import Dashboard from './pages/owner/Dashboard.jsx'
-import AddProperty from './pages/owner/AddProperty.jsx'
-import Listproperty from './pages/owner/Listproperty.jsx'
+import Loader from './components/ui/Loader.jsx'
+
+const Home = lazy(() => import('./pages/Home'))
+const Listing = lazy(() => import('./pages/Listing'))
+const Blog = lazy(() => import('./pages/Blog'))
+const Contact = lazy(() => import('./pages/Contact'))
+const PropertyDetails = lazy(() => import('./pages/PropertyDetails'))
+const MyBookings = lazy(() => import('./pages/MyBookings'))
+const Sidebar = lazy(() => import('./components/owner/Sidebar.jsx'))
+const Dashboard = lazy(() => import('./pages/owner/Dashboard.jsx'))
+const AddProperty = lazy(() => import('./pages/owner/AddProperty.jsx'))
+const Listproperty = lazy(() => import('./pages/owner/Listproperty.jsx'))
 
 
 const App = () => {
   const location = useLocation();
   const isOwnerPath = location.pathname.startsWith('/owner');
-  const {showAgencyReg, leadModalConfig, closeLeadModal} = useAppContext()
+  const {showAgencyReg} = useAppContext()
   
   return (
     <main>
       { !isOwnerPath && <Header/>}
       { !isOwnerPath && showAgencyReg && <AgencyReg/> }
-       <Routes>
+      <Suspense fallback={<div className='flex min-h-[60vh] items-center justify-center py-20'><Loader /></div>}>
+      <Routes>
 
           <Route path='/' element={<Home/>}/>
           <Route path='/listing' element={<Listing/>}/>
@@ -40,17 +42,8 @@ const App = () => {
             <Route path='list-property' element={<Listproperty/>}/>
           </Route>
       </Routes>
+      </Suspense>
       { !isOwnerPath && <Footer/> }
-      <LeadModal
-        open={Boolean(leadModalConfig)}
-        onClose={closeLeadModal}
-        title={leadModalConfig?.title || 'Send an inquiry'}
-        description={leadModalConfig?.description || 'Use the same lead pipeline to capture your request.'}
-        source={leadModalConfig?.source}
-        propertyId={leadModalConfig?.propertyId}
-        listingTitle={leadModalConfig?.listingTitle}
-        onSuccess={leadModalConfig?.onSuccess || closeLeadModal}
-      />
     </main>
   )
 }

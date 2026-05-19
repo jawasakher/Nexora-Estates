@@ -35,23 +35,36 @@ const PropertyImages = ({ property }) => {
             const isHovered =  hoveredIndex === index
 
             return (
-                <div key={index} className={`relative group transition-all duration-500 h-100  overflow-hidden rounded-2xl ${
-                    isHovered ? "grow w-full " : "max-sm:w-10 max-md:w-20 w-56"
-                }`}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(0)} // Reset to first image when mouse leaves
-                onClick={() => setHoveredIndex(index)}
+                <button
+                    key={index}
+                    type='button'
+                    aria-pressed={isHovered}
+                    aria-label={caption?.heading || `Property image ${index + 1}`}
+                    className={`relative group h-100 overflow-hidden rounded-2xl text-left transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 ${
+                        isHovered ? 'grow w-full' : 'max-sm:w-10 max-md:w-20 w-56'
+                    }`}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(0)}
+                    onFocus={() => setHoveredIndex(index)}
+                    onBlur={() => setHoveredIndex(0)}
+                    onClick={() => setHoveredIndex(index)}
                 >
-                    <img src={pImg || ''} loading="lazy" alt="property" className="h-full w-full object-cover object-center rounded-2xl"/>
+                    <img
+                        src={pImg || ''}
+                        loading='lazy'
+                        decoding='async'
+                        alt={caption?.heading || 'property'}
+                        className='h-full w-full rounded-2xl object-cover object-center'
+                    />
                     <div
-                        className={`absolute inset-0 flex flex-col justify-end p-10 text-white bg-black/40 transition-all duration-300 rounded-2xl ${
-                            isHovered ? "opacity-100" : "opacity-0"
+                        className={`absolute inset-0 flex flex-col justify-end rounded-2xl bg-black/40 p-10 text-white transition-all duration-300 ${
+                            isHovered ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
-                        {caption?.heading && <h3 className="h3">{caption.heading}</h3>}
-                        {caption?.desc && <p className="text-white/90">{caption.desc}</p>}
+                        {caption?.heading && <h3 className='h3'>{caption.heading}</h3>}
+                        {caption?.desc && <p className='text-white/90'>{caption.desc}</p>}
                     </div>
-                </div>
+                </button>
             );
         })} 
 

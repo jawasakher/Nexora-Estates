@@ -24,7 +24,12 @@ const SubmissionFeedback = ({ status = 'idle', message }) => {
   const feedback = feedbackMap[status] || feedbackMap.error
 
   return (
-    <div role={status === 'error' ? 'alert' : 'status'} className={`rounded-xl border px-4 py-3 text-sm ${feedback.tone}`}>
+    <div
+      role={status === 'error' ? 'alert' : 'status'}
+      aria-live={status === 'error' ? 'assertive' : 'polite'}
+      aria-atomic='true'
+      className={`rounded-xl border px-4 py-3 text-sm ${feedback.tone}`}
+    >
       <p className='font-semibold'>{feedback.title}</p>
       <p className='mt-1'>{message || feedback.message}</p>
     </div>
