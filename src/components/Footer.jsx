@@ -3,6 +3,7 @@ import { assets } from '../assets/data'
 import Button from './ui/Button'
 import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
+import { trackEvent } from '../services/analytics.js'
 
 const footerLinks = {
   company: [
@@ -54,7 +55,14 @@ const Footer = () => {
             <div className='w-full md:max-w-xl'>
               <div className='flex flex-col gap-3 sm:flex-row'>
                 <Button
-                  onClick={() => navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)}
+                  onClick={() => {
+                    trackEvent('cta_clicked', {
+                      source: LEAD_SOURCES.FOOTER_CTA,
+                      label: 'Contact Us',
+                      placement: 'footer_primary',
+                    })
+                    navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)
+                  }}
                   variant='dark'
                   size='lg'
                   className='rounded-full whitespace-nowrap'
@@ -62,7 +70,14 @@ const Footer = () => {
                   Contact Us
                 </Button>
                 <Button
-                  onClick={() => navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)}
+                  onClick={() => {
+                    trackEvent('cta_clicked', {
+                      source: LEAD_SOURCES.FOOTER_CTA,
+                      label: 'Book Viewing',
+                      placement: 'footer_secondary',
+                    })
+                    navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)
+                  }}
                   variant='secondary'
                   size='lg'
                   className='rounded-full whitespace-nowrap'

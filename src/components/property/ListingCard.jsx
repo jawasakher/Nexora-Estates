@@ -5,6 +5,7 @@ import { radius, shadow, surface, spacing } from '../../styles/theme'
 import Button from '../ui/Button'
 import { useAppContext } from '../../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../../constants/leadSources.js'
+import { trackEvent } from '../../services/analytics.js'
 
 const ListingCard = ({ property, currency = '$', showDescription = true, className = '' }) => {
   const { navigate } = useAppContext()
@@ -14,6 +15,14 @@ const ListingCard = ({ property, currency = '$', showDescription = true, classNa
   const handleInquireClick = (event) => {
     event.preventDefault()
     event.stopPropagation()
+
+    trackEvent('cta_clicked', {
+      source: LEAD_SOURCES.LISTING_CTA,
+      label: 'Inquire',
+      propertyId: property._id,
+      propertyTitle: property.title,
+      placement: 'listing_card',
+    })
 
     navigate(`/contact?source=${LEAD_SOURCES.LISTING_CTA}&propertyId=${encodeURIComponent(property._id)}&title=${encodeURIComponent(property.title)}`)
   }

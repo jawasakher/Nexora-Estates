@@ -1,20 +1,51 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext.jsx'
-import { assets, dummyBookingsData } from '../assets/data'
+import { assets } from '../assets/data'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import Badge from '../components/ui/Badge'
 import EmptyState from '../components/ui/EmptyState'
 import BookingSkeleton from '../components/skeletons/BookingSkeleton'
+import Seo from '../components/Seo'
+import { getBookings } from '../services/bookings.js'
+import { useEffect, useState } from 'react'
 
 const MyBookings = () => {
   const { currency } = useAppContext()
+  const [bookings, setBookings] = useState([])
+  const [loadingBookings, setLoadingBookings] = useState(true)
 
-  const bookings = dummyBookingsData
-  const loadingBookings = !bookings
+  useEffect(() => {
+    let isMounted = true
+
+    getBookings()
+      .then((result) => {
+        if (!isMounted) return
+        setBookings(Array.isArray(result?.data) ? result.data : [])
+      })
+      .catch((error) => {
+        console.error('Failed to load bookings', error)
+        if (!isMounted) return
+        setBookings([])
+      })
+      .finally(() => {
+        if (!isMounted) return
+        setLoadingBookings(false)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
+      <Seo
+        title='My Bookings'
+        description='Review your reservations, payment status, and upcoming property visits.'
+        canonicalPath='/my-bookings'
+        noindex
+      />
       <div className='max-padd-container'>
         <div className='mb-8 flex items-center justify-between gap-4 flex-wrap'>
           <div>

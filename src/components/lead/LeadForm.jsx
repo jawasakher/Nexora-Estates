@@ -8,25 +8,14 @@ import Input from '../ui/Input'
 import Textarea from '../ui/Textarea'
 import SubmissionFeedback from './SubmissionFeedback'
 import { LEAD_SOURCES } from '../../constants/leadSources.js'
+import { submitLead } from '../../services/lead.js'
+import { trackEvent } from '../../services/analytics.js'
 
 const initialValues = {
   name: '',
   email: '',
   phone: '',
   message: '',
-}
-
-const mockSubmitLead = (payload) => {
-  return new Promise((resolve, reject) => {
-    window.setTimeout(() => {
-      if (payload.customer.email.toLowerCase().includes('fail')) {
-        reject(new Error('Mock submission rejected.'))
-        return
-      }
-
-      resolve(payload)
-    }, 1200)
-  })
 }
 
 const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTitle, onSubmit, onSuccess }) => {
@@ -75,7 +64,7 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
       if (onSubmit) {
         await onSubmit(leadPayload)
       } else {
-        await mockSubmitLead(leadPayload)
+        await submitLead(leadPayload)
       }
 
       setStatus('success')
@@ -86,6 +75,12 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
       if (onSuccess) {
         onSuccess(leadPayload)
       }
+
+      trackEvent('lead_submitted', {
+        source,
+        propertyId: propertyId ?? null,
+        listingTitle: listingTitle ?? '',
+      })
     } catch (error) {
       setStatus('error')
       setFeedbackMessage(error instanceof Error ? error.message : 'Failed to send the inquiry.')

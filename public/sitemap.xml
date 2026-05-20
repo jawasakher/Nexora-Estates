@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>http://localhost:5173/</loc></url>
+  <url><loc>http://localhost:5173/listing</loc></url>
+  <url><loc>http://localhost:5173/blog</loc></url>
+  <url><loc>http://localhost:5173/contact</loc></url>
+  <url><loc>http://localhost:5173/my-bookings</loc></url>
+  <url><loc>http://localhost:5173/listing/67f7647c197ac559e4089b96</loc></url>
+  <url><loc>http://localhost:5173/listing/67f76452197ac559e4089b8e</loc></url>
+  <url><loc>http://localhost:5173/listing/67f76406197ac559e4089b82</loc></url>
+  <url><loc>http://localhost:5173/listing/67f763d8197ac559e4089b7a</loc></url>
+  <url><loc>http://localhost:5173/listing/67f765aa197ac559e4089b9c</loc></url>
+  <url><loc>http://localhost:5173/listing/67f765f4197ac559e4089ba4</loc></url>
+</urlset>

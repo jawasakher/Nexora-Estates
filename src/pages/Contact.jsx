@@ -4,6 +4,7 @@ import Card from '../components/ui/Card'
 import SectionTitle from '../components/ui/SectionTitle'
 import LeadForm from '../components/lead/LeadForm'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
+import Seo from '../components/Seo'
 
 const Contact = () => {
   const location = useLocation()
@@ -20,6 +21,11 @@ const Contact = () => {
 
   return (
     <section className='relative overflow-hidden bg-linear-to-b from-primary via-white to-white py-16 pt-28'>
+      <Seo
+        title='Contact Nexora Estates'
+        description='Contact Nexora Estates to book a viewing, request details, or start your property inquiry funnel.'
+        canonicalPath='/contact'
+      />
       <div aria-hidden='true' className='pointer-events-none absolute inset-0'>
         <div className='absolute -top-24 -left-24 h-80 w-80 rounded-full bg-secondary/20 blur-3xl' />
         <div className='absolute -bottom-28 -right-28 h-96 w-96 rounded-full bg-tertiary/25 blur-3xl' />

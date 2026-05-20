@@ -9,7 +9,8 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Badge from '../components/ui/Badge';
 import EmptyState from '../components/ui/EmptyState';
-import { cities } from '../assets/data';
+import { assets, cities } from '../assets/data';
+import Seo from '../components/Seo';
 
 
 const Listing = () => {
@@ -99,6 +100,9 @@ const Listing = () => {
       .slice(0, 5);
   }, [filteredProperties]);
 
+  const mapCity = cityCounts[0]?.[0] || selectedCity || featuredProperty?.city || 'New York';
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(mapCity)}&t=m&z=11&output=embed`;
+
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedCity('All cities');
@@ -109,8 +113,31 @@ const Listing = () => {
 
   const hasActiveFilters = searchTerm || selectedCity !== 'All cities' || selectedType !== 'All types' || selectedPrice !== 'All prices' || sortBy !== 'Relevant';
 
+  const seoTitle = useMemo(() => {
+    if (searchTerm) return `Search results for ${searchTerm}`;
+    if (selectedCity !== 'All cities') return `${selectedCity} property listings`;
+    return 'Property listings';
+  }, [searchTerm, selectedCity]);
+
+  const seoDescription = useMemo(() => {
+    const baseDescription = 'Browse premium real estate listings with filters, smart search, and a refined discovery experience.';
+    if (searchTerm || selectedCity !== 'All cities' || selectedType !== 'All types' || selectedPrice !== 'All prices') {
+      return `${filteredProperties.length} properties match your current filters. ${baseDescription}`;
+    }
+
+    return baseDescription;
+  }, [filteredProperties.length, searchTerm, selectedCity, selectedType, selectedPrice]);
+
+  const seoImage = featuredProperty?.images?.[0] || assets.about;
+
   return (
     <div className="bg-linear-to-r from-[#fffbee] to-white py-16 pt-28">
+      <Seo
+        title={seoTitle}
+        description={seoDescription}
+        canonicalPath='/listing'
+        image={seoImage}
+      />
       <div className="max-padd-container mb-10">
         {featuredProperty ? <PropertyImages property={featuredProperty} /> : null}
       </div>
@@ -235,34 +262,39 @@ const Listing = () => {
             <div className='flex items-start justify-between gap-4 mb-4'>
               <div>
                 <h3 className='h3 mb-1'>Map Preview</h3>
-                <p className='text-sm text-slate-600'>Top cities in the current filtered set.</p>
+                <p className='text-sm text-slate-600'>Live city preview for the current filtered set.</p>
               </div>
               <Badge variant='neutral'>Preview</Badge>
             </div>
 
             <div className='grid gap-4 lg:grid-cols-[1.3fr_1fr]'>
-              <div className='relative overflow-hidden rounded-3xl border border-slate-900/10 bg-linear-to-br from-sky-100 via-white to-emerald-50 p-5 min-h-64'>
-                <div className='absolute inset-0 opacity-40'
-                  style={{
-                    backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(14,165,233,0.25) 0 8px, transparent 9px), radial-gradient(circle at 65% 60%, rgba(16,185,129,0.25) 0 10px, transparent 11px), radial-gradient(circle at 78% 22%, rgba(244,114,182,0.22) 0 7px, transparent 8px)',
-                  }}
-                />
-                <div className='relative z-10 h-full min-h-52 flex flex-col justify-between'>
-                  <div className='flex items-center justify-between'>
-                    <Badge variant='info'>United States / Global</Badge>
-                    <Badge variant='success'>{filteredProperties.length} listings</Badge>
-                  </div>
-                  <div className='self-start rounded-2xl bg-white/90 px-4 py-3 shadow-sm backdrop-blur'>
+              <div className='overflow-hidden rounded-3xl border border-slate-900/10 bg-white shadow-sm'>
+                <div className='flex items-center justify-between border-b border-slate-900/10 px-4 py-3'>
+                  <div>
                     <p className='text-xs uppercase tracking-[0.2em] text-slate-500'>Coverage</p>
-                    <p className='mt-1 text-sm font-semibold text-slate-900'>Search-ready map preview</p>
-                    <p className='text-sm text-slate-600'>Connect Mapbox or Google Maps in the next step.</p>
+                    <p className='mt-1 text-sm font-semibold text-slate-900'>{mapCity}</p>
                   </div>
+                  <Badge variant='success'>{filteredProperties.length} listings</Badge>
+                </div>
+                <div className='aspect-16/12 min-h-72 w-full'>
+                  <iframe
+                    title={`${mapCity} property map preview`}
+                    src={mapEmbedUrl}
+                    loading='lazy'
+                    referrerPolicy='no-referrer-when-downgrade'
+                    className='h-full w-full border-0'
+                  />
                 </div>
               </div>
 
               <div className='space-y-3'>
                 {cityCounts.length > 0 ? cityCounts.map(([city, count]) => (
-                  <div key={city} className='rounded-2xl border border-slate-900/10 bg-white p-4'>
+                  <button
+                    key={city}
+                    type='button'
+                    onClick={() => setSelectedCity(city)}
+                    className={`w-full rounded-2xl border p-4 text-left transition-all ${selectedCity === city ? 'border-secondary bg-secondary/10 shadow-sm' : 'border-slate-900/10 bg-white hover:border-secondary/40 hover:bg-slate-50'}`}
+                  >
                     <div className='flex items-center justify-between gap-3'>
                       <div>
                         <h5 className='h5'>{city}</h5>
@@ -270,7 +302,7 @@ const Listing = () => {
                       </div>
                       <Badge variant='neutral'>{Math.round((count / filteredProperties.length) * 100)}%</Badge>
                     </div>
-                  </div>
+                  </button>
                 )) : (
                   <div className='rounded-2xl border border-slate-900/10 bg-white p-4 text-sm text-slate-500'>
                     No map data available for the current filters.

@@ -3,6 +3,7 @@ import { assets ,cities} from '../assets/data'
 import Button from './ui/Button'
 import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
+import { trackEvent } from '../services/analytics.js'
 
 const Hero = () => {
   const [showExploreModal, setShowExploreModal] = useState(false);
@@ -28,6 +29,13 @@ const Hero = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    trackEvent('property_search_submitted', {
+      destination: formData.destination || '',
+      checkIn: formData.checkIn || '',
+      checkOut: formData.checkOut || '',
+      guests: formData.guests || '',
+      source: 'hero_search',
+    })
     const query = new URLSearchParams();
     if (formData.destination) query.set('q', formData.destination);
     if (formData.destination) query.set('city', formData.destination);
@@ -61,7 +69,14 @@ const Hero = () => {
                Located in stunning surroundings.</h2>
             <div className='mt-5 flex flex-wrap gap-3'>
               <Button
-                onClick={() => navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)}
+                onClick={() => {
+                  trackEvent('cta_clicked', {
+                    source: LEAD_SOURCES.HOME_CTA,
+                    label: 'Book Viewing',
+                    placement: 'hero',
+                  })
+                  navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)
+                }}
                 variant='primary'
                 size='lg'
                 className='rounded-full'
@@ -69,7 +84,14 @@ const Hero = () => {
                 Book Viewing
               </Button>
               <Button
-                onClick={() => navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)}
+                onClick={() => {
+                  trackEvent('cta_clicked', {
+                    source: LEAD_SOURCES.HOME_CTA,
+                    label: 'Contact Agent',
+                    placement: 'hero',
+                  })
+                  navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)
+                }}
                 variant='secondary'
                 size='lg'
                 className='rounded-full'

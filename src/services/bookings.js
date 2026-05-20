@@ -1,0 +1,41 @@
+import { dummyBookingsData } from '../assets/data.js'
+import { envConfig } from '../config/env.js'
+import { isRequestError, requestJson } from './request.js'
+
+export const getBookings = async () => {
+  if (!envConfig.bookingsApiUrl) {
+    return {
+      success: true,
+      data: Array.isArray(dummyBookingsData) ? dummyBookingsData : [],
+      source: 'mock',
+    }
+  }
+
+  try {
+    const data = await requestJson(envConfig.bookingsApiUrl)
+
+    return {
+      success: true,
+      data: Array.isArray(data) ? data : [],
+      source: 'api',
+    }
+  } catch (error) {
+    if (isRequestError(error)) {
+      return {
+        success: false,
+        data: Array.isArray(dummyBookingsData) ? dummyBookingsData : [],
+        source: 'mock-fallback',
+        error,
+      }
+    }
+
+    console.error('Bookings fetch error:', error)
+
+    return {
+      success: false,
+      data: Array.isArray(dummyBookingsData) ? dummyBookingsData : [],
+      source: 'mock-fallback',
+      error,
+    }
+  }
+}

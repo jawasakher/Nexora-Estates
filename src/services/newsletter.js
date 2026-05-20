@@ -1,5 +1,5 @@
-// Newsletter API Service
-const NEWSLETTER_API_URL = import.meta.env.VITE_NEWSLETTER_API_URL || 'https://api.example.com/newsletter';
+import { envConfig } from '../config/env.js'
+import { requestJson } from './request.js'
 
 /**
  * Subscribe email to newsletter
@@ -17,34 +17,22 @@ export const subscribeNewsletter = async (email) => {
       };
     }
 
-    const response = await fetch(NEWSLETTER_API_URL, {
+    if (!envConfig.newsletterApiUrl) {
+      return {
+        success: false,
+        message: 'Newsletter API is not configured.',
+        error: 'API_NOT_CONFIGURED',
+      }
+    }
+
+    const data = await requestJson(envConfig.newsletterApiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         email,
         timestamp: new Date().toISOString(),
         source: 'website-footer'
       })
     });
-
-    // Check if response is successful
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      
-      if (response.status === 409) {
-        return {
-          success: false,
-          message: 'هذا البريد مشترك بالفعل',
-          error: 'ALREADY_SUBSCRIBED'
-        };
-      }
-
-      throw new Error(errorData.message || `HTTP ${response.status}`);
-    }
-
-    const data = await response.json();
 
     return {
       success: true,

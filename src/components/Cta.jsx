@@ -4,6 +4,7 @@ import Button from './ui/Button'
 import Card from './ui/Card'
 import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
+import { trackEvent } from '../services/analytics.js'
 
 const Cta = () => {
   const { navigate } = useAppContext()
@@ -24,7 +25,14 @@ const Cta = () => {
               Achieve your goals faster with personalized strategies, hands-on support, and results that speak for themselves.
             </p>
             <Button 
-              onClick={() => navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)}
+              onClick={() => {
+                trackEvent('cta_clicked', {
+                  source: LEAD_SOURCES.HOME_CTA,
+                  label: 'Get Started',
+                  placement: 'home_cta',
+                })
+                navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)
+              }}
               className='mt-6 rounded-full'
               variant='primary'
               size='lg'

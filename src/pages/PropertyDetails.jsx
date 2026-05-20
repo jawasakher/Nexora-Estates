@@ -10,6 +10,7 @@ import EmptyState from '../components/ui/EmptyState'
 import LeadForm from '../components/lead/LeadForm'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
 import { assets, cities } from '../assets/data'
+import Seo from '../components/Seo'
 
 const PropertyDetails = () => {
   const { properties, navigate, currency } = useAppContext()
@@ -34,6 +35,71 @@ const PropertyDetails = () => {
       .filter((item) => item.city === property.city || item.propertyType === property.propertyType)
       .slice(0, 3)
   }, [properties, property])
+
+  const firstImage = property?.images?.[0] || assets.about
+  const currencyCode = currency === '$' ? 'USD' : currency === '£' ? 'GBP' : currency === '€' ? 'EUR' : 'USD'
+
+  const structuredData = useMemo(() => {
+    if (!property) return null
+
+    const canonicalUrl = new URL(`/listing/${property._id}`, window.location.origin).toString()
+    const address = {
+      '@type': 'PostalAddress',
+      streetAddress: property.address,
+      addressLocality: property.city,
+      addressCountry: property.country,
+    }
+
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'RealEstateListing',
+          '@id': `${canonicalUrl}#listing`,
+          name: property.title,
+          url: canonicalUrl,
+          description: property.description,
+          image: [firstImage],
+          mainEntity: `${canonicalUrl}#residence`,
+          offers: `${canonicalUrl}#offer`,
+          provider: {
+            '@type': 'RealEstateAgent',
+            name: property.agency?.name,
+          },
+        },
+        {
+          '@type': 'Residence',
+          '@id': `${canonicalUrl}#residence`,
+          name: property.title,
+          description: property.description,
+          address,
+          numberOfRooms: property.facilities?.bedrooms,
+          numberOfBathroomsTotal: property.facilities?.bathrooms,
+          photo: [firstImage],
+          amenityFeature: (property.amenities ?? []).map((amenity) => ({
+            '@type': 'LocationFeatureSpecification',
+            name: amenity,
+            value: true,
+          })),
+        },
+        {
+          '@type': 'Offer',
+          '@id': `${canonicalUrl}#offer`,
+          url: canonicalUrl,
+          priceCurrency: currencyCode,
+          price: property.price?.sale,
+          availability: property.isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          itemOffered: `${canonicalUrl}#place`,
+        },
+        {
+          '@type': 'Place',
+          '@id': `${canonicalUrl}#place`,
+          name: property.title,
+          address,
+        },
+      ],
+    }
+  }, [currencyCode, firstImage, property])
 
   const handleBookingChange = (e) => {
     const { id: fieldId, value } = e.target
@@ -61,6 +127,12 @@ const PropertyDetails = () => {
   if (!property) {
     return (
       <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
+        <Seo
+          title='Property not found'
+          description='The property you are looking for may have been removed or the link is incorrect.'
+          canonicalPath={`/listing/${id}`}
+          noindex
+        />
         <div className='max-padd-container'>
           <EmptyState
             title='Property not found'
@@ -78,6 +150,13 @@ const PropertyDetails = () => {
 
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
+      <Seo
+        title={property.title}
+        description={property.description}
+        canonicalPath={`/listing/${property._id}`}
+        image={firstImage}
+        structuredData={structuredData}
+      />
       <div className='max-padd-container'>
         <div className='mb-6 flex flex-wrap items-center gap-2'>
           <Badge variant='info'>{property.propertyType}</Badge>

@@ -1,7 +1,7 @@
 import React,{ createContext, useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { dummyProperties } from '../assets/data'
 import {useUser } from "@clerk/clerk-react"
+import { getProperties as fetchProperties } from '../services/properties.js'
 
 const AppContext = createContext();
 
@@ -15,20 +15,23 @@ export const AppContextProvider = ({children}) => {
      const [isOwner, setIsOwner] = useState(true)
     const [loadingProperties, setLoadingProperties] = useState(false)
     
-    const getProperties = () => {
+    const loadProperties = () => {
       setLoadingProperties(true)
-      try {
-        setProperties(Array.isArray(dummyProperties) ? dummyProperties : [])
-      } catch (err) {
-        console.error('Error loading properties', err)
-        setProperties([])
-      } finally {
-        setLoadingProperties(false)
-      }
+      fetchProperties()
+        .then((result) => {
+          setProperties(Array.isArray(result?.data) ? result.data : [])
+        })
+        .catch((err) => {
+          console.error('Error loading properties', err)
+          setProperties([])
+        })
+        .finally(() => {
+          setLoadingProperties(false)
+        })
     };
 
     useEffect (() => {
-      getProperties();
+      loadProperties();
     }, []);
 
     const value ={

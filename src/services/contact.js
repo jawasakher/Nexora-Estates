@@ -1,5 +1,5 @@
-// Contact API Service
-const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://api.example.com/contact';
+import { envConfig } from '../config/env.js'
+import { requestJson } from './request.js'
 
 /**
  * Send contact message
@@ -24,11 +24,16 @@ export const sendContactMessage = async (payload) => {
       return { success: false, message: 'Please write a clearer message (at least 10 characters).', error: 'INVALID_MESSAGE' };
     }
 
-    const response = await fetch(CONTACT_API_URL, {
+    if (!envConfig.leadsApiUrl) {
+      return {
+        success: false,
+        message: 'Contact API is not configured.',
+        error: 'API_NOT_CONFIGURED',
+      }
+    }
+
+    const data = await requestJson(envConfig.leadsApiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         name,
         email,
@@ -37,13 +42,6 @@ export const sendContactMessage = async (payload) => {
         source: 'website-contact',
       }),
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP ${response.status}`);
-    }
-
-    const data = await response.json().catch(() => ({}));
 
     return {
       success: true,
