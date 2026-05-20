@@ -1,11 +1,11 @@
-import React,{ useEffect} from 'react'
+import React from 'react'
 import {useAppContext} from '../../context/AppContext.jsx'
 import {assets} from '../../assets/data.js'
 import {Link, NavLink, Outlet} from 'react-router-dom'
 import {UserButton} from "@clerk/clerk-react"
 
 const Sidebar = () => {
-  const {navigate, isOwner,user } = useAppContext();
+  const {navigate, user } = useAppContext();
 
   const navItems = [
     {
@@ -25,12 +25,6 @@ const Sidebar = () => {
     },
     
   ]
-  useEffect(() => {
-    if(!isOwner){
-    navigate('/')
-    }
-  },[isOwner, navigate])
-  
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white'>
       <div className="mx-auto max-w-360 flex flex-col md:flex-row">

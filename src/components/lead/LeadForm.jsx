@@ -19,7 +19,7 @@ const initialValues = {
 }
 
 const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTitle, onSubmit, onSuccess }) => {
-  const { user } = useAppContext()
+  const { user, getToken } = useAppContext()
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
@@ -64,7 +64,7 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
       if (onSubmit) {
         await onSubmit(leadPayload)
       } else {
-        await submitLead(leadPayload)
+        await submitLead(leadPayload, { getToken })
       }
 
       setStatus('success')

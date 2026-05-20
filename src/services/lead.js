@@ -14,13 +14,14 @@ const mockSubmitLead = (payload) => {
   })
 }
 
-export const submitLead = async (payload) => {
+export const submitLead = async (payload, options = {}) => {
   if (!envConfig.leadsApiUrl) {
     return mockSubmitLead(payload)
   }
 
   const data = await requestJson(envConfig.leadsApiUrl, {
     method: 'POST',
+    getToken: options.getToken,
     body: JSON.stringify(payload),
   })
 

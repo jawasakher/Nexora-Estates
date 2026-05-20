@@ -12,14 +12,20 @@ import { getBookings } from '../services/bookings.js'
 import { useEffect, useState } from 'react'
 
 const MyBookings = () => {
-  const { currency } = useAppContext()
+  const { currency, getToken, authStatus } = useAppContext()
   const [bookings, setBookings] = useState([])
   const [loadingBookings, setLoadingBookings] = useState(true)
 
   useEffect(() => {
     let isMounted = true
 
-    getBookings()
+    if (authStatus === 'loading') {
+      return () => {
+        isMounted = false
+      }
+    }
+
+    getBookings({ getToken })
       .then((result) => {
         if (!isMounted) return
         setBookings(Array.isArray(result?.data) ? result.data : [])
@@ -37,7 +43,7 @@ const MyBookings = () => {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [authStatus, getToken])
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
       <Seo

@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import AgencyReg from './components/AgencyReg'
 import { useAppContext } from './context/AppContext.jsx'
 import Loader from './components/ui/Loader.jsx'
+import AccessGate from './components/auth/AccessGate.jsx'
 
 const Home = lazy(() => import('./pages/Home'))
 const Listing = lazy(() => import('./pages/Listing'))
@@ -35,11 +36,15 @@ const App = () => {
           <Route path='/listing/:id' element={<PropertyDetails/>}/>
           <Route path='/blog' element={<Blog/>}/>
           <Route path='/contact' element={<Contact/>}/>
-          <Route path='/my-bookings' element={<MyBookings/>}/>
-          <Route path='/owner' element={<Sidebar/>} >
-            <Route index element={<Dashboard/>}/>
-            <Route path='add-property' element={<AddProperty/>}/>
-            <Route path='list-property' element={<Listproperty/>}/>
+          <Route element={<AccessGate requireRole='authenticated' />}>
+            <Route path='/my-bookings' element={<MyBookings/>}/>
+          </Route>
+          <Route element={<AccessGate requireRole='owner' />}>
+            <Route path='/owner' element={<Sidebar/>} >
+              <Route index element={<Dashboard/>}/>
+              <Route path='add-property' element={<AddProperty/>}/>
+              <Route path='list-property' element={<Listproperty/>}/>
+            </Route>
           </Route>
       </Routes>
       </Suspense>

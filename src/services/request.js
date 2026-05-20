@@ -35,12 +35,16 @@ const normalizeRequestError = async (response) => {
 }
 
 export const requestJson = async (url, options = {}) => {
+  const { getToken, headers, ...fetchOptions } = options
+  const token = typeof getToken === 'function' ? await getToken() : null
+
   const response = await fetch(url, {
     headers: {
       ...defaultHeaders,
-      ...(options.headers || {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(headers || {}),
     },
-    ...options,
+    ...fetchOptions,
   })
 
   if (!response.ok) {

@@ -2,7 +2,7 @@ import { dummyBookingsData } from '../assets/data.js'
 import { envConfig } from '../config/env.js'
 import { isRequestError, requestJson } from './request.js'
 
-export const getBookings = async () => {
+export const getBookings = async (options = {}) => {
   if (!envConfig.bookingsApiUrl) {
     return {
       success: true,
@@ -12,7 +12,7 @@ export const getBookings = async () => {
   }
 
   try {
-    const data = await requestJson(envConfig.bookingsApiUrl)
+    const data = await requestJson(envConfig.bookingsApiUrl, { getToken: options.getToken })
 
     return {
       success: true,
