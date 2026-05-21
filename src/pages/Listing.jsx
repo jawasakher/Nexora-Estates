@@ -21,6 +21,7 @@ const Listing = () => {
   const [selectedType, setSelectedType] = useState('All types');
   const [selectedPrice, setSelectedPrice] = useState('All prices');
   const [sortBy, setSortBy] = useState('Relevant');
+  const [showFilters, setShowFilters] = useState(false);
 
   const sortOptions = ["Relevant", "Low to High", "High to Low"];
 
@@ -109,6 +110,7 @@ const Listing = () => {
     setSelectedType('All types');
     setSelectedPrice('All prices');
     setSortBy('Relevant');
+    setShowFilters(false);
   };
 
   const hasActiveFilters = searchTerm || selectedCity !== 'All cities' || selectedType !== 'All types' || selectedPrice !== 'All prices' || sortBy !== 'Relevant';
@@ -141,88 +143,15 @@ const Listing = () => {
       <div className="max-padd-container mb-10">
         {featuredProperty ? <PropertyImages property={featuredProperty} /> : null}
       </div>
-      <div className="max-padd-container flex flex-col xl:flex-row gap-8 mb-16">
-        {/**left side Filters */}
-        <Card className="xl:w-88 p-5 space-y-5">
-          <div>
-            <h3 className='h3 mb-2'>Search</h3>
-            <Input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder='Search by city, address or title'
-            />
-          </div>
+      <div className="max-padd-container flex flex-col gap-8 mb-16 xl:flex-row">
+        <div className="xl:hidden">
+          <Button variant='secondary' className='w-full rounded-full' onClick={() => setShowFilters((current) => !current)}>
+            {showFilters ? 'Hide filters' : 'Show filters'}
+          </Button>
+        </div>
 
-          <div>
-            <h5 className='h5 mb-3'>Sort By</h5>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className='w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/60 focus:ring-2 focus:ring-secondary/20'
-            >
-              {sortOptions.map((sort) => (
-                <option key={sort} value={sort}>{sort}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <h5 className='h5 mb-3'>City</h5>
-            <div className='flex flex-wrap gap-2'>
-              {['All cities', ...cities].map((city) => (
-                <button
-                  key={city}
-                  type='button'
-                  onClick={() => setSelectedCity(city)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedCity === city ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-                >
-                  {city}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h5 className='h5 mb-3'>Property Type</h5>
-            <div className='flex flex-wrap gap-2'>
-              {propertyTypes.map((type) => (
-                <button
-                  key={type}
-                  type='button'
-                  onClick={() => setSelectedType(type)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedType === type ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h5 className='h5 mb-3'>Price Range</h5>
-            <div className='flex flex-wrap gap-2'>
-              {priceRange.map((price) => (
-                <button
-                  key={price}
-                  type='button'
-                  onClick={() => setSelectedPrice(price)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedPrice === price ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-                >
-                  {price === 'All prices' ? price : `$${price}`}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {hasActiveFilters ? (
-            <Button variant='secondary' className='w-full' onClick={clearFilters}>
-              Clear filters
-            </Button>
-          ) : null}
-        </Card>
-
-        {/** right side listing */}
-        <div className="flex-1 space-y-6">
+        {/**right side listing */}
+        <div className="flex-1 space-y-6 order-2 xl:order-1">
           <Card className='p-5'>
             <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
               <div>
@@ -312,6 +241,85 @@ const Listing = () => {
             </div>
           </Card>
         </div>
+
+        {/**left side Filters */}
+        <Card className={`xl:w-88 p-5 space-y-5 order-1 xl:order-2 ${showFilters ? 'block' : 'hidden xl:block'}`}>
+          <div>
+            <h3 className='h3 mb-2'>Search</h3>
+            <Input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder='Search by city, address or title'
+            />
+          </div>
+
+          <div>
+            <h5 className='h5 mb-3'>Sort By</h5>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className='w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/60 focus:ring-2 focus:ring-secondary/20'
+            >
+              {sortOptions.map((sort) => (
+                <option key={sort} value={sort}>{sort}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <h5 className='h5 mb-3'>City</h5>
+            <div className='flex flex-wrap gap-2'>
+              {['All cities', ...cities].map((city) => (
+                <button
+                  key={city}
+                  type='button'
+                  onClick={() => setSelectedCity(city)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedCity === city ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                >
+                  {city}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h5 className='h5 mb-3'>Property Type</h5>
+            <div className='flex flex-wrap gap-2'>
+              {propertyTypes.map((type) => (
+                <button
+                  key={type}
+                  type='button'
+                  onClick={() => setSelectedType(type)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedType === type ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h5 className='h5 mb-3'>Price Range</h5>
+            <div className='flex flex-wrap gap-2'>
+              {priceRange.map((price) => (
+                <button
+                  key={price}
+                  type='button'
+                  onClick={() => setSelectedPrice(price)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedPrice === price ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                >
+                  {price === 'All prices' ? price : `$${price}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {hasActiveFilters ? (
+            <Button variant='secondary' className='w-full' onClick={clearFilters}>
+              Clear filters
+            </Button>
+          ) : null}
+        </Card>
         </div> 
     </div>
   );

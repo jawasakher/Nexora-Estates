@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/data'
 import Button from './ui/Button'
+import Input from './ui/Input'
 import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
 import { trackEvent } from '../services/analytics.js'
+import { subscribeNewsletter } from '../services/newsletter.js'
 
 const footerLinks = {
   company: [
@@ -34,13 +36,39 @@ const socialLinks = [
 ]
 
 const Footer = () => {
-  const { navigate } = useAppContext()
+  const { navigate, isOwner } = useAppContext()
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterLoading, setNewsletterLoading] = useState(false)
+  const [newsletterStatus, setNewsletterStatus] = useState('idle')
+  const [newsletterMessage, setNewsletterMessage] = useState('')
+
+  const handleNewsletterSubmit = async (event) => {
+    event.preventDefault()
+    setNewsletterLoading(true)
+    setNewsletterStatus('idle')
+    setNewsletterMessage('')
+
+    try {
+      const result = await subscribeNewsletter(newsletterEmail.trim())
+      setNewsletterStatus(result.success ? 'success' : 'error')
+      setNewsletterMessage(result.message)
+
+      if (result.success) {
+        setNewsletterEmail('')
+      }
+    } catch (error) {
+      setNewsletterStatus('error')
+      setNewsletterMessage(error instanceof Error ? error.message : 'Unable to subscribe right now.')
+    } finally {
+      setNewsletterLoading(false)
+    }
+  }
 
   return (
     <footer className='bg-linear-to-r from-secondary/20 via-tertiary/10 to-secondary/15 text-slate-950'>
       <div className='border-b border-slate-900/10 bg-linear-to-r from-secondary/30 via-white/25 to-tertiary/20'>
         <div className='max-padd-container py-12 xl:py-16'>
-          <div className='flex flex-col gap-8 rounded-[28px] border border-slate-900/10 bg-white/70 p-6 backdrop-blur md:flex-row md:items-center md:justify-between md:p-8'>
+          <div className='flex flex-col gap-8 rounded-[28px] border border-slate-900/10 bg-white/70 p-6 backdrop-blur md:flex-row md:items-start md:justify-between md:p-8'>
             <div className='max-w-xl'>
               <div className='mb-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-1.5 text-xs font-semibold text-white'>
                 <img src={assets.rocket} alt='' width={16} className='invert' />
@@ -53,37 +81,73 @@ const Footer = () => {
             </div>
 
             <div className='w-full md:max-w-xl'>
-              <div className='flex flex-col gap-3 sm:flex-row'>
-                <Button
-                  onClick={() => {
-                    trackEvent('cta_clicked', {
-                      source: LEAD_SOURCES.FOOTER_CTA,
-                      label: 'Contact Us',
-                      placement: 'footer_primary',
-                    })
-                    navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)
-                  }}
-                  variant='dark'
-                  size='lg'
-                  className='rounded-full whitespace-nowrap'
-                >
-                  Contact Us
-                </Button>
-                <Button
-                  onClick={() => {
-                    trackEvent('cta_clicked', {
-                      source: LEAD_SOURCES.FOOTER_CTA,
-                      label: 'Book Viewing',
-                      placement: 'footer_secondary',
-                    })
-                    navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)
-                  }}
-                  variant='secondary'
-                  size='lg'
-                  className='rounded-full whitespace-nowrap'
-                >
-                  Book Viewing
-                </Button>
+              <div className='space-y-4'>
+                <form onSubmit={handleNewsletterSubmit} className='rounded-3xl border border-slate-900/10 bg-white p-4 shadow-sm sm:p-5'>
+                  <div className='flex flex-col gap-3 sm:flex-row'>
+                    <Input
+                      type='email'
+                      label='Newsletter email'
+                      value={newsletterEmail}
+                      onChange={(event) => setNewsletterEmail(event.target.value)}
+                      placeholder='your@email.com'
+                      className='rounded-full'
+                      required
+                    />
+                    <Button
+                      type='submit'
+                      loading={newsletterLoading}
+                      variant='primary'
+                      size='lg'
+                      className='rounded-full whitespace-nowrap sm:self-end'
+                    >
+                      Subscribe
+                    </Button>
+                  </div>
+
+                  {newsletterStatus !== 'idle' ? (
+                    <p className={`mt-3 text-sm ${newsletterStatus === 'success' ? 'text-emerald-700' : 'text-red-700'}`}>
+                      {newsletterMessage}
+                    </p>
+                  ) : null}
+                </form>
+
+                <div className='flex flex-col gap-3 sm:flex-row'>
+                  <Button
+                    onClick={() => {
+                      trackEvent('cta_clicked', {
+                        source: LEAD_SOURCES.FOOTER_CTA,
+                        label: 'Contact Us',
+                        placement: 'footer_primary',
+                      })
+                      navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)
+                    }}
+                    variant='dark'
+                    size='lg'
+                    className='rounded-full whitespace-nowrap'
+                  >
+                    Contact Us
+                  </Button>
+                </div>
+
+                {isOwner ? (
+                  <div className='rounded-3xl border border-secondary/25 bg-linear-to-r from-secondary/15 to-white/70 p-4 shadow-sm'>
+                    <p className='text-xs font-semibold uppercase tracking-[0.18em] text-secondary'>Owner portal</p>
+                    <div className='mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+                      <div>
+                        <h4 className='h4'>Manage your inventory</h4>
+                        <p className='text-sm text-slate-600'>Open the protected owner area for listings and dashboard actions.</p>
+                      </div>
+                      <Button
+                        onClick={() => navigate('/owner')}
+                        variant='primary'
+                        size='md'
+                        className='rounded-full whitespace-nowrap'
+                      >
+                        Open Owner Dashboard
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import AgencyReg from './components/AgencyReg'
 import { useAppContext } from './context/AppContext.jsx'
 import Loader from './components/ui/Loader.jsx'
 import AccessGate from './components/auth/AccessGate.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 
 const Home = lazy(() => import('./pages/Home'))
 const Listing = lazy(() => import('./pages/Listing'))
@@ -26,6 +27,7 @@ const App = () => {
   
   return (
     <main>
+      <ScrollToTop />
       { !isOwnerPath && <Header/>}
       { !isOwnerPath && showAgencyReg && <AgencyReg/> }
       <Suspense fallback={<div className='flex min-h-[60vh] items-center justify-center py-20'><Loader /></div>}>

@@ -10,16 +10,18 @@ import StatCard from '../../components/ui/StatCard'
 import DashboardSection from '../../components/ui/DashboardSection'
 import OwnerPropertyRow from '../../components/owner/OwnerPropertyRow'
 import { assets } from '../../assets/data'
+import { useOwnerProperties } from '../../hooks/useOwnerProperties.js'
+import { useOwnerPropertyMutations } from '../../hooks/useOwnerPropertyMutations.js'
 
 const Listproperty = () => {
-  const { user, currency, loadingProperties, navigate } = useAppContext()
-  const [localProperties, setLocalProperties] = useState(null)
+  const { currency, navigate } = useAppContext()
+  const { data: ownerProperties = [], isLoading: loadingProperties } = useOwnerProperties()
+  const { toggleAvailabilityMutation, deletePropertyMutation } = useOwnerPropertyMutations()
   const [searchTerm, setSearchTerm] = useState('')
   const [availabilityFilter, setAvailabilityFilter] = useState('all')
   const [sortBy, setSortBy] = useState('latest')
 
-  const baseProperties = useMemo(() => (Array.isArray(user?.properties) ? user.properties : []), [user])
-  const properties = localProperties ?? baseProperties
+  const properties = ownerProperties
 
   const filteredProperties = useMemo(() => {
     const query = searchTerm.trim().toLowerCase()
@@ -62,14 +64,12 @@ const Listproperty = () => {
   }
 
   const handleToggleAvailability = (propertyId) => {
-    setLocalProperties((prev) => {
-      const source = prev ?? baseProperties
+    const property = properties.find((item) => item._id === propertyId)
+    if (!property) return
 
-      return source.map((property) =>
-        property._id === propertyId
-          ? { ...property, isAvailable: !property.isAvailable }
-          : property,
-      )
+    toggleAvailabilityMutation.mutate({
+      propertyId,
+      nextAvailability: !property.isAvailable,
     })
   }
 
@@ -77,10 +77,7 @@ const Listproperty = () => {
     const confirmed = window.confirm('Delete this property from the owner list?')
     if (!confirmed) return
 
-    setLocalProperties((prev) => {
-      const source = prev ?? baseProperties
-      return source.filter((property) => property._id !== propertyId)
-    })
+    deletePropertyMutation.mutate(propertyId)
   }
 
   if (loadingProperties) {
@@ -195,6 +192,7 @@ const Listproperty = () => {
                 currency={currency}
                 onToggleAvailability={handleToggleAvailability}
                 onDelete={handleDelete}
+                isMutating={toggleAvailabilityMutation.isPending || deletePropertyMutation.isPending}
               />
             ))}
           </div>

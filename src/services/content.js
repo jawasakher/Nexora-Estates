@@ -1,6 +1,8 @@
 import { blogs as fallbackBlogs } from '../assets/data.js'
 import { envConfig } from '../config/env.js'
-import { isRequestError, requestJson } from './request.js'
+import { endpoints } from '../api/endpoints.js'
+import { isApiClientError } from '../api/errors.js'
+import { requestJson } from '../api/client.js'
 
 const normalizeBlogPost = (post) => ({
   title: post?.title || 'Untitled post',
@@ -20,7 +22,7 @@ export const getBlogPosts = async () => {
   }
 
   try {
-    const data = await requestJson(envConfig.cmsApiUrl)
+    const data = await requestJson(endpoints.content.blogs())
 
     return {
       success: true,
@@ -28,7 +30,7 @@ export const getBlogPosts = async () => {
       source: 'api',
     }
   } catch (error) {
-    if (isRequestError(error)) {
+    if (isApiClientError(error)) {
       return {
         success: false,
         data: Array.isArray(fallbackBlogs) ? fallbackBlogs.map(normalizeBlogPost) : [],

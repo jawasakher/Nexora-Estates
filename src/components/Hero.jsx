@@ -13,7 +13,7 @@ const Hero = () => {
     checkOut: '',
     guests: ''
   });
-  const { navigate } = useAppContext()
+  const { navigate, isOwner } = useAppContext()
 
   const handleExploreClick = () => {
     setShowExploreModal(true);
@@ -72,17 +72,18 @@ const Hero = () => {
                 onClick={() => {
                   trackEvent('cta_clicked', {
                     source: LEAD_SOURCES.HOME_CTA,
-                    label: 'Book Viewing',
+                    label: 'Owner Dashboard',
                     placement: 'hero',
                   })
-                  navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)
+                  navigate('/owner')
                 }}
                 variant='primary'
                 size='lg'
                 className='rounded-full'
               >
-                Book Viewing
+                Owner Dashboard
               </Button>
+
               <Button
                 onClick={() => {
                   trackEvent('cta_clicked', {

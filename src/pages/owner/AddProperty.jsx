@@ -1,11 +1,17 @@
-import React,{useState} from 'react'
+import React,{useMemo, useState} from 'react'
 import { assets } from '../../assets/data'
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Textarea from '../../components/ui/Textarea'
 import Card from '../../components/ui/Card'
+import { useNavigate } from 'react-router-dom'
+import { useOwnerPropertyMutations } from '../../hooks/useOwnerPropertyMutations.js'
+import { useAppContext } from '../../context/AppContext.jsx'
 
 const AddProperty = () => {
+  const navigate = useNavigate()
+  const { createPropertyMutation } = useOwnerPropertyMutations()
+  const { currency } = useAppContext()
   const [images, setImages ] = useState ({
     1:null,
     2:null,
@@ -33,13 +39,38 @@ const AddProperty = () => {
     },
   })
  
-  const [loading, setLoading] = useState(false)
+  const [formError, setFormError] = useState('')
+  const [formSuccess, setFormSuccess] = useState('')
+
+  const amenityCount = useMemo(() => Object.values(inputs.amenities).filter(Boolean).length, [inputs.amenities])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setFormError('')
+    setFormSuccess('')
+
+    try {
+      const result = await createPropertyMutation.mutateAsync({
+        ...inputs,
+        images: Object.values(images).filter(Boolean),
+      })
+
+      setFormSuccess('Property created successfully.')
+      if (result?.data?._id) {
+        navigate('/owner/list-property')
+      }
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Failed to create property.')
+    }
+  }
+
+  const loading = createPropertyMutation.isPending
  
 
   return (
     <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] overflow-y-scroll lg:w-11/12'>
       <Card className='p-4 sm:p-6'>
-      <form className="flex flex-col gap-y-3.5 px-2 text-sm xl:max-w-3xl">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-3.5 px-2 text-sm xl:max-w-3xl">
         <Input
           label='Property Name'
           value={inputs.title}
@@ -189,8 +220,8 @@ const AddProperty = () => {
             className='ring-1 ring-slate-900/10 overflow-hidden rounded-lg '
             >
               <input
-              onCanPlay={(e) =>
-                setImages({...images,[key]:e.target.files[0]})
+              onChange={(e) =>
+                setImages({...images,[key]:e.target.files?.[0] || null})
               }
               type="file" 
               accept="image/*"
@@ -210,6 +241,12 @@ const AddProperty = () => {
             </label>
             ))}
         </div>
+        <div className='flex flex-wrap items-center gap-3 text-xs text-slate-500'>
+          <span>{amenityCount} amenities selected</span>
+          <span>{currency} pricing ready for contract submit</span>
+        </div>
+        {formError ? <p className='rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700'>{formError}</p> : null}
+        {formSuccess ? <p className='rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'>{formSuccess}</p> : null}
         <Button type="submit" disabled={loading} loading={loading} size='lg' className="mt-3 max-w-56 sm:w-full rounded-xl">
           Submit Property
         </Button>

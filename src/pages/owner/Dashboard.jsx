@@ -1,16 +1,37 @@
-import React, { useState } from 'react'
-import { assets, dummyDashboardData } from '../../assets/data.js'
+import React, { useMemo } from 'react'
+import { assets } from '../../assets/data.js'
 import StatCard from '../../components/ui/StatCard.jsx'
 import DashboardSection from '../../components/ui/DashboardSection.jsx'
 import EmptyState from '../../components/ui/EmptyState.jsx'
 import DashboardSkeleton from '../../components/skeletons/DashboardSkeleton.jsx'
+import { useOwnerProperties } from '../../hooks/useOwnerProperties.js'
 
 const Dashboard = () => {
-
-  const [dashboardData] = useState(dummyDashboardData)
-  const loadingDashboard = !dashboardData
+  const { data: ownerProperties = [], isLoading: loadingDashboard } = useOwnerProperties()
 
   const currency = import.meta.env.VITE_CURRENCY ?? '$'
+
+  const dashboardData = useMemo(() => {
+    const totalListings = ownerProperties.length
+    const totalRevenue = ownerProperties.reduce((sum, property) => sum + (Number(property?.price?.sale) || 0), 0)
+    const bookings = ownerProperties.slice(0, 3).map((property, index) => ({
+      _id: property._id,
+      property,
+      checkInDate: property.createdAt || new Date().toISOString(),
+      checkOutDate: property.updatedAt || new Date().toISOString(),
+      totalPrice: Number(property?.price?.sale) || 0,
+      status: property.isAvailable ? 'available' : 'hidden',
+      isPaid: property.isAvailable,
+      paymentMethod: 'Owner inventory',
+      guests: index + 1,
+    }))
+
+    return {
+      totalBookings: totalListings,
+      totalRevenue,
+      bookings,
+    }
+  }, [ownerProperties])
 
   return (
     <div className="md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] overflow-y-scroll lg:w-11/12">
@@ -91,7 +112,7 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className='p-6'>
-              <EmptyState title='No bookings yet' description='Latest bookings will show up here once customers reserve.' />
+              <EmptyState title='No owner activity yet' description='Latest inventory-linked activity will show up here once properties are added.' />
             </div>
           )}
         </DashboardSection>

@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
 
-export const Navbar = ({ setMenuOpened, containerStyles }) => {
+export const Navbar = ({ setMenuOpened, containerStyles, isOwner = false }) => {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/listing", label: "Listing" },
     { to: "/blog", label: "Blog" },
     { to: "/contact", label: "Contact" },
+    ...(isOwner ? [{ to: "/owner", label: "Owner Dashboard" }] : []),
   ];
 
   const handleNavClick = () => {

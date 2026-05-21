@@ -38,6 +38,10 @@ const PropertyDetails = () => {
 
   const firstImage = property?.images?.[0] || assets.about
   const currencyCode = currency === '$' ? 'USD' : currency === '£' ? 'GBP' : currency === '€' ? 'EUR' : 'USD'
+  const agencyName = property?.agency?.name || 'Agency information unavailable'
+  const agencyContact = property?.agency?.contact || 'Contact not available'
+  const agencyEmail = property?.agency?.email || 'Email not available'
+  const agencyOwnerImage = property?.agency?.owner?.image || assets.userImg
 
   const structuredData = useMemo(() => {
     if (!property) return null
@@ -393,12 +397,12 @@ const PropertyDetails = () => {
             <div className='flex items-center justify-between gap-4 rounded-2xl bg-secondary/10 p-3'>
               <div>
                 <div className='flex items-center gap-2'>
-                  <h5 className='h5'>{property.agency.name}</h5>
+                  <h5 className='h5'>{agencyName}</h5>
                   <Badge variant='neutral'>Agency</Badge>
                 </div>
                 <p className='text-sm text-slate-600'>Agency Office</p>
               </div>
-              <img src={property.agency.owner.image} alt='Agency owner' className='h-12 w-12 rounded-full object-cover' />
+              <img src={agencyOwnerImage} alt='Agency owner' className='h-12 w-12 rounded-full object-cover' />
             </div>
 
             <div className='mt-4 space-y-3'>
@@ -406,14 +410,14 @@ const PropertyDetails = () => {
                 <div className='rounded-full border border-green-500/30 bg-green-500/20 p-1'>
                   <img src={assets.phone} alt='' width={14} />
                 </div>
-                <p>{property.agency.contact}</p>
+                <p>{agencyContact}</p>
               </div>
 
               <div className='flexStart gap-2 rounded-xl border border-slate-900/10 p-3'>
                 <div className='rounded-full border border-green-500/30 bg-green-500/20 p-1'>
                   <img src={assets.mail} alt='' width={14} />
                 </div>
-                <p>{property.agency.email}</p>
+                <p>{agencyEmail}</p>
               </div>
             </div>
 

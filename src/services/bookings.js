@@ -1,6 +1,8 @@
 import { dummyBookingsData } from '../assets/data.js'
 import { envConfig } from '../config/env.js'
-import { isRequestError, requestJson } from './request.js'
+import { endpoints } from '../api/endpoints.js'
+import { isApiClientError } from '../api/errors.js'
+import { requestJson } from '../api/client.js'
 
 export const getBookings = async (options = {}) => {
   if (!envConfig.bookingsApiUrl) {
@@ -12,7 +14,7 @@ export const getBookings = async (options = {}) => {
   }
 
   try {
-    const data = await requestJson(envConfig.bookingsApiUrl, { getToken: options.getToken })
+    const data = await requestJson(endpoints.bookings.list(), { getToken: options.getToken })
 
     return {
       success: true,
@@ -20,7 +22,7 @@ export const getBookings = async (options = {}) => {
       source: 'api',
     }
   } catch (error) {
-    if (isRequestError(error)) {
+    if (isApiClientError(error)) {
       return {
         success: false,
         data: Array.isArray(dummyBookingsData) ? dummyBookingsData : [],

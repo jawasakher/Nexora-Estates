@@ -13,31 +13,12 @@ const Header = () => {
   const [showSearch, setshowSearch] = useState(false);
 
   const location = useLocation();
-  const { navigate, user } = useAppContext();
+  const { navigate, user, isOwner } = useAppContext();
   const { openSignIn } = useClerk();
 
   const toggleMenu = () => {
     setMenuOpened((prev) => !prev);
   };
-
-  const BookingIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 36 36"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M15 12h-5" />
-      <path d="M15 8h-5" />
-      <path d="M19 17V5a2 2 0 0 0-2-2H4" />
-      <path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0V5a2 2 0 1 0-4 0V2a1 1 0 0 0 1 1h3" />
-    </svg>
-  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,6 +67,7 @@ const Header = () => {
           <Navbar
             active={active}
             setMenuOpened={setMenuOpened}
+            isOwner={isOwner}
             containerStyles={`${
               menuOpened
                 ? "fixed top-20 right-4 z-50 flex w-[84vw] max-w-72 translate-y-0 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-100 shadow-xl backdrop-blur-md"
@@ -138,27 +120,29 @@ const Header = () => {
             {/* User */}
             <div>
               {user ? (
-                <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: {
-                        width: "42px",
-                        height: "42px",
+                <div className="flex items-center gap-3">
+                  <Button
+                    onClick={() => navigate('/my-bookings')}
+                    variant="secondary"
+                    size="sm"
+                    className="hidden rounded-full md:inline-flex"
+                  >
+                    My Bookings
+                  </Button>
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        userButtonAvatarBox: {
+                          width: "42px",
+                          height: "42px",
+                        },
                       },
-                    },
-                  }}
-                >
-                  <UserButton.MenuItems>
-                    <UserButton.Action
-                      label="My Bookings"
-                      labelIcon={<BookingIcon />}
-                      onClick={() => navigate("/my-bookings")}
-                    />
-                  </UserButton.MenuItems>
-                </UserButton>
+                    }}
+                  />
+                </div>
               ) : (
                 <Button
-                  onClick={openSignIn}
+                    onClick={() => openSignIn()}
                   variant="secondary"
                   className="flexCenter gap-2 rounded-full"
                 >

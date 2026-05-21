@@ -1,5 +1,6 @@
 import { envConfig } from '../config/env.js'
-import { requestJson } from './request.js'
+import { endpoints } from '../api/endpoints.js'
+import { requestJson } from '../api/client.js'
 
 const mockSubmitLead = (payload) => {
   return new Promise((resolve, reject) => {
@@ -19,7 +20,7 @@ export const submitLead = async (payload, options = {}) => {
     return mockSubmitLead(payload)
   }
 
-  const data = await requestJson(envConfig.leadsApiUrl, {
+  const data = await requestJson(endpoints.leads.submit(), {
     method: 'POST',
     getToken: options.getToken,
     body: JSON.stringify(payload),

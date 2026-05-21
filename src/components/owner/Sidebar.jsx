@@ -5,7 +5,7 @@ import {Link, NavLink, Outlet} from 'react-router-dom'
 import {UserButton} from "@clerk/clerk-react"
 
 const Sidebar = () => {
-  const {navigate, user } = useAppContext();
+  const { user } = useAppContext();
 
   const navItems = [
     {
@@ -39,8 +39,7 @@ const Sidebar = () => {
                 </Link>
                 </div>
                 <div className="md:hidden flex items-center gap-3 md:bg-primary rounded-b-xl p-2 pl-5 lg:pl-10 md:mt-10">
-                  <UserButton
-                  
+                    <UserButton
                   appearance={{
                     elements: {
                       userButtonAvatarBox: {
@@ -49,7 +48,7 @@ const Sidebar = () => {
                       },
                     },
                   }}
-                />
+                  />
                 <div className="text-sm font-semilbold text-gray-800 capitalize">
                   {user?.firstName} {user?.lastName}
                 </div>

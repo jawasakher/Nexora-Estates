@@ -1,4 +1,5 @@
 const env = import.meta.env
+const builtInOwnerEmails = ['jwasakher@gmail.com', 'jwasakhergmail.com']
 
 export const envConfig = {
   apiBaseUrl: env.VITE_API_BASE_URL || '',
@@ -8,12 +9,16 @@ export const envConfig = {
   bookingsApiUrl: env.VITE_BOOKINGS_API_URL || '',
   analyticsApiUrl: env.VITE_ANALYTICS_API_URL || '',
   cmsApiUrl: env.VITE_CMS_API_URL || '',
-  ownerEmails: (env.VITE_OWNER_EMAILS || '')
-    .split(',')
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean),
+  ownerPropertiesApiUrl: env.VITE_OWNER_PROPERTIES_API_URL || '',
+  ownerEmails: Array.from(new Set([
+    ...builtInOwnerEmails,
+    ...(env.VITE_OWNER_EMAILS || '')
+      .split(',')
+      .map((email) => email.trim().toLowerCase())
+      .filter(Boolean),
+  ])),
   siteUrl: env.VITE_SITE_URL || window.location.origin,
   imageCdnUrl: env.VITE_IMAGE_CDN_URL || '',
 }
 
-export const hasRemoteApi = Boolean(envConfig.apiBaseUrl || envConfig.propertiesApiUrl || envConfig.leadsApiUrl || envConfig.newsletterApiUrl || envConfig.bookingsApiUrl || envConfig.analyticsApiUrl || envConfig.cmsApiUrl)
+export const hasRemoteApi = Boolean(envConfig.apiBaseUrl || envConfig.propertiesApiUrl || envConfig.ownerPropertiesApiUrl || envConfig.leadsApiUrl || envConfig.newsletterApiUrl || envConfig.bookingsApiUrl || envConfig.analyticsApiUrl || envConfig.cmsApiUrl)

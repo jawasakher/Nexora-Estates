@@ -3,71 +3,73 @@
 > vite build
 
 [36mvite v8.0.10 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming...✓ 236 modules transformed.
+[2Ktransforming...✓ 291 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                                  1.29 kB │ gzip:   0.51 kB
-dist/assets/upload_icon-Dk_uRv7n.png             4.25 kB
-dist/assets/client3-nVWXwz0U.jpg                 7.89 kB
-dist/assets/user4-vlNj2580.png                   8.77 kB
-dist/assets/client1-BhJzQKEi.jpg                 9.78 kB
-dist/assets/client2-DQqy6WWT.jpg                10.46 kB
-dist/assets/user1-Dd5F7AoR.png                  13.97 kB
-dist/assets/user3-BARF1LDe.png                  16.23 kB
-dist/assets/client4-BZQ6qFb_.jpg                18.80 kB
-dist/assets/user-CQ7nFY4v.png                   25.45 kB
-dist/assets/img3-BRf_iuY_.png                   85.85 kB
-dist/assets/blog2-D06Db_mY.jpg                  86.66 kB
-dist/assets/blog6-B67qaLRE.jpg                  92.12 kB
-dist/assets/img4-vbhwCg-J.png                   92.29 kB
-dist/assets/img5-Og8EM2bz.png                  100.65 kB
-dist/assets/img6-xXMJ-7Bg.png                  101.83 kB
-dist/assets/blog3-DRDFx3Zv.jpg                 104.79 kB
-dist/assets/img2-DO0ZCKzG.png                  108.79 kB
-dist/assets/blog5-CNUu4Ped.jpg                 119.17 kB
-dist/assets/blog4-BXH_yBud.jpg                 129.56 kB
-dist/assets/blog7-CpykWmGb.jpg                 144.07 kB
-dist/assets/createPrp-C4qPxG-m.png             160.01 kB
-dist/assets/blog1-rJB56rFK.jpg                 160.13 kB
-dist/assets/faq-DNvVeo4k.png                   189.21 kB
-dist/assets/pImg2-tKRrDBxx.png                 227.37 kB
-dist/assets/pImg3-CSos2Opu.png                 232.29 kB
-dist/assets/pImg4-FVcXIroa.png                 258.11 kB
-dist/assets/blog8-nb2shM4e.jpg                 476.53 kB
-dist/assets/img1-C4aUBE5Y.png                1,045.18 kB
-dist/assets/about-CyqUtk7c.png               2,085.23 kB
-dist/assets/bg-CLjVt2s6.png                  3,542.84 kB
-dist/assets/FeaturedProperties-Bdbi0viN.css      4.82 kB │ gzip:   1.13 kB
-dist/assets/index-BAsfSgkB.css                  88.42 kB │ gzip:  13.23 kB
-dist/assets/Skeleton-ZYQlskwf.js                 0.17 kB │ gzip:   0.16 kB
-dist/assets/Card-DWOXmobL.js                     0.25 kB │ gzip:   0.20 kB
-dist/assets/theme-r-WLL3Dv.js                    0.35 kB │ gzip:   0.20 kB
-dist/assets/EmptyState-DgY93bL4.js               0.47 kB │ gzip:   0.30 kB
-dist/assets/Title-D1JUlC7B.js                    0.49 kB │ gzip:   0.31 kB
-dist/assets/Badge-BWeWVRGH.js                    0.58 kB │ gzip:   0.34 kB
-dist/assets/Textarea-DUEdfs3o.js                 0.70 kB │ gzip:   0.43 kB
-dist/assets/DashboardSection-DUCsioYd.js         1.00 kB │ gzip:   0.47 kB
-dist/assets/ListingSkeleton-CPBjbD2n.js          1.04 kB │ gzip:   0.42 kB
-dist/assets/request-Fa4461_H.js                  1.59 kB │ gzip:   0.91 kB
-dist/assets/PropertyImages-BBTS-zuQ.js           1.80 kB │ gzip:   0.97 kB
-dist/assets/Sidebar-B3toHvJM.js                  2.37 kB │ gzip:   0.88 kB
-dist/assets/Blog-CjgTvJkj.js                     2.39 kB │ gzip:   1.16 kB
-dist/assets/Seo-DYUdzd7W.js                      2.46 kB │ gzip:   0.91 kB
-dist/assets/Faq-CMTV6Q3c.js                      2.58 kB │ gzip:   1.23 kB
-dist/assets/Contact-2lhwxm1a.js                  2.67 kB │ gzip:   1.19 kB
-dist/assets/ListingCard-BiTZFpZx.js              2.82 kB │ gzip:   1.14 kB
-dist/assets/Dashboard-hxWF8Sry.js                3.38 kB │ gzip:   1.21 kB
-dist/assets/About-CVscrDjx.js                    3.48 kB │ gzip:   1.18 kB
-dist/assets/LeadForm-DJMjcfOO.js                 4.17 kB │ gzip:   1.93 kB
-dist/assets/AddProperty-DKd-EOtp.js              4.48 kB │ gzip:   1.40 kB
-dist/assets/MyBookings-CorDnfgW.js               5.07 kB │ gzip:   1.67 kB
-dist/assets/Listing-DdzJA2Bu.js                  7.63 kB │ gzip:   2.56 kB
-dist/assets/Listproperty-DnEwIzF4.js             8.24 kB │ gzip:   2.68 kB
-dist/assets/Home-CiyMchJv.js                    10.96 kB │ gzip:   2.91 kB
-dist/assets/PropertyDetails-DQM8YXU8.js         13.11 kB │ gzip:   3.28 kB
-dist/assets/Team-CnNkrvvo.js                    16.32 kB │ gzip:   4.42 kB
-dist/assets/jsx-runtime-h-Eu2OKZ.js             42.86 kB │ gzip:  14.44 kB
-dist/assets/FeaturedProperties-BX3rfjrL.js      85.97 kB │ gzip:  26.33 kB
-dist/assets/index-rjSBCp2u.js                  339.49 kB │ gzip: 103.17 kB
+dist/index.html                                        1.29 kB │ gzip:   0.51 kB
+dist/assets/upload_icon-Dk_uRv7n.png                   4.25 kB
+dist/assets/client3-nVWXwz0U.jpg                       7.89 kB
+dist/assets/user4-vlNj2580.png                         8.77 kB
+dist/assets/client1-BhJzQKEi.jpg                       9.78 kB
+dist/assets/client2-DQqy6WWT.jpg                      10.46 kB
+dist/assets/user1-Dd5F7AoR.png                        13.97 kB
+dist/assets/user3-BARF1LDe.png                        16.23 kB
+dist/assets/client4-BZQ6qFb_.jpg                      18.80 kB
+dist/assets/user-CQ7nFY4v.png                         25.45 kB
+dist/assets/img3-BRf_iuY_.png                         85.85 kB
+dist/assets/blog2-D06Db_mY.jpg                        86.66 kB
+dist/assets/blog6-B67qaLRE.jpg                        92.12 kB
+dist/assets/img4-vbhwCg-J.png                         92.29 kB
+dist/assets/img5-Og8EM2bz.png                        100.65 kB
+dist/assets/img6-xXMJ-7Bg.png                        101.83 kB
+dist/assets/blog3-DRDFx3Zv.jpg                       104.79 kB
+dist/assets/img2-DO0ZCKzG.png                        108.79 kB
+dist/assets/blog5-CNUu4Ped.jpg                       119.17 kB
+dist/assets/blog4-BXH_yBud.jpg                       129.56 kB
+dist/assets/blog7-CpykWmGb.jpg                       144.07 kB
+dist/assets/createPrp-C4qPxG-m.png                   160.01 kB
+dist/assets/blog1-rJB56rFK.jpg                       160.13 kB
+dist/assets/faq-DNvVeo4k.png                         189.21 kB
+dist/assets/pImg2-tKRrDBxx.png                       227.37 kB
+dist/assets/pImg3-CSos2Opu.png                       232.29 kB
+dist/assets/pImg4-FVcXIroa.png                       258.11 kB
+dist/assets/blog8-nb2shM4e.jpg                       476.53 kB
+dist/assets/img1-C4aUBE5Y.png                      1,045.18 kB
+dist/assets/about-CyqUtk7c.png                     2,085.23 kB
+dist/assets/bg-CLjVt2s6.png                        3,542.84 kB
+dist/assets/FeaturedProperties-Bdbi0viN.css            4.82 kB │ gzip:   1.13 kB
+dist/assets/index-u-jftHoX.css                        89.60 kB │ gzip:  13.34 kB
+dist/assets/Skeleton-CAV4MRm4.js                       0.17 kB │ gzip:   0.16 kB
+dist/assets/Card-C0E3JDbI.js                           0.25 kB │ gzip:   0.20 kB
+dist/assets/theme-yhdC75RE.js                          0.35 kB │ gzip:   0.20 kB
+dist/assets/EmptyState-aftAr0lt.js                     0.47 kB │ gzip:   0.30 kB
+dist/assets/Title-r2jRyuLC.js                          0.49 kB │ gzip:   0.31 kB
+dist/assets/Badge-BCSLAEyt.js                          0.58 kB │ gzip:   0.34 kB
+dist/assets/Textarea-Bxs4xzrH.js                       0.70 kB │ gzip:   0.43 kB
+dist/assets/ListingSkeleton-BZtt5Dc_.js                1.04 kB │ gzip:   0.42 kB
+dist/assets/useOwnerProperties-28_-10Nj.js             1.33 kB │ gzip:   0.66 kB
+dist/assets/PropertyImages-DhNQGN1z.js                 1.81 kB │ gzip:   0.96 kB
+dist/assets/Sidebar-Cy7_88nu.js                        2.36 kB │ gzip:   0.88 kB
+dist/assets/Blog-0d9T5jJS.js                           2.40 kB │ gzip:   1.16 kB
+dist/assets/Seo-BrK8TB1s.js                            2.46 kB │ gzip:   0.91 kB
+dist/assets/Faq-BelmhR37.js                            2.58 kB │ gzip:   1.22 kB
+dist/assets/Contact-kgATf21b.js                        2.67 kB │ gzip:   1.20 kB
+dist/assets/ListingCard-DlBMIfXx.js                    2.82 kB │ gzip:   1.13 kB
+dist/assets/client-DsMrk71A.js                         3.25 kB │ gzip:   1.59 kB
+dist/assets/About-DWKozdc5.js                          3.48 kB │ gzip:   1.18 kB
+dist/assets/Dashboard-DBH9HNJz.js                      3.82 kB │ gzip:   1.40 kB
+dist/assets/owner-DmL5CUZs.js                          3.88 kB │ gzip:   1.30 kB
+dist/assets/LeadForm-CixR2a3K.js                       4.19 kB │ gzip:   1.94 kB
+dist/assets/useOwnerPropertyMutations-BD-Qm0wY.js      4.25 kB │ gzip:   1.49 kB
+dist/assets/MyBookings-Dqp1Twca.js                     5.07 kB │ gzip:   1.68 kB
+dist/assets/AddProperty-CC1-kqYB.js                    5.50 kB │ gzip:   1.82 kB
+dist/assets/Listing-nKNmAArC.js                        7.64 kB │ gzip:   2.56 kB
+dist/assets/Listproperty-CFWJB-Ng.js                   8.35 kB │ gzip:   2.71 kB
+dist/assets/Home-yW6DqZ7h.js                          10.96 kB │ gzip:   2.91 kB
+dist/assets/PropertyDetails-C-efeRNW.js               13.12 kB │ gzip:   3.28 kB
+dist/assets/Team-DQ8EibLl.js                          16.32 kB │ gzip:   4.42 kB
+dist/assets/jsx-runtime-BtfdD-9K.js                   42.80 kB │ gzip:  14.40 kB
+dist/assets/FeaturedProperties-jJ6QMe3E.js            85.97 kB │ gzip:  26.33 kB
+dist/assets/index-401O4Ncw.js                        374.24 kB │ gzip: 113.44 kB
 
-[32m✓ built in 3.35s[39m
+[32m✓ built in 20.02s[39m

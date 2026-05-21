@@ -4,7 +4,7 @@ import { assets } from '../../assets/data'
 import Badge from '../ui/Badge'
 import Button from '../ui/Button'
 
-const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onDelete }) => {
+const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onDelete, isMutating = false }) => {
   const statusVariant = property?.isAvailable ? 'success' : 'warning'
 
   return (
@@ -53,6 +53,7 @@ const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onD
               type='checkbox'
               checked={Boolean(property?.isAvailable)}
               onChange={() => onToggleAvailability(property?._id)}
+              disabled={isMutating}
               className='sr-only peer'
             />
             <div className='h-6 w-11 rounded-full bg-slate-300 transition-colors peer-checked:bg-secondary' />
@@ -71,7 +72,7 @@ const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onD
               Edit
             </Button>
           </Link>
-          <Button variant='ghost' size='sm' className='rounded-full text-rose-700 hover:bg-rose-50' onClick={() => onDelete(property?._id)}>
+          <Button variant='ghost' size='sm' className='rounded-full text-rose-700 hover:bg-rose-50' onClick={() => onDelete(property?._id)} disabled={isMutating}>
             Delete
           </Button>
         </div>
