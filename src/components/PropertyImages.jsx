@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import EmptyState from './ui/EmptyState'
+import { assets } from '../assets/data'
+import OptimizedImage from './ui/OptimizedImage'
 
 const PropertyImages = ({ property }) => {
     const images = useMemo(() => (Array.isArray(property?.images) ? property.images : []), [property]);
@@ -33,17 +35,20 @@ const PropertyImages = ({ property }) => {
         setSelectedIndex(0)
     }, [images])
 
-    return(
+    return (
 
     <div className='w-full space-y-3'>
         <div className='relative overflow-hidden rounded-3xl bg-slate-100 shadow-sm'>
             <div className='aspect-[16/10] min-h-64 w-full sm:min-h-[28rem]'>
-                <img
+                <OptimizedImage
                     src={selectedImage || ''}
-                    loading='eager'
-                    decoding='async'
                     alt={selectedCaption?.heading || 'property'}
-                    className='h-full w-full object-cover object-center'
+                    priority={true}
+                    useSkeleton={true}
+                    placeholder={property?.imagesLqip?.[selectedIndex] || assets.about}
+                    lqip={property?.imagesLqip?.[selectedIndex]}
+                    className='h-full w-full'
+                    sizes='(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px'
                 />
             </div>
 
@@ -71,12 +76,12 @@ const PropertyImages = ({ property }) => {
                         }`}
                         onClick={() => setSelectedIndex(index)}
                     >
-                        <img
+                        <OptimizedImage
                             src={pImg || ''}
-                            loading='lazy'
-                            decoding='async'
                             alt={caption?.heading || 'property'}
-                            className='h-full w-full object-cover object-center'
+                            placeholder={property?.imagesLqip?.[index] || assets.about}
+                            className='h-full w-full'
+                            sizes='80px'
                         />
                         {caption?.heading ? (
                             <div className='absolute inset-x-0 bottom-0 bg-black/45 px-2 py-1 text-[11px] font-semibold text-white'>
@@ -88,7 +93,7 @@ const PropertyImages = ({ property }) => {
             })}
         </div>
     </div>
-    );
+    )
 };
 
 export default PropertyImages;

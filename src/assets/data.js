@@ -38,21 +38,10 @@ import user1 from './user1.png'
 import user2 from './user2.png'
 import user3 from './user3.png'
 import user4 from './user4.png'
-import img1 from "../assets/img1.png"
-import img2 from "../assets/img2.png"
-import img3 from "../assets/img3.png"
-import img4 from "../assets/img4.png"
-import img5 from "../assets/img5.png"
-import img6 from "../assets/img6.png"
-import bg from "../assets/bg.png"
-import pImg2 from "../assets/pImg2.png"
-import pImg3 from "../assets/pImg3.png"
-import pImg4 from "../assets/pImg4.png"
 import client1 from "../assets/client1.jpg"
 import client2 from "../assets/client2.jpg"
 import client3 from "../assets/client3.jpg"
 import client4 from "../assets/client4.jpg"
-import about from "../assets/about.png"
 import faq from "../assets/faq.png"
 import createPrp from "../assets/createPrp.png"
 import uploadIcon from "../assets/upload_icon.png"
@@ -66,6 +55,23 @@ import blog5 from "../assets/blogs/blog5.jpg";
 import blog6 from "../assets/blogs/blog6.jpg";
 import blog7 from "../assets/blogs/blog7.jpg";
 import blog8 from "../assets/blogs/blog8.jpg";
+
+// curated Unsplash marketing images (external URLs)
+const img1 = "https://images.unsplash.com/photo-1560184897-6a5d6b6d4f6f?auto=format&fit=crop&w=1400&q=80"
+const img2 = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80"
+const img3 = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1400&q=80"
+const img4 = "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1400&q=80"
+const img5 = "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1400&q=80"
+const img6 = "https://images.unsplash.com/photo-1505691723518-36a5b0d1fb1d?auto=format&fit=crop&w=1400&q=80"
+const bg = "https://images.unsplash.com/photo-1505581834381-7c8a2f5a0f7a?auto=format&fit=crop&w=2000&q=80"
+const pImg2 = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1400&q=80"
+const pImg3 = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=80"
+const pImg4 = "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1400&q=80"
+
+// keep client images local; hero/about image replaced with high-impact Unsplash URLs
+// Swapped so About uses the previous hero image and Home uses the previous about image
+const about = "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=2000&q=80"
+const homeHero = "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=2000&q=80"
 
 
 export const assets = {
@@ -115,6 +121,7 @@ export const assets = {
     client3,
     client4,
     about,
+    homeHero,
     faq,
     uploadIcon,
 }
@@ -176,7 +183,12 @@ export const dummyProperties = [
         },
         "area": 800,
         "amenities": [ "Balcony", "High-Speed Internet", "Backyard",],
-        "images": [bg, img1, pImg2, pImg3],
+        "images": [
+          "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=2000&q=80", // Front View (Luxury modern villa)
+          "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600", // Living Area (Luxury Living Room)
+          "https://images.pexels.com/photos/18285930/pexels-photo-18285930.jpeg?auto=compress&cs=tinysrgb&w=1600", // Master Bedroom (Luxury Bedroom)
+          "https://plus.unsplash.com/premium_photo-1661878457631-2315d911d42c?auto=format&fit=crop&w=1600&q=80", // Modern Kitchen (Luxury Kitchen - Premium)
+        ],
         "isAvailable": true,
         "status": "available",
         "createdAt": "2025-04-10T06:26:04.013Z",
@@ -203,7 +215,12 @@ export const dummyProperties = [
         },
         "area": 500,
         "amenities": ["Backyard", "Garage", "Fireplace"],
-        "images": [img2, pImg3, pImg4, pImg2],
+        "images": [
+          "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=2000&q=80",
+          "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+          "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=80",
+          "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1400&q=80",
+        ],
         "isAvailable": true,
         "status": "available",
         "createdAt": "2025-04-10T06:25:22.593Z",
@@ -230,7 +247,12 @@ export const dummyProperties = [
         },
         "area": 200,
         "amenities": ["Fitness Center", "Terrace", "Parking"],
-        "images": [img3, pImg4, pImg3, pImg2],
+        "images": [
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=80",
+          "https://images.pexels.com/photos/1571458/pexels-photo-1571458.jpeg?auto=compress&cs=tinysrgb&w=1600",
+          "https://images.unsplash.com/photo-1533777324565-a040eb52fac2?auto=format&fit=crop&w=1400&q=80",
+          "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1400&q=80",
+        ],
         "isAvailable": true,
         "status": "available",
         "createdAt": "2025-04-10T06:24:06.285Z",
@@ -257,7 +279,12 @@ export const dummyProperties = [
         },
         "area": 500,
         "amenities": ["Terrace", "Backyard", "Fitness Center"],
-        "images": [img4, pImg2, pImg3, pImg4],
+        "images": [
+          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80",
+          "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=1600",
+          "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1400&q=80",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80",
+        ],
         "isAvailable": true,
         "status": "available",
         "createdAt": "2025-04-10T06:23:20.252Z",
@@ -284,7 +311,12 @@ export const dummyProperties = [
     },
     "area": 250,
     "amenities": ["Swimming Pool", "Balcony", "Private Beach"],
-    "images": [img5, pImg3, pImg2, pImg4],
+    "images": [
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2000&q=80",
+      "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://images.unsplash.com/photo-1539694154738-1c7d3a4f3a9b?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1400&q=80",
+    ],
     "isAvailable": true,
     "status": "available",
     "createdAt": "2025-04-10T06:27:30.013Z",
@@ -312,7 +344,12 @@ export const dummyProperties = [
     },
     "area": 700,
     "amenities": ["Garden", "Fireplace", "Parking"],
-    "images": [img6, pImg2, pImg3, pImg4],
+    "images": [
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=2000&q=80",
+      "https://images.pexels.com/photos/2089698/pexels-photo-2089698.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://images.unsplash.com/photo-1505691709863-2d0b0e3d0f2f?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1400&q=80&ixlib=rb-4.0.3",
+    ],
     "isAvailable": true,
     "status": "available",
     "createdAt": "2025-04-10T06:28:50.013Z",

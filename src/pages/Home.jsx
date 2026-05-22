@@ -16,7 +16,7 @@ const Home = () => {
         title='Premium Real Estate Listings'
         description='Discover premium homes, villas, and apartments with a refined real estate browsing experience.'
         canonicalPath='/'
-        image={assets.about}
+        image={assets.homeHero}
       />
       <Hero/>
       <Suspense fallback={<div className='flex min-h-[40vh] items-center justify-center py-20'><Loader /></div>}>

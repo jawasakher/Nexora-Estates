@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { assets ,cities} from '../assets/data'
 import Button from './ui/Button'
+import OptimizedImage from './ui/OptimizedImage'
 import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
 import { trackEvent } from '../services/analytics.js'
@@ -47,12 +48,21 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-svh w-full overflow-hidden bg-[url('/src/assets/bg.png')] bg-cover bg-center bg-no-repeat">
+    <section className="relative min-h-svh w-full overflow-hidden">
       <div className='max-padd-container relative min-h-svh w-full'>
+        <OptimizedImage
+          src={assets.homeHero}
+          alt='Hero image'
+          className='absolute inset-0 w-full h-full'
+          priority={true}
+          placeholder={assets.homeHero}
+          useSkeleton={false}
+          sizes='(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 2000px'
+        />
         {/** overlay */}
-        <div className="absolute inset-0 bg-black/10 z-0"/>
+        <div className="absolute inset-0 bg-black/10 z-10"/>
         {/** container  */}
-        <div className='relative z-10 mx-auto flex min-h-svh max-w-6xl flex-col justify-end gap-5 pb-10 pt-24 sm:pt-18 lg:pb-14'>
+        <div className='relative z-20 mx-auto flex min-h-svh max-w-6xl flex-col justify-end gap-5 pb-10 pt-24 sm:pt-18 lg:pb-14'>
           {/** content  */}
           <div className='flex max-w-3xl flex-col items-start text-left text-white'>
             <button 

@@ -4,6 +4,7 @@ import { assets } from '../../assets/data'
 import { radius, shadow, surface, spacing } from '../../styles/theme'
 import Button from '../ui/Button'
 import { useAppContext } from '../../context/AppContext.jsx'
+import OptimizedImage from '../ui/OptimizedImage'
 import { LEAD_SOURCES } from '../../constants/leadSources.js'
 import { trackEvent } from '../../services/analytics.js'
 
@@ -30,14 +31,16 @@ const ListingCard = ({ property, currency = '$', showDescription = true, classNa
   return (
     <div className={`block overflow-hidden ${radius.section} ${surface.card} ${shadow.soft} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5 ${className}`}>
       <Link to={'/listing/' + property?._id} className='block'>
-      <div className="relative">
-        <img
-          src={property?.images?.[0] || ''}
+      <div className="relative overflow-hidden">
+        <OptimizedImage
+          src={property?.images?.[0] || assets.about}
           alt={property?.title || 'Property'}
-          loading="lazy"
-          decoding="async"
-          className="h-52 w-full object-cover"
+          className="h-52 w-full"
+          placeholder={assets.about}
+          animatedHighlight={true}
+          sizes='(max-width: 640px) 100vw, 300px'
         />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/0 via-transparent to-black/10 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
         <div className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 shadow-sm backdrop-blur">
           {property?.propertyType || 'Property'}
         </div>
