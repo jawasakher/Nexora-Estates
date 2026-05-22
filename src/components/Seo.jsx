@@ -94,6 +94,37 @@ const Seo = ({
       document.head.appendChild(script)
     }
 
+    // Auto-generate basic Article JSON-LD when type is 'article' and no structuredData provided
+    if (!structuredData && type === 'article' && title) {
+      try {
+        const articleLd = {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: title,
+          description: description || '',
+          url: canonicalUrl,
+          name: title,
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': canonicalUrl,
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: SITE_NAME,
+          },
+        }
+
+        const scriptAuto = document.createElement('script')
+        scriptAuto.id = 'seo-structured-data'
+        scriptAuto.type = 'application/ld+json'
+        scriptAuto.setAttribute(MANAGED_ATTR, 'true')
+        scriptAuto.textContent = JSON.stringify(articleLd)
+        document.head.appendChild(scriptAuto)
+      } catch (e) {
+        console.error('Seo: failed to generate structured data', e)
+      }
+    }
+
     return () => {
       document.title = previousTitle
       document.querySelectorAll(`[${MANAGED_ATTR}="true"]`).forEach((node) => node.remove())

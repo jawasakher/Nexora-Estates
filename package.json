@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "generate:blog-assets": "node scripts/generate-blog-assets.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -20,6 +21,8 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@mdx-js/react": "^3.1.0",
+    "@mdx-js/rollup": "^3.1.0",
     "@eslint/js": "^9.39.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

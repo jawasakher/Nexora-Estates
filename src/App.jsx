@@ -11,6 +11,7 @@ import ScrollToTop from './components/ScrollToTop.jsx'
 const Home = lazy(() => import('./pages/Home'))
 const Listing = lazy(() => import('./pages/Listing'))
 const Blog = lazy(() => import('./pages/Blog'))
+const BlogPost = lazy(() => import('./pages/blog/BlogPost.jsx'))
 const Contact = lazy(() => import('./pages/Contact'))
 const PropertyDetails = lazy(() => import('./pages/PropertyDetails'))
 const MyBookings = lazy(() => import('./pages/MyBookings'))
@@ -37,6 +38,7 @@ const App = () => {
           <Route path='/listing' element={<Listing/>}/>
           <Route path='/listing/:id' element={<PropertyDetails/>}/>
           <Route path='/blog' element={<Blog/>}/>
+          <Route path='/blog/:slug' element={<BlogPost/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route element={<AccessGate requireRole='authenticated' />}>
             <Route path='/my-bookings' element={<MyBookings/>}/>

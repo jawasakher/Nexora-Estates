@@ -1,23 +1,15 @@
-import { blogs as fallbackBlogs } from '../assets/data.js'
 import { envConfig } from '../config/env.js'
 import { endpoints } from '../api/endpoints.js'
 import { isApiClientError } from '../api/errors.js'
 import { requestJson } from '../api/client.js'
-
-const normalizeBlogPost = (post) => ({
-  title: post?.title || 'Untitled post',
-  category: post?.category || 'Insights',
-  image: post?.image || '',
-  description: post?.description || '',
-  slug: post?.slug || '',
-})
+import { blogEntries } from '../assets/blogs/index.js'
 
 export const getBlogPosts = async () => {
   if (!envConfig.cmsApiUrl) {
     return {
       success: true,
-      data: Array.isArray(fallbackBlogs) ? fallbackBlogs.map(normalizeBlogPost) : [],
-      source: 'mock',
+      data: blogEntries,
+      source: 'local-mdx',
     }
   }
 
@@ -26,15 +18,15 @@ export const getBlogPosts = async () => {
 
     return {
       success: true,
-      data: Array.isArray(data) ? data.map(normalizeBlogPost) : [],
+      data: Array.isArray(data) ? data : [],
       source: 'api',
     }
   } catch (error) {
     if (isApiClientError(error)) {
       return {
         success: false,
-        data: Array.isArray(fallbackBlogs) ? fallbackBlogs.map(normalizeBlogPost) : [],
-        source: 'mock-fallback',
+        data: blogEntries,
+        source: 'local-mdx-fallback',
         error,
       }
     }
@@ -43,8 +35,8 @@ export const getBlogPosts = async () => {
 
     return {
       success: false,
-      data: Array.isArray(fallbackBlogs) ? fallbackBlogs.map(normalizeBlogPost) : [],
-      source: 'mock-fallback',
+      data: blogEntries,
+      source: 'local-mdx-fallback',
       error,
     }
   }
