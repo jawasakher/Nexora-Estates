@@ -44,7 +44,7 @@ https://nexora-estates-24.jawasakher.workers.dev/
 
 ## 📱 Mobile View
 
-![Mobile Preview](./preview/mobile.png)
+![Mobile Preview]png.png)
 
 ---
 
