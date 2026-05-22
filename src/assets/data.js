@@ -44,6 +44,7 @@ import img3 from "../assets/img3.png"
 import img4 from "../assets/img4.png"
 import img5 from "../assets/img5.png"
 import img6 from "../assets/img6.png"
+import bg from "../assets/bg.png"
 import pImg2 from "../assets/pImg2.png"
 import pImg3 from "../assets/pImg3.png"
 import pImg4 from "../assets/pImg4.png"
@@ -175,7 +176,7 @@ export const dummyProperties = [
         },
         "area": 800,
         "amenities": [ "Balcony", "High-Speed Internet", "Backyard",],
-        "images": [img1, pImg2, pImg3, pImg4],
+        "images": [bg, img1, pImg2, pImg3],
         "isAvailable": true,
         "status": "available",
         "createdAt": "2025-04-10T06:26:04.013Z",
