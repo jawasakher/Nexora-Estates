@@ -1,152 +1,209 @@
-# 🏡 Nexora Estates — Premium Real Estate Experience
+# 🏙️ Nexora Estates — Modern Real Estate Platform
 
-<p align="center">
-  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80" width="100%" />
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-Modern_UI-61DAFB?style=for-the-badge&logo=react" />
-  <img src="https://img.shields.io/badge/Vite-Fast_Build-646CFF?style=for-the-badge&logo=vite" />
-  <img src="https://img.shields.io/badge/TailwindCSS-Styled-38B2AC?style=for-the-badge&logo=tailwind-css" />
-  <img src="https://img.shields.io/badge/Responsive-Mobile%20%7C%20Tablet%20%7C%20Desktop-success?style=for-the-badge" />
-</p>
+# 🏡 Nexora Estates
 
-<h1 align="center">Nexora Estates</h1>
+### Premium Modern Real Estate Platform Built With React & Vite
 
-<p align="center">
-A premium real estate website built to deliver trust, elegance, and seamless property discovery.
-</p>
+<img src="https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react" />
+<img src="https://img.shields.io/badge/Vite-Fast%20Build-purple?style=for-the-badge&logo=vite" />
+<img src="https://img.shields.io/badge/TailwindCSS-Styling-06B6D4?style=for-the-badge&logo=tailwindcss" />
+<img src="https://img.shields.io/badge/Clerk-Authentication-black?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Responsive-Mobile%20Friendly-success?style=for-the-badge" />
 
----
+<br/>
 
-## ✨ Overview
+✨ Luxury Property Experience  
+⚡ High Performance Frontend  
+📱 Fully Responsive Design  
+🔐 Secure Authentication System  
 
-**Nexora Estates** is a modern and visually engaging real estate platform designed for agencies, brokers, and developers who want a premium online presence.
+<br/>
 
-It combines sleek UI, responsive design, and smooth performance to create a professional browsing experience across all devices.
+<a href="https://nexora-estates-24.jawasakher.workers.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-Visit_Website-blue?style=for-the-badge" />
+</a>
 
----
-
-## 🚀 Features
-
-### 🏠 Property Showcase
-
-- Premium property cards  
-- Beautiful layout structure  
-- High-quality visual presentation  
-- Clean browsing experience  
-
-### 📱 Fully Responsive
-
-Optimized for:
-
-- Desktop  
-- Tablet  
-- Mobile  
-
-### ⚡ Fast Performance
-
-- Built with Vite  
-- Lightweight structure  
-- Smooth navigation  
-- Fast loading speed  
-
-### 🎯 Conversion Focused
-
-- Clear CTA sections  
-- User-friendly flow  
-- Trust-building modern UI  
-- Elegant visual hierarchy  
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+# 🌍 Live Preview
+
+🚀 **Demo:**  
+https://nexora-estates-24.jawasakher.workers.dev/
+
+---
+
+# 📸 Project Preview
+
+## 🖥️ Desktop View
+
+![Desktop Preview](./preview/desktop.png)
+
+## 📱 Mobile View
+
+![Mobile Preview](./preview/mobile.png)
+
+---
+
+# ✨ Features
+
+## 🏠 Property Management
+
+- Modern property listings
+- Advanced property details page
+- Dynamic image gallery
+- Property inquiry system
+- Owner dashboard
+- Add / Edit / Manage properties
+
+## 🔐 Authentication
+
+- Secure login & signup
+- Clerk authentication integration
+- Protected routes
+- User session management
+
+## 📱 Responsive UI
+
+- Mobile-first design
+- Tablet optimized layout
+- Smooth animations
+- Clean modern interface
+
+## ⚡ Performance
+
+- Vite ultra-fast build system
+- Optimized image loading
+- Lazy loading support
+- Clean architecture
+
+## 🎨 UI/UX
+
+- Luxury real estate aesthetic
+- Interactive property cards
+- Elegant typography
+- Smooth user experience
+
+---
+
+# 🛠️ Tech Stack
+
+| Technology | Usage |
+|------------|-------|
+| React | Frontend Framework |
+| Vite | Build Tool |
+| Tailwind CSS | Styling |
+| Clerk | Authentication |
+| React Router | Navigation |
+| Context API | State Management |
+
+---
+
+# 📂 Project Structure
 
 ```bash
-React.js
-Vite
-Tailwind CSS
-JavaScript (ES6+)
-Responsive Design
-
-## 📂 Project Structure
-
-```bash
-Nexora-Estates/
-│── public/
-│── src/
-│   ├── assets/
-│   ├── components/
-│   ├── pages/
-│   ├── App.jsx
-│   └── main.jsx
-│── package.json
-│── vite.config.js
+src/
+│
+├── components/
+├── pages/
+├── context/
+├── assets/
+├── services/
+├── layouts/
+└── utils/
 ```
 
 ---
 
-## ⚙️ Installation
+# 🚀 Getting Started
+
+## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/jawasakher/Nexora-Estates.git
+git clone https://github.com/your-username/nexora-estates.git
+```
 
-cd Nexora-Estates
+## 2️⃣ Install Dependencies
 
+```bash
 npm install
+```
 
+## 3️⃣ Setup Environment Variables
+
+Create `.env` file:
+
+```env
+VITE_CLERK_PUBLISHABLE_KEY=your_key
+VITE_API_URL=your_api
+VITE_CURRENCY=$
+```
+
+---
+
+# ▶️ Run Development Server
+
+```bash
 npm run dev
 ```
 
 ---
 
-## 🌍 Why This Project?
+# 🏗️ Build For Production
 
-Unlike basic templates, **Nexora Estates** focuses on:
-
-* Premium first impression
-* Professional real estate branding
-* Smooth user experience
-* Clean scalable codebase
-* Strong portfolio value
-
----
-
-## 📸 Best Use Cases
-
-* Real Estate Agencies
-* Property Brokers
-* Luxury Villas Projects
-* Apartment Listings
-* Freelance Client Projects
-* Frontend Portfolio Showcase
-
----
-
-## 👨‍💻 Developer
-
-**Jawa Sakher**
-
-Frontend Developer passionate about creating premium user experiences and modern interfaces.
-
-🔗 GitHub: [https://github.com/jawasakher](https://github.com/jawasakher)
-
----
-
-## ⭐ Support
-
-If you like this project:
-
-⭐ Star the repository
-🍴 Fork it
-📢 Share it
-
----
-
-## 📌 Repository
-
-[https://github.com/jawasakher/Nexora-Estates](https://github.com/jawasakher/Nexora-Estates)
-
+```bash
+npm run build
 ```
-```
+
+---
+
+# 🔥 Key Highlights
+
+✅ Modern Real Estate UI  
+✅ Clean Scalable Architecture  
+✅ Responsive On All Devices  
+✅ Authentication & Dashboard  
+✅ Optimized Performance  
+✅ SEO Friendly Structure  
+
+---
+
+# 📈 Future Improvements
+
+- AI Property Recommendations
+- Real-time Chat System
+- Advanced Filters
+- Interactive Maps
+- Mortgage Calculator
+- Multi-language Support
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+
+### ⭐ If You Like This Project, Give It A Star ⭐
+
+
+</div>
 
