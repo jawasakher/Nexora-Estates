@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext.jsx'
 import PropertyImages from '../components/PropertyImages'
@@ -15,13 +15,7 @@ import Seo from '../components/Seo'
 const PropertyDetails = () => {
   const { properties, navigate, currency } = useAppContext()
   const { id } = useParams()
-
-  const [bookingForm, setBookingForm] = useState({
-    destination: '',
-    checkIn: '',
-    checkOut: '',
-    guests: 1,
-  })
+  const leadFormRef = useRef(null)
 
   const property = useMemo(() => {
     return properties?.find((item) => item._id === id) ?? null
@@ -42,6 +36,24 @@ const PropertyDetails = () => {
   const agencyContact = property?.agency?.contact || 'Contact not available'
   const agencyEmail = property?.agency?.email || 'Email not available'
   const agencyOwnerImage = property?.agency?.owner?.image || assets.userImg
+
+  const normalizedPhone = agencyContact.replace(/[^+\d]/g, '')
+  const hasValidPhone = Boolean(normalizedPhone)
+  const hasValidEmail = agencyEmail.includes('@')
+
+  const handleEmailClick = () => {
+    if (!hasValidEmail) return
+
+    const subject = encodeURIComponent(`Inquiry about ${property.title}`)
+    const body = encodeURIComponent(`Hi ${agencyName},\n\nI am interested in ${property.title} located at ${property.address}. Please share more details.`)
+    window.location.href = `mailto:${agencyEmail}?subject=${subject}&body=${body}`
+  }
+
+  const handleCallClick = () => {
+    if (!hasValidPhone) return
+
+    window.location.href = `tel:${normalizedPhone}`
+  }
 
   const structuredData = useMemo(() => {
     if (!property) return null
@@ -105,27 +117,8 @@ const PropertyDetails = () => {
     }
   }, [currencyCode, firstImage, property])
 
-  const handleBookingChange = (e) => {
-    const { id: fieldId, value } = e.target
-    const key = fieldId === 'destinationInput' ? 'destination' : fieldId
-    setBookingForm((prev) => ({ ...prev, [key]: value }))
-  }
-
-  const handleBookingSubmit = (e) => {
-    e.preventDefault()
-    const query = new URLSearchParams()
-
-    if (bookingForm.destination) query.set('q', bookingForm.destination)
-    if (bookingForm.destination) query.set('city', bookingForm.destination)
-    if (bookingForm.checkIn) query.set('checkIn', bookingForm.checkIn)
-    if (bookingForm.checkOut) query.set('checkOut', bookingForm.checkOut)
-    if (bookingForm.guests) query.set('guests', String(bookingForm.guests))
-
-    navigate(`/listing?${query.toString()}`)
-  }
-
-  const handleBookingCancel = () => {
-    setBookingForm({ destination: '', checkIn: '', checkOut: '', guests: 1 })
+  const scrollToLeadForm = () => {
+    leadFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   if (!property) {
@@ -260,91 +253,26 @@ const PropertyDetails = () => {
             <Card className='p-5 sm:p-6'>
               <div className='mb-4 flex items-center justify-between gap-3 flex-wrap'>
                 <div>
-                  <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Booking</p>
-                  <h4 className='h4'>Check availability</h4>
+                  <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Inquiry</p>
+                  <h4 className='h4'>Want to know more?</h4>
                 </div>
-                <Badge variant='info'>Quick inquiry</Badge>
+                <Badge variant='info'>Quick response</Badge>
               </div>
 
-              <form onSubmit={handleBookingSubmit} className='space-y-5'>
-                <div>
-                  <label className='mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700'>
-                    <img src={assets.pin} alt='pin' width={16} />
-                    Destination
-                  </label>
-                  <input
-                    list='destinations'
-                    id='destinationInput'
-                    type='text'
-                    value={bookingForm.destination}
-                    onChange={handleBookingChange}
-                    className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30'
-                    placeholder='Enter city name...'
-                    required
-                  />
-                  <datalist id='destinations'>
-                    {cities.map((city, index) => (
-                      <option value={city} key={index} />
-                    ))}
-                  </datalist>
+              <div className='space-y-4'>
+                <p className='text-sm leading-6 text-slate-600'>
+                  This property is ready for a direct inquiry. Jump to the contact form below and send your details to the agency.
+                </p>
+
+                <div className='rounded-2xl bg-secondary/10 p-4 text-sm text-slate-700'>
+                  <p className='font-semibold text-slate-900'>What happens next</p>
+                  <p className='mt-1'>We capture your inquiry, attach this property, and forward it to the owner or agent.</p>
                 </div>
 
-                <div>
-                  <label className='mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700'>
-                    <img src={assets.calendar} alt='calendar' width={16} />
-                    Check-in Date
-                  </label>
-                  <input
-                    type='date'
-                    id='checkIn'
-                    value={bookingForm.checkIn}
-                    onChange={handleBookingChange}
-                    className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30'
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className='mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700'>
-                    <img src={assets.calendar} alt='calendar' width={16} />
-                    Check-out Date
-                  </label>
-                  <input
-                    type='date'
-                    id='checkOut'
-                    value={bookingForm.checkOut}
-                    onChange={handleBookingChange}
-                    className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30'
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className='mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700'>
-                    <img src={assets.user} alt='user' width={16} />
-                    Number of Guests
-                  </label>
-                  <input
-                    type='number'
-                    id='guests'
-                    value={bookingForm.guests}
-                    onChange={handleBookingChange}
-                    min={1}
-                    max={5}
-                    className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30'
-                    required
-                  />
-                </div>
-
-                <div className='flex gap-3 pt-2'>
-                  <Button type='button' onClick={handleBookingCancel} variant='secondary' className='flex-1 rounded-lg'>
-                    Cancel
-                  </Button>
-                  <Button type='submit' className='flex-1 rounded-lg'>
-                    Search Properties
-                  </Button>
-                </div>
-              </form>
+                <Button type='button' onClick={scrollToLeadForm} className='w-full rounded-lg'>
+                  Inquire Now
+                </Button>
+              </div>
             </Card>
 
             <Card className='p-5 sm:p-6'>
@@ -422,17 +350,17 @@ const PropertyDetails = () => {
             </div>
 
             <div className='mt-4 flex items-center gap-3'>
-              <Button variant='secondary' className='flex-1 rounded-xl'>
+              <Button variant='secondary' className='flex-1 rounded-xl' onClick={handleEmailClick} disabled={!hasValidEmail}>
                 <img src={assets.mail} alt='' width={16} />
                 Send Email
               </Button>
-              <Button className='flex-1 rounded-xl'>
+              <Button className='flex-1 rounded-xl' onClick={handleCallClick} disabled={!hasValidPhone}>
                 <img src={assets.phone} alt='' width={16} />
                 Call Now
               </Button>
             </div>
 
-            <div className='mt-5 border-t border-slate-900/10 pt-5'>
+            <div ref={leadFormRef} id='property-contact' className='mt-5 border-t border-slate-900/10 pt-5'>
               <LeadForm
                 source={LEAD_SOURCES.LISTING_DETAIL}
                 propertyId={property._id}

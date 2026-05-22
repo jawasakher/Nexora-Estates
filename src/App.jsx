@@ -44,7 +44,7 @@ const App = () => {
           <Route element={<AccessGate requireRole='owner' />}>
             <Route path='/owner' element={<Sidebar/>} >
               <Route index element={<Dashboard/>}/>
-              <Route path='add-property' element={<AddProperty/>}/>
+              <Route path='add-property/:propertyId?' element={<AddProperty/>}/>
               <Route path='list-property' element={<Listproperty/>}/>
             </Route>
           </Route>

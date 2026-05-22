@@ -36,7 +36,7 @@ const socialLinks = [
 ]
 
 const Footer = () => {
-  const { navigate, isOwner } = useAppContext()
+  const { navigate } = useAppContext()
   const [newsletterEmail, setNewsletterEmail] = useState('')
   const [newsletterLoading, setNewsletterLoading] = useState(false)
   const [newsletterStatus, setNewsletterStatus] = useState('idle')
@@ -129,25 +129,6 @@ const Footer = () => {
                   </Button>
                 </div>
 
-                {isOwner ? (
-                  <div className='rounded-3xl border border-secondary/25 bg-linear-to-r from-secondary/15 to-white/70 p-4 shadow-sm'>
-                    <p className='text-xs font-semibold uppercase tracking-[0.18em] text-secondary'>Owner portal</p>
-                    <div className='mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
-                      <div>
-                        <h4 className='h4'>Manage your inventory</h4>
-                        <p className='text-sm text-slate-600'>Open the protected owner area for listings and dashboard actions.</p>
-                      </div>
-                      <Button
-                        onClick={() => navigate('/owner')}
-                        variant='primary'
-                        size='md'
-                        className='rounded-full whitespace-nowrap'
-                      >
-                        Open Owner Dashboard
-                      </Button>
-                    </div>
-                  </div>
-                ) : null}
               </div>
             </div>
           </div>

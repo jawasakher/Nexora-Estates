@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import EmptyState from './ui/EmptyState'
 
 const PropertyImages = ({ property }) => {
@@ -28,6 +28,10 @@ const PropertyImages = ({ property }) => {
 
     const selectedImage = images[selectedIndex] || images[0]
     const selectedCaption = imageCaptions[selectedIndex] ?? imageCaptions[0] ?? null
+
+    useEffect(() => {
+        setSelectedIndex(0)
+    }, [images])
 
     return(
 

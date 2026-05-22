@@ -67,7 +67,7 @@ const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onD
               View
             </Button>
           </Link>
-          <Link to='/owner/add-property'>
+          <Link to={`/owner/add-property/${property?._id}`}>
             <Button variant='ghost' size='sm' className='rounded-full'>
               Edit
             </Button>

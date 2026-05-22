@@ -13,7 +13,7 @@ const Hero = () => {
     checkOut: '',
     guests: ''
   });
-  const { navigate, isOwner } = useAppContext()
+  const { navigate } = useAppContext()
 
   const handleExploreClick = () => {
     setShowExploreModal(true);
@@ -68,22 +68,6 @@ const Hero = () => {
               <h2 className='h2 max-w-4xl capitalize leading-[1.1] mt-3 my-2 text-white sm:leading-tight'>Transform <span className='bg-linear-to-r from-secondary to-white bg-clip-text text-transparent'> exceptional properties </span>
                Located in stunning surroundings.</h2>
             <div className='mt-5 flex flex-wrap gap-3'>
-              <Button
-                onClick={() => {
-                  trackEvent('cta_clicked', {
-                    source: LEAD_SOURCES.HOME_CTA,
-                    label: 'Owner Dashboard',
-                    placement: 'hero',
-                  })
-                  navigate('/owner')
-                }}
-                variant='primary'
-                size='lg'
-                className='rounded-full'
-              >
-                Owner Dashboard
-              </Button>
-
               <Button
                 onClick={() => {
                   trackEvent('cta_clicked', {

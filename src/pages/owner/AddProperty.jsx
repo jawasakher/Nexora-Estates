@@ -1,17 +1,24 @@
-import React,{useMemo, useState} from 'react'
+import React,{useEffect, useMemo, useState} from 'react'
 import { assets } from '../../assets/data'
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Textarea from '../../components/ui/Textarea'
 import Card from '../../components/ui/Card'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useOwnerPropertyMutations } from '../../hooks/useOwnerPropertyMutations.js'
 import { useAppContext } from '../../context/AppContext.jsx'
+import { useOwnerProperties } from '../../hooks/useOwnerProperties.js'
 
 const AddProperty = () => {
   const navigate = useNavigate()
-  const { createPropertyMutation } = useOwnerPropertyMutations()
+  const { propertyId } = useParams()
+  const { data: ownerProperties = [] } = useOwnerProperties()
+  const { createPropertyMutation, updatePropertyMutation } = useOwnerPropertyMutations()
   const { currency } = useAppContext()
+  const editingProperty = useMemo(
+    () => ownerProperties.find((property) => property._id === propertyId) || null,
+    [ownerProperties, propertyId],
+  )
   const [images, setImages ] = useState ({
     1:null,
     2:null,
@@ -44,33 +51,78 @@ const AddProperty = () => {
 
   const amenityCount = useMemo(() => Object.values(inputs.amenities).filter(Boolean).length, [inputs.amenities])
 
+  useEffect(() => {
+    if (!editingProperty) return
+
+    setInputs({
+      title: editingProperty.title || '',
+      description: editingProperty.description || '',
+      city: editingProperty.city || '',
+      country: editingProperty.country || '',
+      address: editingProperty.address || '',
+      area: editingProperty.area ?? '',
+      propertyType: editingProperty.propertyType || '',
+      priceRent: editingProperty.price?.rent ?? '',
+      priceSale: editingProperty.price?.sale ?? '',
+      bedrooms: editingProperty.facilities?.bedrooms ?? '',
+      bathrooms: editingProperty.facilities?.bathrooms ?? '',
+      garages: editingProperty.facilities?.garages ?? '',
+      amenities: Object.keys(inputs.amenities).reduce(
+        (accumulator, amenity) => ({
+          ...accumulator,
+          [amenity]: Array.isArray(editingProperty.amenities) ? editingProperty.amenities.includes(amenity) : false,
+        }),
+        {},
+      ),
+    })
+
+    setImages({
+      1: editingProperty.images?.[0] || null,
+      2: editingProperty.images?.[1] || null,
+      3: editingProperty.images?.[2] || null,
+      4: editingProperty.images?.[3] || null,
+    })
+  }, [editingProperty])
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     setFormError('')
     setFormSuccess('')
 
     try {
-      const result = await createPropertyMutation.mutateAsync({
+      const payload = {
         ...inputs,
         images: Object.values(images).filter(Boolean),
-      })
+      }
 
-      setFormSuccess('Property created successfully.')
+      const result = editingProperty
+        ? await updatePropertyMutation.mutateAsync({
+            propertyId: editingProperty._id,
+            input: payload,
+          })
+        : await createPropertyMutation.mutateAsync(payload)
+
+      setFormSuccess(editingProperty ? 'Property updated successfully.' : 'Property created successfully.')
       if (result?.data?._id) {
         navigate('/owner/list-property')
       }
     } catch (error) {
-      setFormError(error instanceof Error ? error.message : 'Failed to create property.')
+      setFormError(error instanceof Error ? error.message : editingProperty ? 'Failed to update property.' : 'Failed to create property.')
     }
   }
 
-  const loading = createPropertyMutation.isPending
+  const loading = createPropertyMutation.isPending || updatePropertyMutation.isPending
  
 
   return (
     <div className='md:px-8 py-6 xl:py-8 m-1 sm:m-3 h-[97vh] overflow-y-scroll lg:w-11/12'>
       <Card className='p-4 sm:p-6'>
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-3.5 px-2 text-sm xl:max-w-3xl">
+        <div>
+          <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Owner property form</p>
+          <h2 className='h2 mt-1'>{editingProperty ? 'Edit property' : 'Add property'}</h2>
+          <p className='text-slate-600'>{editingProperty ? 'Update the listing details below.' : 'Create a new listing for your owner dashboard.'}</p>
+        </div>
         <Input
           label='Property Name'
           value={inputs.title}
@@ -248,7 +300,7 @@ const AddProperty = () => {
         {formError ? <p className='rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700'>{formError}</p> : null}
         {formSuccess ? <p className='rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'>{formSuccess}</p> : null}
         <Button type="submit" disabled={loading} loading={loading} size='lg' className="mt-3 max-w-56 sm:w-full rounded-xl">
-          Submit Property
+          {editingProperty ? 'Update Property' : 'Submit Property'}
         </Button>
         </form>
       </Card>
