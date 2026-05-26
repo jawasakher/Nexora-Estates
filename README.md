@@ -36,7 +36,17 @@ https://nexora-estates-24.jawasakher.workers.dev/
 
 ---
 
+# 📸 Project Preview
 
+## 🖥️ Desktop View
+
+![Desktop Preview](./preview/desktop.png)
+
+## 📱 Mobile View
+
+![Mobile Preview](./preview/mobile.png)
+
+---
 
 # ✨ Features
 
