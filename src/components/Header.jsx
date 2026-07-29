@@ -6,6 +6,8 @@ import { Navbar } from "./Navbar";
 import { useAppContext } from "../context/AppContext.jsx";
 import Button from "./ui/Button";
 import Input from "./ui/Input";
+import LanguageSwitcher from './ui/LanguageSwitcher.jsx'
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 const Header = () => {
   const [active, setActive] = useState(false);
@@ -15,6 +17,7 @@ const Header = () => {
   const location = useLocation();
   const { navigate, user, isOwner } = useAppContext();
   const { openSignIn } = useClerk();
+  const { t } = useI18n()
 
   const toggleMenu = () => {
     setMenuOpened((prev) => !prev);
@@ -92,7 +95,7 @@ const Header = () => {
                 {showSearch && (
                   <Input
                     type="text"
-                    placeholder="Search..."
+                    placeholder={`${t('common.search')}...`}
                     className="border-0 bg-transparent px-0 py-0 text-sm focus:ring-0"
                   />
                 )}
@@ -104,9 +107,11 @@ const Header = () => {
                 size="sm"
                 className="absolute right-0 rounded-full text-xs"
               >
-                {showSearch ? "Close" : "Search"}
+                {showSearch ? t('common.close') : t('common.search')}
               </Button>
             </div>
+
+            <LanguageSwitcher className='inline-flex' />
 
             {/* Menu */}
             <div>
@@ -127,7 +132,7 @@ const Header = () => {
                     size="sm"
                     className="hidden rounded-full md:inline-flex"
                   >
-                    My Bookings
+                    {t('common.myBookings')}
                   </Button>
                   <UserButton
                     appearance={{
@@ -146,7 +151,7 @@ const Header = () => {
                   variant="secondary"
                   className="flexCenter gap-2 rounded-full"
                 >
-                  Login
+                  {t('common.login')}
                   <img src={assets.user} />
                 </Button>
               )}

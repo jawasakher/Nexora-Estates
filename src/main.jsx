@@ -10,6 +10,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './query/queryClient.js'
 import { MDXProvider } from '@mdx-js/react'
 import mdxComponents from './components/mdx/MDXComponents.jsx'
+import { I18nProvider } from './i18n/I18nContext.jsx'
 
 // Import your publishable key
 const PUBLISHABLE_KEY=import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -23,9 +24,11 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <MDXProvider components={mdxComponents}>
           <QueryClientProvider client={queryClient}>
-            <AppContextProvider>
-              <App />
-            </AppContextProvider>
+            <I18nProvider>
+              <AppContextProvider>
+                <App />
+              </AppContextProvider>
+            </I18nProvider>
           </QueryClientProvider>
         </MDXProvider>
       </BrowserRouter>

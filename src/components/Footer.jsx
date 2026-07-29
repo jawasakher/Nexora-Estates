@@ -6,27 +6,7 @@ import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
 import { trackEvent } from '../services/analytics.js'
 import { subscribeNewsletter } from '../services/newsletter.js'
-
-const footerLinks = {
-  company: [
-    { label: 'About Us', href: '#' },
-    { label: 'Listings', href: '/listing' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Careers', href: '#' }
-  ],
-  support: [
-    { label: 'Help Center', href: '#' },
-    { label: 'Contact Us', href: '/contact' },
-    { label: 'Terms & Conditions', href: '#' },
-    { label: 'Privacy Policy', href: '#' }
-  ],
-  resources: [
-    { label: 'Buyer Guide', href: '#' },
-    { label: 'Seller Guide', href: '#' },
-    { label: 'Market Insights', href: '#' },
-    { label: 'Pricing', href: '#' }
-  ]
-}
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 const socialLinks = [
   { icon: assets.facebook, label: 'Facebook', href: '#' },
@@ -36,11 +16,33 @@ const socialLinks = [
 ]
 
 const Footer = () => {
+  const { t } = useI18n()
   const { navigate } = useAppContext()
   const [newsletterEmail, setNewsletterEmail] = useState('')
   const [newsletterLoading, setNewsletterLoading] = useState(false)
   const [newsletterStatus, setNewsletterStatus] = useState('idle')
   const [newsletterMessage, setNewsletterMessage] = useState('')
+
+  const footerLinks = {
+    company: [
+      { label: t('footer.companyLinks.aboutUs'), href: '#' },
+      { label: t('footer.companyLinks.listings'), href: '/listing' },
+      { label: t('footer.companyLinks.blog'), href: '/blog' },
+      { label: t('footer.companyLinks.careers'), href: '#' }
+    ],
+    support: [
+      { label: t('footer.supportLinks.helpCenter'), href: '#' },
+      { label: t('footer.supportLinks.contactUs'), href: '/contact' },
+      { label: t('footer.supportLinks.terms'), href: '#' },
+      { label: t('footer.supportLinks.privacy'), href: '#' }
+    ],
+    resources: [
+      { label: t('footer.resourceLinks.buyerGuide'), href: '#' },
+      { label: t('footer.resourceLinks.sellerGuide'), href: '#' },
+      { label: t('footer.resourceLinks.marketInsights'), href: '#' },
+      { label: t('footer.resourceLinks.pricing'), href: '#' }
+    ]
+  }
 
   const handleNewsletterSubmit = async (event) => {
     event.preventDefault()
@@ -72,11 +74,11 @@ const Footer = () => {
             <div className='max-w-xl'>
               <div className='mb-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-1.5 text-xs font-semibold text-white'>
                 <img src={assets.rocket} alt='' width={16} className='invert' />
-                Stay Updated
+                {t('footer.stayUpdated')}
               </div>
-              <h3 className='h3 mb-2'>Get the latest properties and market updates.</h3>
+              <h3 className='h3 mb-2'>{t('footer.latestTitle')}</h3>
               <p className='max-w-lg text-slate-600'>
-                Subscribe to receive exclusive listings, market insights, and expert real estate tips straight to your inbox.
+                {t('footer.latestDescription')}
               </p>
             </div>
 
@@ -86,10 +88,10 @@ const Footer = () => {
                   <div className='flex flex-col gap-3 sm:flex-row'>
                     <Input
                       type='email'
-                      label='Newsletter email'
+                      label={t('footer.newsletterLabel')}
                       value={newsletterEmail}
                       onChange={(event) => setNewsletterEmail(event.target.value)}
-                      placeholder='your@email.com'
+                      placeholder={t('footer.newsletterPlaceholder')}
                       className='rounded-full'
                       required
                     />
@@ -100,7 +102,7 @@ const Footer = () => {
                       size='lg'
                       className='rounded-full whitespace-nowrap sm:self-end'
                     >
-                      Subscribe
+                      {t('common.subscribe')}
                     </Button>
                   </div>
 
@@ -116,7 +118,7 @@ const Footer = () => {
                     onClick={() => {
                       trackEvent('cta_clicked', {
                         source: LEAD_SOURCES.FOOTER_CTA,
-                        label: 'Contact Us',
+                        label: t('common.contactUs'),
                         placement: 'footer_primary',
                       })
                       navigate(`/contact?source=${LEAD_SOURCES.FOOTER_CTA}&title=Footer%20CTA%20inquiry`)
@@ -125,7 +127,7 @@ const Footer = () => {
                     size='lg'
                     className='rounded-full whitespace-nowrap'
                   >
-                    Contact Us
+                    {t('common.contactUs')}
                   </Button>
                 </div>
 
@@ -143,7 +145,7 @@ const Footer = () => {
               <span className='text-2xl font-bold bg-linear-to-r from-secondary to-tertiary bg-clip-text text-transparent'>Nexora Estates</span>
             </div>
             <p className='max-w-md text-slate-700'>
-              A premium real estate experience built for buyers, sellers, and investors who expect clarity, speed, and results.
+              {t('footer.brandDescription')}
             </p>
 
             <div className='mt-6 flex items-center gap-3'>
@@ -165,7 +167,7 @@ const Footer = () => {
                   <img src={assets.phone} alt='' width={18} height={18} className='invert' />
                 </div>
                 <div>
-                  <p className='text-xs uppercase tracking-[0.18em] text-slate-500'>Phone</p>
+                  <p className='text-xs uppercase tracking-[0.18em] text-slate-500'>{t('footer.phone')}</p>
                   <a href='tel:+971234567890' className='text-sm font-semibold hover:text-slate-700'>+971 2 345 6789</a>
                 </div>
               </div>
@@ -174,7 +176,7 @@ const Footer = () => {
                   <img src={assets.mail} alt='' width={18} height={18} className='invert' />
                 </div>
                 <div>
-                  <p className='text-xs uppercase tracking-[0.18em] text-slate-500'>Email</p>
+                  <p className='text-xs uppercase tracking-[0.18em] text-slate-500'>{t('footer.email')}</p>
                   <a href='mailto:info@nexora.com' className='text-sm font-semibold hover:text-slate-700'>info@nexora.com</a>
                 </div>
               </div>
@@ -182,7 +184,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h5 className='h5 mb-6'>Company</h5>
+            <h5 className='h5 mb-6'>{t('footer.company')}</h5>
             <ul className='space-y-3'>
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
@@ -195,7 +197,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h5 className='h5 mb-6'>Support</h5>
+            <h5 className='h5 mb-6'>{t('footer.support')}</h5>
             <ul className='space-y-3'>
               {footerLinks.support.map((link) => (
                 <li key={link.label}>
@@ -208,7 +210,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h5 className='h5 mb-6'>Resources</h5>
+            <h5 className='h5 mb-6'>{t('footer.resources')}</h5>
             <ul className='space-y-3'>
               {footerLinks.resources.map((link) => (
                 <li key={link.label}>
@@ -224,28 +226,28 @@ const Footer = () => {
         <div className='mt-14 grid gap-4 border-t border-slate-900/10 pt-8 sm:grid-cols-2 xl:grid-cols-4'>
           <div className='rounded-3xl bg-linear-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
             <p className='text-2xl font-bold text-slate-950'>5K+</p>
-            <p className='text-sm text-slate-600'>Properties Available</p>
+            <p className='text-sm text-slate-600'>{t('footer.stats.properties')}</p>
           </div>
           <div className='rounded-3xl bg-linear-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
             <p className='text-2xl font-bold text-slate-950'>50K+</p>
-            <p className='text-sm text-slate-600'>Happy Clients</p>
+            <p className='text-sm text-slate-600'>{t('footer.stats.clients')}</p>
           </div>
           <div className='rounded-3xl bg-linear-to-br from-secondary/20 to-white/50 p-5 shadow-sm border border-secondary/20'>
             <p className='text-2xl font-bold text-slate-950'>200+</p>
-            <p className='text-sm text-slate-600'>Trusted Agents</p>
+            <p className='text-sm text-slate-600'>{t('footer.stats.agents')}</p>
           </div>
           <div className='rounded-3xl bg-linear-to-br from-tertiary/20 to-white/50 p-5 shadow-sm border border-tertiary/20'>
             <p className='text-2xl font-bold text-slate-950'>20+</p>
-            <p className='text-sm text-slate-600'>Years of Experience</p>
+            <p className='text-sm text-slate-600'>{t('footer.stats.experience')}</p>
           </div>
         </div>
 
         <div className='mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-900/10 pt-8 text-center md:flex-row md:text-left'>
-          <p className='text-sm text-slate-600'>© {new Date().getFullYear()} Nexora Estates. All rights reserved.</p>
+          <p className='text-sm text-slate-600'>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
           <div className='flex flex-wrap items-center justify-center gap-5 text-sm text-slate-600'>
-            <a href='#' className='transition-colors hover:text-slate-950'>Privacy Policy</a>
-            <a href='#' className='transition-colors hover:text-slate-950'>Terms & Conditions</a>
-            <a href='#' className='transition-colors hover:text-slate-950'>Sitemap</a>
+            <a href='#' className='transition-colors hover:text-slate-950'>{t('footer.supportLinks.privacy')}</a>
+            <a href='#' className='transition-colors hover:text-slate-950'>{t('footer.supportLinks.terms')}</a>
+            <a href='#' className='transition-colors hover:text-slate-950'>{t('footer.sitemap')}</a>
           </div>
         </div>
       </div>

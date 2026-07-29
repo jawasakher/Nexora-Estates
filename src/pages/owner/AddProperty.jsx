@@ -8,8 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useOwnerPropertyMutations } from '../../hooks/useOwnerPropertyMutations.js'
 import { useAppContext } from '../../context/AppContext.jsx'
 import { useOwnerProperties } from '../../hooks/useOwnerProperties.js'
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
 const AddProperty = () => {
+  const { t } = useI18n()
   const navigate = useNavigate()
   const { propertyId } = useParams()
   const { data: ownerProperties = [] } = useOwnerProperties()
@@ -50,6 +52,18 @@ const AddProperty = () => {
   const [formSuccess, setFormSuccess] = useState('')
 
   const amenityCount = useMemo(() => Object.values(inputs.amenities).filter(Boolean).length, [inputs.amenities])
+  const propertyTypeOptions = useMemo(
+    () => [
+      { value: 'House', label: t('owner.form.typeOptions.house') },
+      { value: 'Apartment', label: t('owner.form.typeOptions.apartment') },
+      { value: 'Villa', label: t('owner.form.typeOptions.villa') },
+      { value: 'Condo', label: t('owner.form.typeOptions.condo') },
+      { value: 'Townhouse', label: t('owner.form.typeOptions.townhouse') },
+      { value: 'Commercial', label: t('owner.form.typeOptions.commercial') },
+      { value: 'Land Plot', label: t('owner.form.typeOptions.landPlot') },
+    ],
+    [t],
+  )
 
   useEffect(() => {
     if (!editingProperty) return
@@ -102,12 +116,12 @@ const AddProperty = () => {
           })
         : await createPropertyMutation.mutateAsync(payload)
 
-      setFormSuccess(editingProperty ? 'Property updated successfully.' : 'Property created successfully.')
+      setFormSuccess(editingProperty ? t('owner.form.updateSuccess') : t('owner.form.createSuccess'))
       if (result?.data?._id) {
         navigate('/owner/list-property')
       }
     } catch (error) {
-      setFormError(error instanceof Error ? error.message : editingProperty ? 'Failed to update property.' : 'Failed to create property.')
+      setFormError(error instanceof Error ? error.message : editingProperty ? t('owner.form.updateFailed') : t('owner.form.createFailed'))
     }
   }
 
@@ -119,82 +133,78 @@ const AddProperty = () => {
       <Card className='p-4 sm:p-6'>
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-3.5 px-2 text-sm xl:max-w-3xl">
         <div>
-          <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Owner property form</p>
-          <h2 className='h2 mt-1'>{editingProperty ? 'Edit property' : 'Add property'}</h2>
-          <p className='text-slate-600'>{editingProperty ? 'Update the listing details below.' : 'Create a new listing for your owner dashboard.'}</p>
+          <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('owner.form.tag')}</p>
+          <h2 className='h2 mt-1'>{editingProperty ? t('owner.form.editTitle') : t('owner.form.addTitle')}</h2>
+          <p className='text-slate-600'>{editingProperty ? t('owner.form.editDescription') : t('owner.form.addDescription')}</p>
         </div>
         <Input
-          label='Property Name'
+          label={t('owner.form.propertyName')}
           value={inputs.title}
           onChange={(e)=>setInputs({...inputs, title:e.target.value})}
-          placeholder='Type here...'
+          placeholder={t('common.typeHere')}
         />
 
         <Textarea
-          label='Property Description'
+          label={t('owner.form.propertyDescription')}
           value={inputs.description}
           onChange={(e)=>setInputs({...inputs, description:e.target.value})}
           rows={5}
-          placeholder='Type here...'
+          placeholder={t('common.typeHere')}
         />
 
         <div className='flex gap-4 flex-wrap'>
           <Input
-            label='City'
+            label={t('owner.form.city')}
             value={inputs.city}
             onChange={(e)=>setInputs({...inputs, city:e.target.value})}
-            placeholder='Type here...'
+            placeholder={t('common.typeHere')}
             className='min-w-55 flex-1'
           />
 
           <Input
-            label='Country'
+            label={t('owner.form.country')}
             value={inputs.country}
             onChange={(e)=>setInputs({...inputs, country:e.target.value})}
-            placeholder='Type here...'
+            placeholder={t('common.typeHere')}
             className='min-w-55 flex-1'
           />
 
           <div className='w-full sm:w-44'>
-          <h5 className='h5'>Property Type</h5>
+          <h5 className='h5'>{t('owner.form.propertyType')}</h5>
           <select
           onChange={(e)=>setInputs({...inputs, propertyType:e.target.value})}
           value={inputs.propertyType}
            className='w-full px-3 py-2 ring-1 ring-slate-900/10 rounded-lg bg-secondary/5 mt-1'
            >
-            <option value="">Select Property Type</option>
-             <option value="House">House</option>
-            <option value="Apartment">Apartment</option>
-            <option value="Villa">Villa</option>
-            <option value="Condo">Condo</option>
-            <option value="Townhouse">Townhouse</option>
-            <option value="Commercial">Commercial</option>
-            <option value="Land Plot">Land Plot</option>
+            <option value="">{t('owner.form.selectPropertyType')}</option>
+            {propertyTypeOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
           </select>
         </div>
         </div>
 
         <div className='flex gap-4 flex-wrap w-full'>
           <Textarea
-            label='Address'
+            label={t('owner.form.address')}
             value={inputs.address}
             onChange={(e)=>setInputs({...inputs, address:e.target.value})}
-            placeholder='Type here...'
+            placeholder={t('common.typeHere')}
             className='min-w-65 flex-1'
           />
           <Input
-            label='Area'
+            label={t('owner.form.area')}
             type='number'
             value={inputs.area}
             onChange={(e)=>setInputs({...inputs, area:e.target.value})}
-            placeholder='Area (sq ft)'
+            placeholder={t('owner.form.areaPlaceholder')}
             className='w-40'
           />
         </div>
 
         <div className='flex gap-4 flex-wrap'>
           <Input
-            label='Rent Price / night'
+            label={t('owner.form.rentPrice')}
             type='number'
             value={inputs.priceRent}
             onChange={(e)=>setInputs({...inputs, priceRent:e.target.value})}
@@ -204,7 +214,7 @@ const AddProperty = () => {
           />
            
           <Input
-            label='Sale Price'
+            label={t('owner.form.salePrice')}
             type='number'
             value={inputs.priceSale}
             onChange={(e)=>setInputs({...inputs, priceSale:e.target.value})}
@@ -214,7 +224,7 @@ const AddProperty = () => {
           />
 
           <Input
-            label='Bedrooms'
+            label={t('owner.form.bedrooms')}
             type='number'
             value={inputs.bedrooms}
             onChange={(e)=>setInputs({...inputs, bedrooms:e.target.value})}
@@ -224,7 +234,7 @@ const AddProperty = () => {
           />
 
           <Input
-            label='Bathrooms'
+            label={t('owner.form.bathrooms')}
             type='number'
             value={inputs.bathrooms}
             onChange={(e)=>setInputs({...inputs, bathrooms:e.target.value})}
@@ -234,7 +244,7 @@ const AddProperty = () => {
           />
 
           <Input
-            label='Garages'
+            label={t('owner.form.garages')}
             type='number'
             value={inputs.garages}
             onChange={(e)=>setInputs({...inputs, garages:e.target.value})}
@@ -245,20 +255,20 @@ const AddProperty = () => {
         </div>
         {/**Amenities */}
         <div>
-          <h5 className='h5'>Amenities</h5>
+          <h5 className='h5'>{t('owner.form.amenities')}</h5>
           <div className='flex gap-3 flex-wrap mt-1'>
             {Object.keys(inputs.amenities).map((amenity, index) => (
               <div key={index} className="flex gap-1">
                 <input
                 id={`amenities${index + 1}`}
-                 onChange={(e)=>
+                 onChange={() =>
                   setInputs({...inputs, amenities:{...inputs.amenities,[amenity]:
                     !inputs.amenities[amenity] }})
                 }
-                 value={inputs.amenities[amenity]}
+                 checked={Boolean(inputs.amenities[amenity])}
                 type="checkbox"
                 />
-                <label htmlFor={`amenities${index + 1}`} >{amenity}</label>
+                <label htmlFor={`amenities${index + 1}`} >{t(`owner.form.amenitiesLabels.${amenity.toLowerCase()}`)}</label>
                 </div>
                )) }
         </div>
@@ -287,20 +297,20 @@ const AddProperty = () => {
                    ? URL.createObjectURL(images[key])
                     :assets.uploadIcon 
                     }
-                     alt="upload Area"
+                     alt={t('owner.form.uploadAreaAlt')}
                       className='overflow-hidden object-contain'/>
               </div>
             </label>
             ))}
         </div>
         <div className='flex flex-wrap items-center gap-3 text-xs text-slate-500'>
-          <span>{amenityCount} amenities selected</span>
-          <span>{currency} pricing ready for contract submit</span>
+          <span>{t('owner.form.amenitiesSelected', { count: amenityCount })}</span>
+          <span>{t('owner.form.pricingReady', { currency })}</span>
         </div>
         {formError ? <p className='rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700'>{formError}</p> : null}
         {formSuccess ? <p className='rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'>{formSuccess}</p> : null}
         <Button type="submit" disabled={loading} loading={loading} size='lg' className="mt-3 max-w-56 sm:w-full rounded-xl">
-          {editingProperty ? 'Update Property' : 'Submit Property'}
+          {editingProperty ? t('common.updateProperty') : t('common.submitProperty')}
         </Button>
         </form>
       </Card>

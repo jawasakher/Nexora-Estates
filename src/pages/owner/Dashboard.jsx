@@ -5,8 +5,10 @@ import DashboardSection from '../../components/ui/DashboardSection.jsx'
 import EmptyState from '../../components/ui/EmptyState.jsx'
 import DashboardSkeleton from '../../components/skeletons/DashboardSkeleton.jsx'
 import { useOwnerProperties } from '../../hooks/useOwnerProperties.js'
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
 const Dashboard = () => {
+  const { t, language } = useI18n()
   const { data: ownerProperties = [], isLoading: loadingDashboard } = useOwnerProperties()
 
   const currency = import.meta.env.VITE_CURRENCY ?? '$'
@@ -45,14 +47,14 @@ const Dashboard = () => {
         <StatCard
           icon={assets.house}
           value={dashboardData.totalBookings.toString().padStart(2, '0')}
-          label='Total Sales'
+          label={t('owner.dashboard.totalSales')}
           className='bg-[#fff4d2]'
         />
 
         <StatCard
           icon={assets.dollar}
           value={`${currency}${dashboardData.totalRevenue}`}
-          label='Total Revenue'
+          label={t('owner.dashboard.totalRevenue')}
           className='bg-[#d1e8ff]'
         />
 
@@ -60,15 +62,15 @@ const Dashboard = () => {
 
       {/* Latest Bookings */}
       <div className="mt-4">
-        <DashboardSection title='Latest Bookings' description='Recent reservation activity and payment status.'>
+        <DashboardSection title={t('owner.dashboard.latestBookings')} description={t('owner.dashboard.latestBookingsDescription')}>
           {dashboardData.bookings?.length ? (
             <div>
               <div className="flex justify-between flex-wrap gap-2 sm:grid sm:grid-cols-[2fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_2fr_1fr_1fr] px-6 py-3 bg-secondary border-b border-slate-900/15 rounded-t-xl">
-                <h5 className="h5 hidden lg:block">Index</h5>
-                <h5 className="h5">Property</h5>
-                <h5 className="h5">Booking Dates</h5>
-                <h5 className="h5">Amount</h5>
-                <h5 className="h5">Status</h5>
+                <h5 className="h5 hidden lg:block">{t('owner.dashboard.index')}</h5>
+                <h5 className="h5">{t('owner.dashboard.property')}</h5>
+                <h5 className="h5">{t('owner.dashboard.bookingDates')}</h5>
+                <h5 className="h5">{t('owner.dashboard.amount')}</h5>
+                <h5 className="h5">{t('owner.dashboard.status')}</h5>
               </div>
 
               {dashboardData.bookings?.map((booking, index) => (
@@ -83,7 +85,7 @@ const Dashboard = () => {
                     <div className='overflow-hidden rounded-lg'>
                       <img
                         src={booking?.property?.images?.[0] || ''}
-                        alt={booking?.property?.title || 'Property'}
+                        alt={booking?.property?.title || t('owner.row.fallbackProperty')}
                         loading='lazy'
                         className="w-16 h-16 object-cover rounded-lg"
                       />
@@ -95,9 +97,9 @@ const Dashboard = () => {
                   </div>
 
                   <div>
-                    {new Date(booking.checkInDate).toDateString()} 
-                    to 
-                    {new Date(booking.checkOutDate).toDateString()}
+                    {new Date(booking.checkInDate).toLocaleDateString(language)} 
+                    {t('owner.dashboard.dateTo')} 
+                    {new Date(booking.checkOutDate).toLocaleDateString(language)}
                   </div>
 
                   <div>
@@ -105,14 +107,14 @@ const Dashboard = () => {
                   </div>
 
                   <button className={`${booking.isPaid ? 'bg-green-400/80 text-white' : 'bg-secondary/10 text-red-500'} w-22 py-0.5 rounded-full text-xs border-green-500/30`}>
-                    {booking.status}
+                    {booking.status === 'available' ? t('common.available') : t('common.hidden')}
                   </button>
                 </div>
               ))}
             </div>
           ) : (
             <div className='p-6'>
-              <EmptyState title='No owner activity yet' description='Latest inventory-linked activity will show up here once properties are added.' />
+              <EmptyState title={t('owner.dashboard.noActivity')} description={t('owner.dashboard.noActivityDescription')} />
             </div>
           )}
         </DashboardSection>

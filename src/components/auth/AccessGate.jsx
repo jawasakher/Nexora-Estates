@@ -3,16 +3,17 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAppContext } from '../../context/AppContext.jsx'
 import Loader from '../ui/Loader.jsx'
 import Button from '../ui/Button.jsx'
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
-const OwnerAccessDenied = () => (
+const OwnerAccessDenied = ({ t }) => (
   <div className='flex min-h-[70vh] items-center justify-center px-4 py-20'>
     <div className='max-w-xl rounded-3xl border border-slate-900/10 bg-white p-8 text-center shadow-sm'>
-      <p className='mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Owner area</p>
-      <h1 className='h2 mb-3'>Owner access required</h1>
-      <p className='mb-6 text-slate-600'>This section is reserved for owner accounts. If this should be your dashboard, sign in with the owner account or contact support to update access.</p>
+      <p className='mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('access.ownerArea')}</p>
+      <h1 className='h2 mb-3'>{t('access.ownerRequired')}</h1>
+      <p className='mb-6 text-slate-600'>{t('access.ownerRequiredDescription')}</p>
       <div className='flex flex-wrap justify-center gap-3'>
         <Button variant='secondary' onClick={() => window.location.assign('/contact')}>
-          Contact Us
+          {t('common.contactUs')}
         </Button>
       </div>
     </div>
@@ -29,11 +30,12 @@ const GateFallback = ({ label }) => (
 )
 
 const AccessGate = ({ requireRole = 'authenticated' }) => {
+  const { t } = useI18n()
   const { authStatus, isAuthenticated, isOwner } = useAppContext()
   const location = useLocation()
 
   if (authStatus === 'loading') {
-    return <GateFallback label='Checking session...' />
+    return <GateFallback label={t('access.checkingSession')} />
   }
 
   if (requireRole === 'authenticated' && !isAuthenticated) {
@@ -41,7 +43,7 @@ const AccessGate = ({ requireRole = 'authenticated' }) => {
   }
 
   if (requireRole === 'owner' && !isOwner) {
-    return <OwnerAccessDenied />
+    return <OwnerAccessDenied t={t} />
   }
 
   return <Outlet />

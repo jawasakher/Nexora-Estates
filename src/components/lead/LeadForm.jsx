@@ -10,6 +10,7 @@ import SubmissionFeedback from './SubmissionFeedback'
 import { LEAD_SOURCES } from '../../constants/leadSources.js'
 import { submitLead } from '../../services/lead.js'
 import { trackEvent } from '../../services/analytics.js'
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
 const initialValues = {
   name: '',
@@ -19,6 +20,7 @@ const initialValues = {
 }
 
 const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTitle, onSubmit, onSuccess }) => {
+  const { t } = useI18n()
   const { user, getToken } = useAppContext()
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
@@ -35,11 +37,11 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const validation = validateLeadForm(values)
+    const validation = validateLeadForm(values, t)
     if (!validation.isValid) {
       setErrors(validation.errors)
       setStatus('error')
-      setFeedbackMessage('Please fix the highlighted fields and try again.')
+      setFeedbackMessage(t('lead.validationError'))
       return
     }
 
@@ -68,7 +70,7 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
       }
 
       setStatus('success')
-      setFeedbackMessage('Your inquiry was captured. We will contact you shortly.')
+      setFeedbackMessage(t('lead.successCaptured'))
       setValues(initialValues)
       setErrors({})
 
@@ -83,7 +85,7 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
       })
     } catch (error) {
       setStatus('error')
-      setFeedbackMessage(error instanceof Error ? error.message : 'Failed to send the inquiry.')
+      setFeedbackMessage(error instanceof Error ? error.message : t('lead.failedToSend'))
     }
   }
 
@@ -91,52 +93,52 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
     <Card className='p-5 sm:p-6'>
       <div className='mb-4 flex flex-wrap items-center justify-between gap-3'>
         <div>
-          <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>Lead capture</p>
-          <h4 className='h4'>Send an inquiry</h4>
+          <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('lead.capture')}</p>
+          <h4 className='h4'>{t('lead.sendInquiry')}</h4>
         </div>
         <Badge variant='info'>{source}</Badge>
       </div>
 
       <form onSubmit={handleSubmit} className='space-y-4'>
         <Input
-          label='Name'
+          label={t('lead.name')}
           name='name'
           value={values.name}
           onChange={handleChange}
-          placeholder='Your full name'
+          placeholder={t('lead.fullNamePlaceholder')}
           error={errors.name}
           required
         />
 
         <Input
-          label='Email'
+          label={t('lead.email')}
           name='email'
           type='email'
           value={values.email}
           onChange={handleChange}
-          placeholder='you@example.com'
+          placeholder={t('lead.emailPlaceholder')}
           error={errors.email}
           required
         />
 
         <Input
-          label='Phone'
+          label={t('lead.phone')}
           name='phone'
           type='tel'
           value={values.phone}
           onChange={handleChange}
-          placeholder='+1 555 123 4567'
+          placeholder={t('lead.phonePlaceholder')}
           error={errors.phone}
           required
         />
 
         <Textarea
-          label='Message'
+          label={t('lead.message')}
           name='message'
           value={values.message}
           onChange={handleChange}
           rows={5}
-          placeholder='Tell us what you are looking for...'
+          placeholder={t('lead.messagePlaceholder')}
           error={errors.message}
           required
         />
@@ -144,7 +146,7 @@ const LeadForm = ({ source = LEAD_SOURCES.LISTING_DETAIL, propertyId, listingTit
         <SubmissionFeedback status={status} message={feedbackMessage} />
 
         <Button type='submit' loading={status === 'loading'} className='w-full rounded-xl'>
-          Send Inquiry
+          {t('lead.sendInquiryAction')}
         </Button>
       </form>
     </Card>

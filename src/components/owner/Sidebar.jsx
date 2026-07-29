@@ -3,24 +3,26 @@ import {useAppContext} from '../../context/AppContext.jsx'
 import {assets} from '../../assets/data.js'
 import {Link, NavLink, Outlet} from 'react-router-dom'
 import {UserButton} from "@clerk/clerk-react"
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
 const Sidebar = () => {
+  const { t } = useI18n()
   const { user } = useAppContext();
 
   const navItems = [
     {
       path:"/owner",
-      label:"Dashboard",
+      label:t('owner.sidebar.dashboard'),
       icon:assets.dashboard
     },
     {
        path:"/owner/add-property",
-      label:"Add Property",
+      label:t('owner.sidebar.addProperty'),
       icon:assets.housePlus
     },
      {
        path:"/owner/list-property",
-      label:"List Property",
+      label:t('owner.sidebar.listProperty'),
       icon:assets.list
     },
     

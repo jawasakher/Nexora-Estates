@@ -5,6 +5,7 @@ import OptimizedImage from './ui/OptimizedImage'
 import { useAppContext } from '../context/AppContext.jsx'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
 import { trackEvent } from '../services/analytics.js'
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 const Hero = () => {
   const [showExploreModal, setShowExploreModal] = useState(false);
@@ -15,6 +16,7 @@ const Hero = () => {
     guests: ''
   });
   const { navigate } = useAppContext()
+  const { t } = useI18n()
 
   const handleExploreClick = () => {
     setShowExploreModal(true);
@@ -68,21 +70,21 @@ const Hero = () => {
             <button 
               onClick={handleExploreClick}
               className='flex max-w-full items-center gap-3 rounded-full border border-white px-4 py-1 text-[12px] font-medium transition-all duration-300 hover:bg-white/10 sm:max-w-88 sm:text-[13px]'>
-              <span>Simplify the way you stay Transform the way you live</span>
+              <span>{t('hero.badge')}</span>
 
                 <span className='flexCenter size-6 p-1 rounded-full bg-white'>
                   <img  src={assets.right} alt="rightIcon" width={20}/>
                 </span>
 
                </button>
-              <h2 className='h2 max-w-4xl capitalize leading-[1.1] mt-3 my-2 text-white sm:leading-tight'>Transform <span className='bg-linear-to-r from-secondary to-white bg-clip-text text-transparent'> exceptional properties </span>
-               Located in stunning surroundings.</h2>
+              <h2 className='h2 max-w-4xl capitalize leading-[1.1] mt-3 my-2 text-white sm:leading-tight'>{t('hero.titlePrefix')}<span className='bg-linear-to-r from-secondary to-white bg-clip-text text-transparent'>{t('hero.titleHighlight')}</span>
+               {t('hero.titleSuffix')}</h2>
             <div className='mt-5 flex flex-wrap gap-3'>
               <Button
                 onClick={() => {
                   trackEvent('cta_clicked', {
                     source: LEAD_SOURCES.HOME_CTA,
-                    label: 'Contact Agent',
+                    label: t('hero.contactAgent'),
                     placement: 'hero',
                   })
                   navigate(`/contact?source=${LEAD_SOURCES.HOME_CTA}&title=Home%20CTA%20inquiry`)
@@ -91,7 +93,7 @@ const Hero = () => {
                 size='lg'
                 className='rounded-full'
               >
-                Contact Agent
+                {t('hero.contactAgent')}
               </Button>
             </div>
           </div>
@@ -102,7 +104,7 @@ const Hero = () => {
             <div className='flex items-center gap-2'>
              <img src={assets.pin} alt="pinIcon" width={20}/>
              <label htmlFor="destinationInput" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>
-               Destination
+               {t('common.destination')}
              </label>
             </div>
             <input
@@ -112,7 +114,7 @@ const Hero = () => {
             value={formData.destination}
             onChange={handleFormChange}
             className='rounded-xl border border-slate-200/90 bg-white px-3 py-2 mt-1.5 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
-            placeholder='Type here...'
+            placeholder={t('common.typeHere')}
             required
 
             />
@@ -126,7 +128,7 @@ const Hero = () => {
            <div className='flex flex-col w-full'>
             <div className='flex items-center gap-2'>
             <img src={assets.calendar} alt="calendarIcon" width={20}/>
-            <label htmlFor="checkIn" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>Check in</label>
+            <label htmlFor="checkIn" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>{t('common.checkIn')}</label>
             </div>
             <input type="date" id='checkIn'
             value={formData.checkIn}
@@ -137,7 +139,7 @@ const Hero = () => {
             <div className='flex flex-col w-full'>
             <div className='flex items-center gap-2'>
             <img src={assets.calendar} alt="calendarIcon" width={20}/>
-            <label htmlFor="checkOut" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>Check out</label>
+            <label htmlFor="checkOut" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>{t('common.checkOut')}</label>
             </div>
             <input type="date" id='checkOut'
             value={formData.checkOut}
@@ -148,7 +150,7 @@ const Hero = () => {
              <div className='flex flex-col w-full'>
             <div className='flex items-center gap-2'>
             <img src={assets.user} alt="userIcon" width={20}/>
-            <label htmlFor="guests" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>Guests</label>
+            <label htmlFor="guests" className='text-[12px] font-semibold uppercase tracking-[0.08em] text-gray-500'>{t('common.guests')}</label>
             </div>
             <input id='guests' type='number' min={1} max={5} 
             value={formData.guests}
@@ -159,7 +161,7 @@ const Hero = () => {
             </div>
             <button type='submit' className='group flex h-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-secondary to-tertiary px-6 py-3.5 text-black cursor-pointer max-md:w-full ring-1 ring-slate-900/10 shadow-lg shadow-secondary/35 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/45 transition-all xl:self-end'>
               <img src={assets.search} alt="searchIcon" width={18} className='transition-transform group-hover:rotate-6'/>
-              <span className='font-semibold tracking-wide'>Search Deals</span>
+              <span className='font-semibold tracking-wide'>{t('common.searchDeals')}</span>
               </button>
           </form>
       </div>
@@ -177,7 +179,7 @@ const Hero = () => {
          >
            {/* Close Button */}
            <div className='flex items-center justify-between mb-6'>
-             <h2 className='text-3xl font-bold text-slate-950'>Explore Properties</h2>
+             <h2 className='text-3xl font-bold text-slate-950'>{t('hero.exploreTitle')}</h2>
              <button
                onClick={() => setShowExploreModal(false)}
                className='flex items-center justify-center h-10 w-10 rounded-full hover:bg-slate-100 transition-all'
@@ -187,7 +189,7 @@ const Hero = () => {
            </div>
 
            <p className='text-slate-600 mb-6'>
-             Find your perfect property by specifying your preferences below.
+             {t('hero.exploreDescription')}
            </p>
 
            {/* Explore Form */}
@@ -196,7 +198,7 @@ const Hero = () => {
              <div>
                <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
                  <img src={assets.pin} alt='pin' width={16} />
-                 Destination
+                 {t('common.destination')}
                </label>
                <input
                  list='destinations'
@@ -205,7 +207,7 @@ const Hero = () => {
                  value={formData.destination}
                  onChange={handleFormChange}
                  className='w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/70 focus:ring-2 focus:ring-secondary/30 transition-all'
-                 placeholder='Enter city name...'
+                 placeholder={t('common.enterCity')}
                  required
                />
                <datalist id='destinations'>
@@ -219,7 +221,7 @@ const Hero = () => {
              <div>
                <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
                  <img src={assets.calendar} alt='calendar' width={16} />
-                 Check-in Date
+                 {t('hero.checkInDate')}
                </label>
                <input
                  type='date'
@@ -235,7 +237,7 @@ const Hero = () => {
              <div>
                <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
                  <img src={assets.calendar} alt='calendar' width={16} />
-                 Check-out Date
+                 {t('hero.checkOutDate')}
                </label>
                <input
                  type='date'
@@ -251,7 +253,7 @@ const Hero = () => {
              <div>
                <label className='text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2'>
                  <img src={assets.user} alt='user' width={16} />
-                 Number of Guests
+                 {t('hero.guestsLabel')}
                </label>
                <input
                  type='number'
@@ -273,13 +275,13 @@ const Hero = () => {
                  onClick={() => setShowExploreModal(false)}
                  className='flex-1 rounded-lg border border-slate-200 py-3 px-6 font-semibold text-slate-700 transition-all hover:bg-slate-100'
                >
-                 Cancel
+                 {t('common.cancel')}
                </button>
                <button
                  type='submit'
                  className='flex-1 rounded-lg bg-linear-to-r from-secondary to-tertiary py-3 px-6 font-semibold text-white transition-all hover:shadow-lg shadow-secondary/30'
                >
-                 Search Properties
+                 {t('common.searchProperties')}
                </button>
              </div>
            </form>

@@ -6,8 +6,10 @@ import EmptyState from '../../components/ui/EmptyState'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
 import OptimizedImage from '../../components/ui/OptimizedImage'
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
 const BlogPost = () => {
+  const { t } = useI18n()
   const { slug } = useParams()
   const post = useMemo(() => getBlogEntryBySlug(slug), [slug])
   const MdxContent = useMemo(() => (slug ? getBlogComponentBySlug(slug) : null), [slug])
@@ -17,11 +19,11 @@ const BlogPost = () => {
       <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
         <div className='max-padd-container'>
           <EmptyState
-            title='Article not found'
-            description='The requested article does not exist yet. Return to the blog archive to browse available posts.'
+            title={t('blog.articleNotFound')}
+            description={t('blog.articleNotFoundDescription')}
           />
           <div className='mt-6'>
-            <Link to='/blog' className='underline font-semibold'>Back to blog</Link>
+            <Link to='/blog' className='underline font-semibold'>{t('blog.backToBlog')}</Link>
           </div>
         </div>
       </div>
@@ -76,7 +78,7 @@ const BlogPost = () => {
               </div>
             ) : null}
             <div className='pt-2'>
-              <Link to='/blog' className='underline font-semibold'>Back to blog archive</Link>
+              <Link to='/blog' className='underline font-semibold'>{t('blog.backToArchive')}</Link>
             </div>
           </div>
         </Card>

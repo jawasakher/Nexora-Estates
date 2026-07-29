@@ -6,23 +6,25 @@ import { blogEntries } from '../assets/blogs/index.js'
 import EmptyState from '../components/ui/EmptyState'
 import Card from '../components/ui/Card'
 import Badge from '../components/ui/Badge'
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 const Blog = () => {
+  const { t } = useI18n()
   const posts = blogEntries
 
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
       <Seo
-        title='Real Estate Insights'
-        description='Read market insights, buyer tips, and real estate updates from Nexora Estates.'
+        title={t('blog.seoTitle')}
+        description={t('blog.seoDescription')}
         canonicalPath='/blog'
         type='blog'
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'Blog',
-          name: 'Real Estate Insights',
+          name: t('blog.seoTitle'),
           url: new URL('/blog', window.location.origin).toString(),
-          description: 'Read market insights, buyer tips, and real estate updates from Nexora Estates.',
+          description: t('blog.seoDescription'),
         }}
       />
       <div className='max-padd-container'>
@@ -45,7 +47,7 @@ const Blog = () => {
                   <h5 className='h5 mb-2 line-clamp-2'>{blog.title}</h5>
                   <p className='text-sm text-slate-600'>{blog.description}</p>
                   <Link to={`/blog/${blog.slug || index}`} className='mt-3 inline-block underline bold-14 line-clamp-2'>
-                    Continue reading
+                    {t('blog.continueReading')}
                   </Link>
                 </div>
               </Card>
@@ -53,8 +55,8 @@ const Blog = () => {
           </div>
         ) : (
           <EmptyState
-            title='No articles available'
-            description='Add MDX files under src/assets/blogs to publish articles.'
+            title={t('blog.noArticles')}
+            description={t('blog.noArticlesDescription')}
           />
         )}
       </div>

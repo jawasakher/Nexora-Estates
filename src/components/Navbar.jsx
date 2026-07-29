@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom";
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 export const Navbar = ({ setMenuOpened, containerStyles, isOwner = false }) => {
+  const { t } = useI18n()
   const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/listing", label: "Listing" },
-    { to: "/blog", label: "Blog" },
-    { to: "/contact", label: "Contact" },
-    ...(isOwner ? [{ to: "/owner", label: "Owner Dashboard" }] : []),
+    { to: "/", label: t('nav.home') },
+    { to: "/listing", label: t('nav.listing') },
+    { to: "/blog", label: t('nav.blog') },
+    { to: "/contact", label: t('nav.contact') },
+    ...(isOwner ? [{ to: "/owner", label: t('nav.ownerDashboard') }] : []),
   ];
 
   const handleNavClick = () => {

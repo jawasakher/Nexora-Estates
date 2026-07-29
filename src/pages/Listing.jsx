@@ -11,38 +11,51 @@ import Badge from '../components/ui/Badge';
 import EmptyState from '../components/ui/EmptyState';
 import { assets, cities } from '../assets/data';
 import Seo from '../components/Seo';
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 
 const Listing = () => {
+  const { t } = useI18n()
   const {properties, loadingProperties, currency} = useAppContext();
   const [searchParams] = useSearchParams();
+  const ALL_CITIES = 'ALL_CITIES'
+  const ALL_TYPES = 'ALL_TYPES'
+  const ALL_PRICES = 'ALL_PRICES'
+  const SORT_RELEVANT = 'RELEVANT'
+  const SORT_LOW = 'LOW_TO_HIGH'
+  const SORT_HIGH = 'HIGH_TO_LOW'
+
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') ?? '');
-  const [selectedCity, setSelectedCity] = useState(searchParams.get('city') ?? 'All cities');
-  const [selectedType, setSelectedType] = useState('All types');
-  const [selectedPrice, setSelectedPrice] = useState('All prices');
-  const [sortBy, setSortBy] = useState('Relevant');
+  const [selectedCity, setSelectedCity] = useState(searchParams.get('city') ?? ALL_CITIES);
+  const [selectedType, setSelectedType] = useState(ALL_TYPES);
+  const [selectedPrice, setSelectedPrice] = useState(ALL_PRICES);
+  const [sortBy, setSortBy] = useState(SORT_RELEVANT);
   const [showFilters, setShowFilters] = useState(false);
 
-  const sortOptions = ["Relevant", "Low to High", "High to Low"];
+  const sortOptions = [
+    { value: SORT_RELEVANT, label: t('listing.relevant') },
+    { value: SORT_LOW, label: t('listing.lowToHigh') },
+    { value: SORT_HIGH, label: t('listing.highToLow') },
+  ];
 
   const featuredProperty = properties?.[0];
 
   const propertyTypes = [
-    'All types',
-    "House",
-    "Apartment",
-    "Villa",
-    "Penthouse",
-    "Townhouse",
-    "Commercial",
-    "Land plot",
+    { value: ALL_TYPES, label: t('listing.allTypes') },
+    { value: 'House', label: t('listing.types.house') },
+    { value: 'Apartment', label: t('listing.types.apartment') },
+    { value: 'Villa', label: t('listing.types.villa') },
+    { value: 'Penthouse', label: t('listing.types.penthouse') },
+    { value: 'Townhouse', label: t('listing.types.townhouse') },
+    { value: 'Commercial', label: t('listing.types.commercial') },
+    { value: 'Land plot', label: t('listing.types.landPlot') },
   ];
    const priceRange = [
-    'All prices',
-    '0 to 10000',
-    '10000 to 20000',
-    '20000 to 40000',
-    '40000 to 80000',
+    { value: ALL_PRICES, label: t('listing.allPrices') },
+    { value: '0 to 10000', label: '0 to 10000' },
+    { value: '10000 to 20000', label: '10000 to 20000' },
+    { value: '20000 to 40000', label: '20000 to 40000' },
+    { value: '40000 to 80000', label: '40000 to 80000' },
    ];
 
   const filteredProperties = useMemo(() => {
@@ -56,17 +69,17 @@ const Listing = () => {
     };
 
     const matchesCity = (property) => {
-      if (selectedCity === 'All cities') return true;
+      if (selectedCity === ALL_CITIES) return true;
       return property?.city === selectedCity;
     };
 
     const matchesType = (property) => {
-      if (selectedType === 'All types') return true;
+      if (selectedType === ALL_TYPES) return true;
       return property?.propertyType === selectedType;
     };
 
     const matchesPrice = (property) => {
-      if (selectedPrice === 'All prices') return true;
+      if (selectedPrice === ALL_PRICES) return true;
       const sale = Number(property?.price?.sale ?? 0);
       const [min, max] = selectedPrice.split(' to ').map(Number);
       return sale >= min && sale < max;
@@ -81,8 +94,8 @@ const Listing = () => {
         const aSale = Number(a?.price?.sale ?? 0);
         const bSale = Number(b?.price?.sale ?? 0);
 
-        if (sortBy === 'Low to High') return aSale - bSale;
-        if (sortBy === 'High to Low') return bSale - aSale;
+        if (sortBy === SORT_LOW) return aSale - bSale;
+        if (sortBy === SORT_HIGH) return bSale - aSale;
         return 0;
       });
 
@@ -91,7 +104,7 @@ const Listing = () => {
 
   const cityCounts = useMemo(() => {
     const counts = filteredProperties.reduce((acc, property) => {
-      const city = property?.city || 'Unknown';
+      const city = property?.city || t('listing.unknown');
       acc[city] = (acc[city] || 0) + 1;
       return acc;
     }, {});
@@ -101,34 +114,34 @@ const Listing = () => {
       .slice(0, 5);
   }, [filteredProperties]);
 
-  const mapCity = cityCounts[0]?.[0] || selectedCity || featuredProperty?.city || 'New York';
+  const mapCity = cityCounts[0]?.[0] || (selectedCity === ALL_CITIES ? '' : selectedCity) || featuredProperty?.city || t('listing.defaultMapCity');
   const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(mapCity)}&t=m&z=11&output=embed`;
 
   const clearFilters = () => {
     setSearchTerm('');
-    setSelectedCity('All cities');
-    setSelectedType('All types');
-    setSelectedPrice('All prices');
-    setSortBy('Relevant');
+    setSelectedCity(ALL_CITIES);
+    setSelectedType(ALL_TYPES);
+    setSelectedPrice(ALL_PRICES);
+    setSortBy(SORT_RELEVANT);
     setShowFilters(false);
   };
 
-  const hasActiveFilters = searchTerm || selectedCity !== 'All cities' || selectedType !== 'All types' || selectedPrice !== 'All prices' || sortBy !== 'Relevant';
+  const hasActiveFilters = searchTerm || selectedCity !== ALL_CITIES || selectedType !== ALL_TYPES || selectedPrice !== ALL_PRICES || sortBy !== SORT_RELEVANT;
 
   const seoTitle = useMemo(() => {
-    if (searchTerm) return `Search results for ${searchTerm}`;
-    if (selectedCity !== 'All cities') return `${selectedCity} property listings`;
-    return 'Property listings';
+    if (searchTerm) return t('listing.searchResultsFor', { term: searchTerm });
+    if (selectedCity !== ALL_CITIES) return t('listing.cityListings', { city: selectedCity });
+    return t('listing.propertyListings');
   }, [searchTerm, selectedCity]);
 
   const seoDescription = useMemo(() => {
-    const baseDescription = 'Browse premium real estate listings with filters, smart search, and a refined discovery experience.';
-    if (searchTerm || selectedCity !== 'All cities' || selectedType !== 'All types' || selectedPrice !== 'All prices') {
-      return `${filteredProperties.length} properties match your current filters. ${baseDescription}`;
+    const baseDescription = t('listing.seoBaseDescription');
+    if (searchTerm || selectedCity !== ALL_CITIES || selectedType !== ALL_TYPES || selectedPrice !== ALL_PRICES) {
+      return t('listing.seoFilteredDescription', { count: filteredProperties.length, base: baseDescription });
     }
 
     return baseDescription;
-  }, [filteredProperties.length, searchTerm, selectedCity, selectedType, selectedPrice]);
+  }, [filteredProperties.length, searchTerm, selectedCity, selectedType, selectedPrice, t]);
 
   const seoImage = featuredProperty?.images?.[0] || assets.about;
 
@@ -146,7 +159,7 @@ const Listing = () => {
       <div className="max-padd-container flex flex-col gap-8 mb-16 xl:flex-row">
         <div className="xl:hidden">
           <Button variant='secondary' className='w-full rounded-full' onClick={() => setShowFilters((current) => !current)}>
-            {showFilters ? 'Hide filters' : 'Show filters'}
+            {showFilters ? t('listing.hideFilters') : t('listing.showFilters')}
           </Button>
         </div>
 
@@ -155,16 +168,16 @@ const Listing = () => {
           <Card className='p-5'>
             <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
               <div>
-                <h3 className='h3 mb-1'>Results</h3>
+                <h3 className='h3 mb-1'>{t('listing.results')}</h3>
                 <p className='text-sm text-slate-600'>
-                  {filteredProperties.length} properties match your current filters.
+                  {t('listing.filtersMatch', { count: filteredProperties.length })}
                 </p>
               </div>
               <div className='flex flex-wrap gap-2'>
                 {hasActiveFilters && (
-                  <Badge variant='info'>Active filters</Badge>
+                  <Badge variant='info'>{t('listing.activeFilters')}</Badge>
                 )}
-                <Badge variant='neutral'>{properties?.length ?? 0} total</Badge>
+                <Badge variant='neutral'>{t('listing.total', { count: properties?.length ?? 0 })}</Badge>
               </div>
             </div>
           </Card>
@@ -180,9 +193,9 @@ const Listing = () => {
               </div>
             ) : (
               <EmptyState
-                title='No matches found'
-                description='Try adjusting the search term, city, property type or price range.'
-                action={<Button variant='primary' onClick={clearFilters}>Reset filters</Button>}
+                title={t('listing.noMatches')}
+                description={t('listing.noMatchesDescription')}
+                action={<Button variant='primary' onClick={clearFilters}>{t('common.reset')}</Button>}
               />
             )
           )}
@@ -190,20 +203,20 @@ const Listing = () => {
           <Card className='p-5'>
             <div className='flex items-start justify-between gap-4 mb-4'>
               <div>
-                <h3 className='h3 mb-1'>Map Preview</h3>
-                <p className='text-sm text-slate-600'>Live city preview for the current filtered set.</p>
+                <h3 className='h3 mb-1'>{t('listing.mapPreview')}</h3>
+                <p className='text-sm text-slate-600'>{t('listing.mapPreviewDescription')}</p>
               </div>
-              <Badge variant='neutral'>Preview</Badge>
+              <Badge variant='neutral'>{t('listing.preview')}</Badge>
             </div>
 
             <div className='grid gap-4 lg:grid-cols-[1.3fr_1fr]'>
               <div className='overflow-hidden rounded-3xl border border-slate-900/10 bg-white shadow-sm'>
                 <div className='flex items-center justify-between border-b border-slate-900/10 px-4 py-3'>
                   <div>
-                    <p className='text-xs uppercase tracking-[0.2em] text-slate-500'>Coverage</p>
+                    <p className='text-xs uppercase tracking-[0.2em] text-slate-500'>{t('listing.coverage')}</p>
                     <p className='mt-1 text-sm font-semibold text-slate-900'>{mapCity}</p>
                   </div>
-                  <Badge variant='success'>{filteredProperties.length} listings</Badge>
+                  <Badge variant='success'>{t('listing.listingsCount', { count: filteredProperties.length })}</Badge>
                 </div>
                 <div className='aspect-16/12 min-h-72 w-full'>
                   <iframe
@@ -227,14 +240,14 @@ const Listing = () => {
                     <div className='flex items-center justify-between gap-3'>
                       <div>
                         <h5 className='h5'>{city}</h5>
-                        <p className='text-sm text-slate-500'>{count} properties</p>
+                        <p className='text-sm text-slate-500'>{t('listing.propertiesCount', { count })}</p>
                       </div>
                       <Badge variant='neutral'>{Math.round((count / filteredProperties.length) * 100)}%</Badge>
                     </div>
                   </button>
                 )) : (
                   <div className='rounded-2xl border border-slate-900/10 bg-white p-4 text-sm text-slate-500'>
-                    No map data available for the current filters.
+                    {t('listing.noMapData')}
                   </div>
                 )}
               </div>
@@ -245,70 +258,70 @@ const Listing = () => {
         {/**left side Filters */}
         <Card className={`xl:w-88 p-5 space-y-5 order-1 xl:order-2 ${showFilters ? 'block' : 'hidden xl:block'}`}>
           <div>
-            <h3 className='h3 mb-2'>Search</h3>
+            <h3 className='h3 mb-2'>{t('listing.searchTitle')}</h3>
             <Input
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder='Search by city, address or title'
+              placeholder={t('listing.searchPlaceholder')}
             />
           </div>
 
           <div>
-            <h5 className='h5 mb-3'>Sort By</h5>
+            <h5 className='h5 mb-3'>{t('listing.sortBy')}</h5>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className='w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-secondary/60 focus:ring-2 focus:ring-secondary/20'
             >
               {sortOptions.map((sort) => (
-                <option key={sort} value={sort}>{sort}</option>
+                <option key={sort.value} value={sort.value}>{sort.label}</option>
               ))}
             </select>
           </div>
 
           <div>
-            <h5 className='h5 mb-3'>City</h5>
+            <h5 className='h5 mb-3'>{t('listing.city')}</h5>
             <div className='flex flex-wrap gap-2'>
-              {['All cities', ...cities].map((city) => (
+              {[{ value: ALL_CITIES, label: t('listing.allCities') }, ...cities.map((city) => ({ value: city, label: city }))].map((cityOption) => (
                 <button
-                  key={city}
+                  key={cityOption.value}
                   type='button'
-                  onClick={() => setSelectedCity(city)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedCity === city ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  onClick={() => setSelectedCity(cityOption.value)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedCity === cityOption.value ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
                 >
-                  {city}
+                  {cityOption.label}
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <h5 className='h5 mb-3'>Property Type</h5>
+            <h5 className='h5 mb-3'>{t('listing.propertyType')}</h5>
             <div className='flex flex-wrap gap-2'>
               {propertyTypes.map((type) => (
                 <button
-                  key={type}
+                  key={type.value}
                   type='button'
-                  onClick={() => setSelectedType(type)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedType === type ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  onClick={() => setSelectedType(type.value)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedType === type.value ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
                 >
-                  {type}
+                  {type.label}
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <h5 className='h5 mb-3'>Price Range</h5>
+            <h5 className='h5 mb-3'>{t('listing.priceRange')}</h5>
             <div className='flex flex-wrap gap-2'>
               {priceRange.map((price) => (
                 <button
-                  key={price}
+                  key={price.value}
                   type='button'
-                  onClick={() => setSelectedPrice(price)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedPrice === price ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  onClick={() => setSelectedPrice(price.value)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${selectedPrice === price.value ? 'bg-secondary text-slate-950' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
                 >
-                  {price === 'All prices' ? price : `$${price}`}
+                  {price.value === ALL_PRICES ? price.label : `${currency}${price.label}`}
                 </button>
               ))}
             </div>
@@ -316,7 +329,7 @@ const Listing = () => {
 
           {hasActiveFilters ? (
             <Button variant='secondary' className='w-full' onClick={clearFilters}>
-              Clear filters
+              {t('common.clearFilters')}
             </Button>
           ) : null}
         </Card>

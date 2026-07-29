@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { assets } from '../../assets/data'
 import Badge from '../ui/Badge'
 import Button from '../ui/Button'
+import { useI18n } from '../../i18n/I18nContext.jsx'
 
 const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onDelete, isMutating = false }) => {
+  const { t } = useI18n()
   const statusVariant = property?.isAvailable ? 'success' : 'warning'
 
   return (
@@ -16,7 +18,7 @@ const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onD
       <div className='flex items-center gap-3'>
         <img
           src={property?.images?.[0] || ''}
-          alt={property?.title || 'Property'}
+          alt={property?.title || t('owner.row.fallbackProperty')}
           loading='lazy'
           className='h-16 w-16 rounded-xl object-cover'
         />
@@ -30,21 +32,21 @@ const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onD
       </div>
 
       <div className='flex flex-wrap items-center gap-2'>
-        <Badge variant='info'>{property?.propertyType || 'Property'}</Badge>
-        <Badge variant='neutral'>{property?.city || 'Unknown city'}</Badge>
+        <Badge variant='info'>{property?.propertyType || t('owner.row.fallbackProperty')}</Badge>
+        <Badge variant='neutral'>{property?.city || t('owner.row.unknownCity')}</Badge>
       </div>
 
       <div>
         <p className='bold-18 text-secondary'>{currency}{property?.price?.sale ?? '-'}</p>
-        <p className='text-xs text-slate-500'>Rent {currency}{property?.price?.rent ?? '-'}/night</p>
+        <p className='text-xs text-slate-500'>{t('owner.row.rentPrefix')} {currency}{property?.price?.rent ?? '-'}{t('owner.row.perNight')}</p>
       </div>
 
       <div className='flex flex-col gap-3'>
         <div className='flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-3 py-2'>
           <div>
-            <p className='text-xs uppercase tracking-[0.18em] text-slate-500'>Availability</p>
+            <p className='text-xs uppercase tracking-[0.18em] text-slate-500'>{t('owner.row.availability')}</p>
             <Badge variant={statusVariant} className='mt-1'>
-              {property?.isAvailable ? 'Available' : 'Hidden'}
+              {property?.isAvailable ? t('common.available') : t('common.hidden')}
             </Badge>
           </div>
 
@@ -64,16 +66,16 @@ const OwnerPropertyRow = ({ property, index, currency, onToggleAvailability, onD
         <div className='flex flex-wrap gap-2'>
           <Link to={`/listing/${property?._id}`}>
             <Button variant='secondary' size='sm' className='rounded-full'>
-              View
+              {t('common.view')}
             </Button>
           </Link>
           <Link to={`/owner/add-property/${property?._id}`}>
             <Button variant='ghost' size='sm' className='rounded-full'>
-              Edit
+              {t('common.edit')}
             </Button>
           </Link>
           <Button variant='ghost' size='sm' className='rounded-full text-rose-700 hover:bg-rose-50' onClick={() => onDelete(property?._id)} disabled={isMutating}>
-            Delete
+            {t('common.delete')}
           </Button>
         </div>
       </div>

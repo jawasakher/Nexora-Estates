@@ -5,8 +5,10 @@ import SectionTitle from '../components/ui/SectionTitle'
 import LeadForm from '../components/lead/LeadForm'
 import { LEAD_SOURCES } from '../constants/leadSources.js'
 import Seo from '../components/Seo'
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 const Contact = () => {
+  const { t } = useI18n()
   const location = useLocation()
 
   const leadMeta = useMemo(() => {
@@ -14,16 +16,16 @@ const Contact = () => {
 
     return {
       source: params.get('source') || LEAD_SOURCES.CONTACT_PAGE,
-      title: params.get('title') || 'Contact page inquiry',
+      title: params.get('title') || t('contact.inquiryDefault'),
       propertyId: params.get('propertyId') || undefined,
     }
-  }, [location.search])
+  }, [location.search, t])
 
   return (
     <section className='relative overflow-hidden bg-linear-to-b from-primary via-white to-white py-16 pt-28'>
       <Seo
-        title='Contact Nexora Estates'
-        description='Contact Nexora Estates to book a viewing, request details, or start your property inquiry funnel.'
+        title={t('contact.seoTitle')}
+        description={t('contact.seoDescription')}
         canonicalPath='/contact'
       />
       <div aria-hidden='true' className='pointer-events-none absolute inset-0'>
@@ -37,12 +39,12 @@ const Contact = () => {
             <Card className='relative bg-white/80 p-6 backdrop-blur md:p-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-secondary/10'>
               <div className='mb-5 inline-flex items-center gap-2 rounded-full border border-secondary/20 bg-secondary/10 px-4 py-1.5 text-xs font-semibold text-slate-950'>
                 <span className='h-2 w-2 rounded-full bg-linear-to-r from-secondary to-tertiary' />
-                Priority support
+                {t('contact.prioritySupport')}
               </div>
 
               <SectionTitle
-                title='Send us a message'
-                description='Tell us what you’re looking for and we’ll get back to you with clear, tailored options.'
+                title={t('contact.sendMessage')}
+                description={t('contact.sendMessageDescription')}
                 className='mb-7'
               />
               <LeadForm
@@ -51,7 +53,7 @@ const Contact = () => {
                 listingTitle={leadMeta.title}
                 onSuccess={() => undefined}
               />
-              <p className='mt-4 text-xs text-slate-500'>We’ll never share your details. Reply time depends on volume.</p>
+              <p className='mt-4 text-xs text-slate-500'>{t('contact.privacyNote')}</p>
             </Card>
           </div>
         </div>

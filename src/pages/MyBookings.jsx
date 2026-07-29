@@ -10,8 +10,10 @@ import BookingSkeleton from '../components/skeletons/BookingSkeleton'
 import Seo from '../components/Seo'
 import { getBookings } from '../services/bookings.js'
 import { useEffect, useState } from 'react'
+import { useI18n } from '../i18n/I18nContext.jsx'
 
 const MyBookings = () => {
+  const { t, language } = useI18n()
   const { currency, getToken, authStatus } = useAppContext()
   const [bookings, setBookings] = useState([])
   const [loadingBookings, setLoadingBookings] = useState(true)
@@ -47,29 +49,29 @@ const MyBookings = () => {
   return (
     <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
       <Seo
-        title='My Bookings'
-        description='Review your reservations, payment status, and upcoming property visits.'
+        title={t('bookings.seoTitle')}
+        description={t('bookings.seoDescription')}
         canonicalPath='/my-bookings'
         noindex
       />
       <div className='max-padd-container'>
         <div className='mb-8 flex items-center justify-between gap-4 flex-wrap'>
           <div>
-            <h2 className='h2'>My Bookings</h2>
-            <p className='text-gray-500'>View your saved reservations and payment status.</p>
+            <h2 className='h2'>{t('bookings.heading')}</h2>
+            <p className='text-gray-500'>{t('bookings.subtitle')}</p>
           </div>
-          <Link to='/listing' className='btn-secondary'>Browse listings</Link>
+          <Link to='/listing' className='btn-secondary'>{t('bookings.browseListings')}</Link>
         </div>
 
         {loadingBookings ? (
           <BookingSkeleton count={3} />
         ) : bookings.length === 0 ? (
           <EmptyState
-            title='No bookings yet'
-            description='Your reservations will appear here once you complete a booking.'
+            title={t('bookings.noBookings')}
+            description={t('bookings.noBookingsDescription')}
             action={
               <Link to='/listing'>
-                <Button variant='primary'>Browse listings</Button>
+                <Button variant='primary'>{t('bookings.browseListings')}</Button>
               </Link>
             }
           />
@@ -79,19 +81,19 @@ const MyBookings = () => {
         <Card key={booking._id} className='p-4 mb-4'>
           {/** property list */}
           <div className="flexStart gap-3 mb-3">
-            <img src={booking?.property?.images?.[0] || ''} alt={booking?.property?.title || 'property img'} loading='lazy' className='h-14 w-26 object-cover rounded-lg'/>
+            <img src={booking?.property?.images?.[0] || ''} alt={booking?.property?.title || t('bookings.propertyImageAlt')} loading='lazy' className='h-14 w-26 object-cover rounded-lg'/>
             <div>
               <h5 className="h5 capitalize line-clamp-1">
                 {booking?.property?.title}
                 </h5>
                 <div className="flex gap-4">
                   <div className="flex items-center gap-x-2">
-                    <h5 className="medium-14">Guests:</h5>
+                    <h5 className="medium-14">{t('bookings.guestsLabel')}</h5>
                     <p>{booking?.guests}</p>
                     </div>
                      
                   <div className="flex items-center gap-x-2">
-                    <h5 className="medium-14">Total:</h5>
+                    <h5 className="medium-14">{t('bookings.totalLabel')}</h5>
                     <p className='text-gray-400 text-sm'>
                       {currency} {booking?.totalPrice?.toFixed?.(2) ?? booking?.totalPrice ?? '-'}</p>
                     </div>
@@ -106,33 +108,33 @@ const MyBookings = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
         <div className="flex gap-2 gap-x-4 flex-wrap">
           <div className="flex items-center gap-x-2">
-             <h5 className='medium-14'>Booking ID:</h5>
+             <h5 className='medium-14'>{t('bookings.bookingId')}</h5>
              <p className="text-gray-400 text-xs break-all ">
                {booking._id}</p>
           </div>
           <div className="flex items-center gap-x-2">
-             <h5 className='medium-14'>Check-In:</h5>
+             <h5 className='medium-14'>{t('bookings.checkIn')}</h5>
              <p className="text-gray-400 text-xs ">
-               {new Date(booking?.checkInDate).toDateString()}</p>
+               {new Date(booking?.checkInDate).toLocaleDateString(language)}</p>
           </div>
           <div className="flex items-center gap-x-2">
-             <h5 className='medium-14'>Check-Out:</h5>
+             <h5 className='medium-14'>{t('bookings.checkOut')}</h5>
              <p className="text-gray-400 text-xs ">
-               {new Date(booking?.checkOutDate).toDateString()}</p>
+               {new Date(booking?.checkOutDate).toLocaleDateString(language)}</p>
           </div>
           </div>
           <div className="flex gap-2 gap-x-3">
             <div className="flex items-center gap-x-2">
-            <h5 className="medium-14">Payment:</h5>
+            <h5 className="medium-14">{t('bookings.payment')}</h5>
             <div className='flex items-center gap-x-1'>
             <Badge variant={booking?.isPaid ? 'success' : 'warning'} className='px-2.5 py-1'>
-              {booking?.isPaid ? 'Paid' : 'Unpaid'}
+              {booking?.isPaid ? t('bookings.paid') : t('bookings.unpaid')}
             </Badge>
             </div>
             </div>
             {!booking.isPaid && (
               <Button variant='secondary' size='sm' className="rounded-full">
-                Pay Now
+                {t('bookings.payNow')}
               </Button>
             )}
             </div>

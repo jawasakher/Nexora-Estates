@@ -19,6 +19,16 @@ html, body {
    font-family: "Inter", sans-serif;
 }
 
+html[dir='rtl'] body {
+  text-align: right;
+}
+
+html[dir='rtl'] input,
+html[dir='rtl'] textarea,
+html[dir='rtl'] select {
+  text-align: right;
+}
+
 /* width */
 ::-webkit-scrollbar {
   display: none;

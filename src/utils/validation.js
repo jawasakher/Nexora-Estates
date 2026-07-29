@@ -1,4 +1,5 @@
-export const validateLeadForm = (values = {}) => {
+export const validateLeadForm = (values = {}, t = null) => {
+  const translate = (key, fallback) => (typeof t === 'function' ? t(key) : fallback)
   const errors = {}
   const name = values.name?.trim() || ''
   const email = values.email?.trim() || ''
@@ -6,27 +7,27 @@ export const validateLeadForm = (values = {}) => {
   const message = values.message?.trim() || ''
 
   if (!name) {
-    errors.name = 'Name is required.'
+    errors.name = translate('lead.validation.nameRequired', 'Name is required.')
   } else if (name.length < 2) {
-    errors.name = 'Name should be at least 2 characters.'
+    errors.name = translate('lead.validation.nameMin', 'Name should be at least 2 characters.')
   }
 
   if (!email) {
-    errors.email = 'Email is required.'
+    errors.email = translate('lead.validation.emailRequired', 'Email is required.')
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errors.email = 'Enter a valid email address.'
+    errors.email = translate('lead.validation.emailInvalid', 'Enter a valid email address.')
   }
 
   if (!phone) {
-    errors.phone = 'Phone is required.'
+    errors.phone = translate('lead.validation.phoneRequired', 'Phone is required.')
   } else if (!/^[+\d][\d\s()-]{6,}$/.test(phone)) {
-    errors.phone = 'Enter a valid phone number.'
+    errors.phone = translate('lead.validation.phoneInvalid', 'Enter a valid phone number.')
   }
 
   if (!message) {
-    errors.message = 'Message is required.'
+    errors.message = translate('lead.validation.messageRequired', 'Message is required.')
   } else if (message.length < 20) {
-    errors.message = 'Message should be at least 20 characters.'
+    errors.message = translate('lead.validation.messageMin', 'Message should be at least 20 characters.')
   }
 
   return {

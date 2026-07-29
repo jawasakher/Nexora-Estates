@@ -1,125 +1,873 @@
-دليل استخدام مشروع Nexora Estates
+# دليل بيكالكا الشامل للتعديل والتحويل
 
 ---
 
-العربية
+# اقرأ هذا أولًا
 
-**عنوان:** دليل استخدام مشروع Nexora Estates
+هذا الملف يشرح لك كيف تجعل الموقع مناسبًا لأي شيء تريد بيعه أو عرضه، وليس فقط العقارات.
 
-**مقدمة قصيرة:**
-هذا المستند يشرح خطوات تشغيل المشروع محلياً، نشره، وإرشادات إدارة المحتوى الأساسية (عقارات، مالك، ومدونة) باللغتين العربية والإنجليزية.
+يعني يمكنك تحويله إلى:
+- متجر ملابس.
+- متجر عطور.
+- متجر إلكترونيات.
+- متجر هدايا.
+- مطعم أو كافيه.
+- خدمات مثل الصيانة، التصميم، الحجز، أو الاستشارات.
+- أي مشروع آخر تقريبًا.
 
-1) المتطلبات الأساسية
-- Node.js (النسخة 16+ موصى بها)
-- npm أو pnpm
+الفكرة هنا بسيطة جدًا:
+- تغيّر الكلمات.
+- تغيّر الصور.
+- تغيّر الألوان.
+- تغيّر العناوين.
+- وتبقي نفس الهيكل الجميل للموقع.
 
-2) التثبيت وتشغيل محلي
-- انسخ المستودع ثم نفّذ:
+---
+
+# 1) كيف أبدأ بدون تعب؟
+
+افتح الطرفية واكتب:
 
 ```bash
 npm install
 npm run dev
 ```
 
-- الموقع سيعمل عادة على `http://localhost:5173` أو المنفذ المحدد.
+ما الذي سيحدث؟
+- سيعمل الموقع على جهازك.
+- ستستطيع مشاهدة أي تعديل فورًا.
 
-3) إعداد المتغيرات والبيئة
-- تحقق من إعدادات المشروع في `src/config/env.js` لتعديل متغيرات البيئة (نقاط النهاية، مفاتيح API، إعدادات البريد).
-- لإضافة إعدادات نشر، عدّل ملفات البيئة في بيئة الخادم أو إعدادات استضافة الخدمة.
-
-4) أوامر مفيدة
-- تشغيل التطوير: `npm run dev`
-- بناء للإنتاج: `npm run build`
-- معاينة البناء: `npm run preview`
-
-5) إضافة/تحديث عقار
-- واجهة العرض (ملفات العرض والتكويد) توجد في مجلدات `src/pages` و`src/components/property`.
-- بيانات العينات أو المحتوى الثابت قد تكون في `src/assets/data.js` أو `src/assets/blogs` للمحتوى المدعوم.
-- لتحميل صور عقار جديدة، اتبع نفس بنية رفع الصور الموجودة في لوحة المالك أو استخدم مجلد الصور المخصص ضمن `public/` ثم حدّث مسارات الصور في السجل.
-
-6) إدارة لوحة المالك
-- صفحات وواجهات المالك في `src/pages/owner` و`src/components/owner`.
-- لتمكين المالك من رفع صور وتعديل القوائم، تأكد من أن واجهة الرفع مُوصولة بنقطة النهاية الخلفية المناسبة أو الخدمة التخزينية.
-
-7) المدونة والمحتوى
-- المقالات المبدئية موجودة في `src/assets/blogs` بصيغة MDX.
-- لإضافة مقالة جديدة، انسخ قالب ملف MDX وأضفها إلى المجلد، ثم حدّث أي فهرسة أو قائمة منشورات إن وُجدت.
-
-8) تعدد اللغات (EN/AR)
-- النصوص الثابتة قد تكون داخل المكونات أو ملفات المحتوى. لتعديل الترجمات، ابحث عن النصوص في `src/components` و`src/pages` وغيّر النصوص المناسبة.
-- إن كان المشروع يستخدم مكتبة i18n، راجع ملفات اللغة المخصصة (قد توجد تحت `src/i18n` أو ملفات مشابهة).
-
-9) النشر
-- استخدم مزود الاستضافة المفضل لديك (Vercel، Netlify، أو خادم VPS) مع إعدادات البناء التالية:
-
-```bash
-npm run build
-# ثم اتبع تعليمات مزود الاستضافة لنشر مجلد البناء
-```
-
-10) الدعم والصيانة
-- لصيانة سريعة: افحص سجلات الأخطاء في المتصفح وConsole الخادم. تأكد من مراقبة أداء الصور وCache.
-- لأي تغييرات كبيرة في النطاق، احرص على توثيق تغييرات واجهات API وإبلاغ فريق التطوير.
+إذا ظهر لك موقع على المتصفح، فأنت جاهز.
 
 ---
 
-English
+# 2) كيف أحول الموقع من عقارات إلى أي متجر أو خدمة؟
 
-**Title:** Nexora Estates — User Guide
+أنت الآن لا تحتاج التفكير بعقارات فقط.
 
-**Quick intro:**
-This guide explains how to run the project locally, deploy it, and manage core content (properties, owner dashboard and blog).
+عليك فقط أن تستبدل الكلمات القديمة بكلمات جديدة.
 
-1) Prerequisites
-- Node.js (v16+ recommended)
-- npm or pnpm
+## أسرع طريقة للتعديل
 
-2) Install & run locally
+إذا كنت لا تريد القراءة كثيرًا، اعمل هذا:
+
+1. افتح البحث داخل المحرر.
+2. ابحث عن كلمة واحدة قديمة.
+3. استبدلها بكلمة جديدة.
+4. احفظ الملف.
+5. شاهد النتيجة في المتصفح.
+
+كرر هذا مع كل الكلمات الكبيرة المهمة.
+
+## الكلمات القديمة التي يجب استبدالها
+
+ابحث عن هذه الكلمات في المشروع وغيّرها حسب نوع نشاطك:
+
+- Property -> Product أو Item أو Service
+- Listing -> Products أو Services أو Menu
+- Agency -> Store أو Brand أو Company
+- Owner -> Admin أو Seller أو Manager
+- Booking -> Order أو Request أو Reservation
+- Rent -> Buy أو Price أو Fee أو Charge
+- Sale -> Price أو Offer
+- Address -> Location أو Branch أو Branch Address
+- Blog -> Tips أو Articles أو News
+- Featured Properties -> Featured Products أو Featured Items أو Featured Services
+
+## كيف أستخدم هذا؟
+
+إذا كان مشروعك متجر ملابس، استخدم كلمات مثل:
+- Product
+- Size
+- Color
+- Cart
+- Order
+
+وتكون الصفحة الرئيسية مثل:
+- اكتشف الملابس.
+- اختر المقاس.
+- أضف إلى السلة.
+- اطلب الآن.
+
+إذا كان مطعمًا، استخدم كلمات مثل:
+- Menu
+- Dish
+- Table Reservation
+- Delivery
+
+وتكون الصفحة الرئيسية مثل:
+- تصفح المنيو.
+- اطلب الأطباق.
+- احجز طاولتك.
+- توصيل سريع.
+
+إذا كان كافيه، استخدم كلمات مثل:
+- Drink
+- Dessert
+- Branch
+- Reservation
+
+وتكون الصفحة الرئيسية مثل:
+- استكشف المشروبات.
+- اختر التحلية.
+- احجز مكانك.
+- زر أقرب فرع.
+
+إذا كان خدمات، استخدم كلمات مثل:
+- Service
+- Booking
+- Consultation
+- Request
+
+وتكون الصفحة الرئيسية مثل:
+- احجز الخدمة.
+- اطلب استشارة.
+- اشرح احتياجك.
+- احصل على عرض سعر.
+
+## كيف أختار اسم القسم الصحيح؟
+
+إذا أردت تغيير أي عنوان، استخدم هذا الشكل:
+
+- Home -> الرئيسية
+- Listing -> المنتجات أو الخدمات أو المنيو
+- Property Details -> تفاصيل المنتج أو تفاصيل الخدمة
+- Bookings -> الطلبات أو الحجوزات
+- Faq -> الأسئلة الشائعة
+- Contact -> تواصل معنا
+
+---
+
+# 3) أين أغيّر اسم المشروع؟
+
+## الملف الأول: `index.html`
+
+ابحث عن:
+
+```html
+<title>Nexora Estates</title>
+```
+
+واستبدله باسم مشروعك، مثل:
+
+```html
+<title>بيكالكا</title>
+```
+
+ابحث أيضًا عن:
+
+```html
+<meta property="og:site_name" content="Nexora Estates" />
+```
+
+واستبدله بـ:
+
+```html
+<meta property="og:site_name" content="بيكالكا" />
+```
+
+وابحث عن:
+
+```html
+<meta property="og:title" content="Nexora Estates" />
+```
+
+واستبدله بـ:
+
+```html
+<meta property="og:title" content="بيكالكا" />
+```
+
+## الملف الثاني: `src/components/Seo.jsx`
+
+ابحث عن:
+
+```js
+const SITE_NAME = 'Nexora Estates'
+```
+
+واستبدله بـ:
+
+```js
+const SITE_NAME = 'بيكالكا'
+```
+
+ما الذي يفيده هذا؟
+- الاسم الذي يظهر في المتصفح.
+- الاسم الذي يظهر عند مشاركة الرابط.
+- الاسم الذي يظهر في نتائج البحث الداخلية.
+
+## الملف الثالث: `src/components/Footer.jsx`
+
+ابحث عن:
+
+```jsx
+Nexora Estates
+```
+
+واستبدله باسمك الجديد.
+
+وابحث عن البريد والهاتف القديمين وغيّرهما إلى بياناتك.
+
+---
+
+# 4) كيف أغيّر الألوان؟
+
+افتح الملف:
+
+```text
+src/index.css
+```
+
+ابحث عن هذا الجزء:
+
+```css
+@theme {
+  --color-primary: #f5f5f5;
+  --color-primary-dull: #f0f0f0;
+  --color-secondary: #fdc700;
+  --color-tertiary: #fadd6c;
+  --color-gray-50: #7b7b7b;
+}
+```
+
+## ماذا أكتب بدلًا منه؟
+
+### إذا أردت متجرًا فاخرًا وهادئًا
+
+```css
+@theme {
+  --color-primary: #f7f3ea;
+  --color-primary-dull: #eee5d6;
+  --color-secondary: #c89b3c;
+  --color-tertiary: #e6c97a;
+  --color-gray-50: #5f5a50;
+}
+```
+
+### إذا أردت متجرًا عصريًا ونظيفًا
+
+```css
+@theme {
+  --color-primary: #f4f7fb;
+  --color-primary-dull: #e8eef7;
+  --color-secondary: #2563eb;
+  --color-tertiary: #60a5fa;
+  --color-gray-50: #475569;
+}
+```
+
+### إذا أردت مطعمًا أو كافيه
+
+```css
+@theme {
+  --color-primary: #fff8f0;
+  --color-primary-dull: #f8eadb;
+  --color-secondary: #d97706;
+  --color-tertiary: #fbbf24;
+  --color-gray-50: #6b4f3f;
+}
+```
+
+## كيف يعمل هذا؟
+
+- هذا الملف هو مركز الألوان.
+- إذا غيرت اللون هنا، يتغير في أماكن كثيرة تلقائيًا.
+- هذا أفضل بكثير من تعديل كل صفحة وحدها.
+
+## ماذا يعني كل لون؟
+
+- `--color-primary`: الخلفية الأساسية.
+- `--color-primary-dull`: خلفية أهدأ.
+- `--color-secondary`: أهم لون للأزرار والتمييز.
+- `--color-tertiary`: لون مساعد.
+- `--color-gray-50`: لون النصوص الرمادية.
+
+---
+
+# 5) كيف أغيّر الشعار والصورة الرئيسية؟
+
+## الشعار
+
+افتح:
+
+```text
+src/assets/data.js
+```
+
+وابحث عن:
+
+```js
+import logoImg from "./logo.svg";
+```
+
+ما الذي تفعله؟
+- ضع شعارك الجديد مكان `logo.svg`.
+- لا تحتاج أن تغيّر الكود كثيرًا.
+- نفس الشعار سيظهر في الهيدر والفوتر.
+
+## صورة الواجهة أو الصورة الرئيسية
+
+في نفس الملف `src/assets/data.js` ستجد صورًا كثيرة مثل:
+- `homeHero`
+- `about`
+- `faq`
+- صور المنتجات أو العقارات التجريبية
+
+يمكنك استبدالها بصور تناسب مشروعك.
+
+### مثال
+
+إذا كان متجرك ملابس، استخدم صور ملابس.
+
+إذا كان مطعمًا، استخدم صور أطعمة.
+
+إذا كان متجر عطور، استخدم صور زجاجات عطور.
+
+---
+
+# 6) كيف أغيّر الهيدر؟
+
+افتح:
+
+```text
+src/components/Header.jsx
+```
+
+هذا الملف مسؤول عن الشريط العلوي.
+
+## ماذا أستطيع تغيير هنا؟
+
+- اسم المتجر.
+- الشعار.
+- زر البحث.
+- زر تسجيل الدخول.
+- القائمة في الجوال.
+- شكل الروابط في الأعلى.
+
+## مثال على أسماء الروابط
+
+بدل روابط العقارات، يمكنك وضع:
+- الرئيسية
+- المنتجات
+- العروض
+- من نحن
+- تواصل معنا
+
+أو إذا كان المشروع خدمات:
+- الرئيسية
+- الخدمات
+- الأسعار
+- آراء العملاء
+- تواصل معنا
+
+---
+
+# 7) كيف أغيّر الصفحة الرئيسية نفسها؟
+
+الصفحة الرئيسية موجودة غالبًا في:
+
+```text
+src/pages/Home.jsx
+```
+
+هنا يمكنك تحويل فكرة الموقع بالكامل.
+
+## إذا كان المشروع متجرًا
+
+غيّر النصوص إلى:
+- اكتشف المنتجات.
+- تسوق الآن.
+- أفضل العروض.
+- المنتجات المميزة.
+
+## إذا كان المشروع خدمات
+
+غيّر النصوص إلى:
+- احجز خدمتك الآن.
+- اختر نوع الخدمة.
+- تواصل مع الفريق.
+- أفضل حلول لاحتياجك.
+
+## إذا كان مطعمًا أو كافيه
+
+غيّر النصوص إلى:
+- اطّلع على المنيو.
+- اطلب الآن.
+- احجز طاولتك.
+- جرّب الأطباق المميزة.
+
+---
+
+# 8) كيف أغيّر كلمة "العقارات" في كل الموقع؟
+
+هذا أهم جزء.
+
+ابحث في المشروع عن الكلمات التالية وبدّلها حسب نوع مشروعك:
+
+- property
+- properties
+- listing
+- listings
+- booking
+- bookings
+- owner
+- agency
+- apartment
+- villa
+- house
+- rent
+- sale
+
+## ماذا أضع بدلًا منها؟
+
+### لمتجر
+- product
+- products
+- item
+- items
+- order
+- orders
+- seller
+- brand
+
+### لخدمات
+- service
+- services
+- request
+- requests
+- provider
+- provider team
+
+### لمطعم
+- menu
+- dishes
+- reservation
+- reservations
+- branch
+- branches
+
+### لكافيه
+- drinks
+- desserts
+- reservation
+- orders
+- branch
+
+---
+
+# 9) كيف أغيّر قسم الأسئلة الشائعة؟
+
+افتح:
+
+```text
+src/components/Faq.jsx
+```
+
+ابحث عن:
+
+```jsx
+const faqsData = [
+```
+
+هذا المكان تكتب فيه الأسئلة الخاصة بمشروعك.
+
+## مثال لمتجر
+
+```jsx
+const faqsData = [
+  {
+    question: 'كيف أطلب المنتج؟',
+    answer: 'اختر المنتج ثم اضغط على زر الطلب واتبع الخطوات.'
+  },
+  {
+    question: 'هل يمكن تغيير المقاس أو اللون؟',
+    answer: 'نعم، يمكنك اختيار المقاس أو اللون قبل إتمام الطلب.'
+  },
+  {
+    question: 'كيف أتواصل مع الدعم؟',
+    answer: 'من خلال صفحة التواصل أو عبر رقم المتجر.'
+  }
+]
+```
+
+## مثال لخدمة
+
+```jsx
+const faqsData = [
+  {
+    question: 'كيف أحجز الخدمة؟',
+    answer: 'اختر نوع الخدمة ثم أرسل الطلب من صفحة التواصل.'
+  },
+  {
+    question: 'هل يوجد موعد سريع؟',
+    answer: 'نعم، حسب توفر الفريق والمواعيد المفتوحة.'
+  },
+  {
+    question: 'كيف أدفع؟',
+    answer: 'يمكنك الدفع حسب الطريقة المتاحة في المشروع.'
+  }
+]
+```
+
+---
+
+# 10) كيف أغيّر الفوتر وبيانات التواصل؟
+
+افتح:
+
+```text
+src/components/Footer.jsx
+```
+
+ابحث عن:
+
+```jsx
+mailto:info@nexora.com
+```
+
+واستبدله ببريدك.
+
+وابحث عن:
+
+```jsx
+tel:+971234567890
+```
+
+واستبدله برقمك.
+
+## مثال
+
+```jsx
+mailto:info@beikalka.com
+tel:+962791234567
+```
+
+## ماذا أغيّر أيضًا؟
+
+- اسم المتجر.
+- روابط الشبكات الاجتماعية.
+- نصوص الدعم.
+- أي عبارات تسويقية قديمة.
+
+---
+
+# 11) كيف أغيّر صفحة التواصل؟
+
+افتح:
+
+```text
+src/pages/Contact.jsx
+```
+
+هنا تضع:
+- رقم الهاتف.
+- البريد.
+- العنوان.
+- أوقات العمل.
+
+## مثال لمتجر
+
+- راسلنا لطلب المنتجات.
+- نسعد بإجابتك خلال 24 ساعة.
+
+## مثال لخدمة
+
+- احجز خدمتك من هنا.
+- أخبرنا بما تحتاجه وسنرد عليك.
+
+---
+
+# 12) كيف أغيّر صفحة التفاصيل؟
+
+افتح:
+
+```text
+src/pages/PropertyDetails.jsx
+```
+
+هذا الملف كان مخصصًا للعقارات، لكن يمكنك تحويله إلى صفحة تفاصيل منتج أو خدمة.
+
+## بدل هذه الأشياء:
+
+- Property Details -> Product Details أو Service Details
+- Price
+- Availability
+- Features
+- Amenities
+
+## ماذا تضع بدلًا منها؟
+
+### للمنتج
+- الحجم
+- اللون
+- المادة
+- التقييم
+- الوصف
+
+### للخدمة
+- مدة التنفيذ
+- نوع الخدمة
+- السعر
+- المتطلبات
+- المواعيد
+
+---
+
+# 13) كيف أغيّر صفحة القائمة؟
+
+افتح:
+
+```text
+src/pages/Listing.jsx
+```
+
+هذا الملف هو صفحة العرض الرئيسية للعناصر.
+
+## إذا كان المشروع متجرًا
+
+غيّر فكرة الصفحة إلى:
+- جميع المنتجات.
+- المنتجات الجديدة.
+- الأكثر مبيعًا.
+- العروض الخاصة.
+
+## إذا كان المشروع خدمات
+
+غيّرها إلى:
+- جميع الخدمات.
+- الخدمات المميزة.
+- الخدمات الأسرع.
+- الخدمات المطلوبة.
+
+---
+
+# 14) كيف أغيّر كل النصوص القديمة دفعة واحدة؟
+
+افتح البحث في المشروع وابحث عن الكلمات التالية واحدة واحدة:
+
+- Nexora Estates
+- property
+- properties
+- agency
+- owner
+- booking
+- rent
+- sale
+- apartment
+- villa
+- house
+
+ثم بدّلها بالكلمات المناسبة لمشروعك.
+
+## مثال سريع جدًا
+
+إذا كان مشروعك متجر ملابس:
+- property -> product
+- booking -> order
+- owner -> seller
+- agency -> store
+
+إذا كان مشروعك مطعم:
+- property -> dish
+- booking -> reservation
+- agency -> restaurant
+
+---
+
+# 15) ماذا أفعل بعد كل تعديل؟
+
+بعد كل حفظ:
+- ارجع للمتصفح.
+- ستشاهد التغيير مباشرة.
+- إذا لم يظهر، اضغط تحديث.
+
+## إذا حدثت مشكلة
+
+- لا تغيّر أشياء كثيرة مرة واحدة.
+- غيّر شيئًا واحدًا فقط.
+- جرّب.
+- ثم أكمل.
+
+هذا أفضل طريقة للمبتدئين.
+
+---
+
+# 16) أوامر التشغيل المهمة
 
 ```bash
-npm install
 npm run dev
-```
-
-- Site runs on `http://localhost:5173` by default (or configured port).
-
-3) Environment & configuration
-- Check `src/config/env.js` to update environment variables (API endpoints, mail settings, keys).
-- Add environment variables in your hosting provider settings for production.
-
-4) Useful scripts
-- Dev: `npm run dev`
-- Build: `npm run build`
-- Preview build: `npm run preview`
-
-5) Adding/updating a property
-- Frontend files for listings and detail pages live in `src/pages` and `src/components/property`.
-- Sample/static data may be in `src/assets/data.js` or similar.
-- For images, follow the owner upload flow or place images under `public/` and update image paths.
-
-6) Owner dashboard management
-- Owner pages/components: `src/pages/owner` and `src/components/owner`.
-- Ensure upload endpoints are connected to backend/storage for persistent image uploads.
-
-7) Blog & content
-- Blog posts are in `src/assets/blogs` as MDX files.
-- Add a new MDX file and update any post index if needed.
-
-8) Bilingual content (EN/AR)
-- Static strings are in components/pages. Edit text in `src/components` and `src/pages`.
-- If i18n is used, check for a `src/i18n` folder or language files.
-
-9) Deployment
-
-```bash
 npm run build
-# Follow hosting provider steps to serve the production build
+npm run preview
 ```
 
-10) Support & maintenance
-- Inspect browser console and server logs for errors. Monitor images and caching.
-- Document API changes and inform the dev team for major scope adjustments.
+- `npm run dev`: للتعديل اليومي.
+- `npm run build`: تجهيز نسخة النشر.
+- `npm run preview`: معاينة النسخة النهائية.
 
 ---
 
-إذا بدك، أقدر أحول هذا الملف إلى PDF أو مستند Word وأضيفه في المجلد `docs/`.
+# 17) خطة تعديل سهلة جدًا لأي مبتدئ
+
+إذا أردت تحويل المشروع بالكامل، افعل هذا بالترتيب:
+
+1. غيّر الاسم في `index.html`.
+2. غيّر الاسم في `src/components/Seo.jsx`.
+3. غيّر الألوان في `src/index.css`.
+4. غيّر الشعار في `src/assets/data.js`.
+5. غيّر الهيدر في `src/components/Header.jsx`.
+6. غيّر الصفحة الرئيسية في `src/pages/Home.jsx`.
+7. غيّر المساعدة في `src/components/Faq.jsx`.
+8. غيّر الفوتر في `src/components/Footer.jsx`.
+9. غيّر التفاصيل في `src/pages/PropertyDetails.jsx` أو اجعلها صفحة منتج/خدمة.
+10. غيّر القائمة في `src/pages/Listing.jsx`.
+
+---
+
+# 18) خلاصة بسيطة جدًا
+
+إذا أردت أن يكون الموقع مناسبًا لأي شيء، تذكّر هذه القاعدة:
+
+- الاسم من `index.html` و `src/components/Seo.jsx`.
+- الألوان من `src/index.css`.
+- الشعار من `src/assets/data.js`.
+- الهيدر من `src/components/Header.jsx`.
+- الصفحة الرئيسية من `src/pages/Home.jsx`.
+- الأسئلة الشائعة من `src/components/Faq.jsx`.
+- الفوتر من `src/components/Footer.jsx`.
+- صفحة العناصر من `src/pages/Listing.jsx`.
+- صفحة التفاصيل من `src/pages/PropertyDetails.jsx`.
+
+إذا عدّلت هذه الملفات، يصبح الموقع قادرًا على خدمة أي متجر أو خدمة أو مشروع تريد.
+
+---
+
+---
+
+# 19) نسخة جاهزة للنسخ واللصق
+
+هذه الفقرة هي الأسرع. افتح البحث داخل المحرر، ثم ابحث عن الكلمة القديمة، وبعدها استبدلها مباشرة بالكلمة الجديدة.
+
+## الاسم والعنوان
+
+- ابحث عن: `Nexora Estates`
+- استبدل بـ: `بيكالكا`
+
+- ابحث عن: `<title>Nexora Estates</title>`
+- استبدل بـ: `<title>بيكالكا</title>`
+
+- ابحث عن: `const SITE_NAME = 'Nexora Estates'`
+- استبدل بـ: `const SITE_NAME = 'بيكالكا'`
+
+## كلمات العقارات العامة
+
+- ابحث عن: `property`
+- استبدل بـ: `product` أو `service` أو `item`
+
+- ابحث عن: `properties`
+- استبدل بـ: `products` أو `services` أو `items`
+
+- ابحث عن: `listing`
+- استبدل بـ: `product` أو `service` أو `menu`
+
+- ابحث عن: `listings`
+- استبدل بـ: `products` أو `services` أو `menu-items`
+
+- ابحث عن: `booking`
+- استبدل بـ: `order` أو `request` أو `reservation`
+
+- ابحث عن: `bookings`
+- استبدل بـ: `orders` أو `requests` أو `reservations`
+
+- ابحث عن: `owner`
+- استبدل بـ: `admin` أو `seller` أو `manager`
+
+- ابحث عن: `agency`
+- استبدل بـ: `store` أو `brand` أو `company`
+
+- ابحث عن: `rent`
+- استبدل بـ: `price` أو `fee` أو `charge`
+
+- ابحث عن: `sale`
+- استبدل بـ: `offer` أو `price`
+
+## عناوين الصفحات
+
+- ابحث عن: `Home`
+- استبدل بـ: `الرئيسية`
+
+- ابحث عن: `Listing`
+- استبدل بـ: `المنتجات` أو `الخدمات` أو `المنيو`
+
+- ابحث عن: `Property Details`
+- استبدل بـ: `تفاصيل المنتج` أو `تفاصيل الخدمة`
+
+- ابحث عن: `My Bookings`
+- استبدل بـ: `طلباتي` أو `حجوزاتي`
+
+- ابحث عن: `Contact`
+- استبدل بـ: `تواصل معنا`
+
+## نصوص المتجر أو الخدمة
+
+### إذا كان المشروع متجرًا
+
+- `Discover properties` -> `اكتشف المنتجات`
+- `Featured Properties` -> `المنتجات المميزة`
+- `Property Details` -> `تفاصيل المنتج`
+- `Book now` -> `اطلب الآن`
+- `Add Property` -> `أضف منتجًا`
+
+### إذا كان المشروع خدمة
+
+- `Discover properties` -> `اكتشف الخدمات`
+- `Featured Properties` -> `الخدمات المميزة`
+- `Property Details` -> `تفاصيل الخدمة`
+- `Book now` -> `احجز الآن`
+- `Add Property` -> `أضف خدمة`
+
+### إذا كان المشروع مطعمًا
+
+- `Discover properties` -> `تصفح المنيو`
+- `Featured Properties` -> `الأطباق المميزة`
+- `Property Details` -> `تفاصيل الطبق`
+- `Book now` -> `اطلب الآن`
+- `Add Property` -> `أضف طبقًا`
+
+## بيانات التواصل
+
+- ابحث عن: `info@nexora.com`
+- استبدل بـ: `info@beikalka.com`
+
+- ابحث عن: `+971234567890`
+- استبدل بـ: `+962791234567` أو رقمك الحقيقي
+
+## الألوان
+
+- ابحث عن: `--color-secondary: #fdc700;`
+- استبدل بـ: `--color-secondary: #c89b3c;` إذا أردت ذهبًا فاخرًا
+
+- ابحث عن: `--color-primary: #f5f5f5;`
+- استبدل بـ: `--color-primary: #f7f3ea;` إذا أردت خلفية دافئة
+
+## ماذا تفعل بعد كل استبدال؟
+
+1. احفظ الملف.
+2. ارجع للمتصفح.
+3. إذا لم يظهر التغيير، حدّث الصفحة.
+4. إذا ظهر خطأ، تراجع عن آخر تعديل فقط.
+
+## أفضل طريقة للمبتدئ
+
+لا تغيّر كل شيء مرة واحدة.
+
+غيّر هذا الترتيب:
+1. الاسم.
+2. الألوان.
+3. الشعار.
+4. الهيدر.
+5. الصفحة الرئيسية.
+6. الأسئلة الشائعة.
+7. الفوتر.
+
+---
