@@ -1,0 +1,380 @@
+import React, { useMemo, useRef } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useAppContext } from '../context/AppContext.jsx'
+import PropertyImages from '../components/PropertyImages'
+import ListingCard from '../components/property/ListingCard'
+import Card from '../components/ui/Card'
+import Badge from '../components/ui/Badge'
+import Button from '../components/ui/Button'
+import EmptyState from '../components/ui/EmptyState'
+import LeadForm from '../components/lead/LeadForm'
+import { LEAD_SOURCES } from '../constants/leadSources.js'
+import { assets, cities } from '../assets/data'
+import Seo from '../components/Seo'
+import { useI18n } from '../i18n/I18nContext.jsx'
+
+const PropertyDetails = () => {
+  const { properties, navigate, currency } = useAppContext()
+  const { id } = useParams()
+  const leadFormRef = useRef(null)
+
+  const { t } = useI18n()
+
+  const property = useMemo(() => {
+    return properties?.find((item) => item._id === id) ?? null
+  }, [properties, id])
+
+  const similarProperties = useMemo(() => {
+    if (!property) return []
+
+    return (properties ?? [])
+      .filter((item) => item._id !== property._id)
+      .filter((item) => item.city === property.city || item.propertyType === property.propertyType)
+      .slice(0, 3)
+  }, [properties, property])
+
+  const firstImage = property?.images?.[0] || assets.about
+  const currencyCode = currency === '$' ? 'USD' : currency === '£' ? 'GBP' : currency === '€' ? 'EUR' : 'USD'
+  const agencyName = property?.agency?.name || 'Agency information unavailable'
+  const agencyContact = property?.agency?.contact || 'Contact not available'
+  const agencyEmail = property?.agency?.email || 'Email not available'
+  const agencyOwnerImage = property?.agency?.owner?.image || assets.userImg
+
+  const normalizedPhone = agencyContact.replace(/[^+\d]/g, '')
+  const hasValidPhone = Boolean(normalizedPhone)
+  const hasValidEmail = agencyEmail.includes('@')
+
+  const handleEmailClick = () => {
+    if (!hasValidEmail) return
+
+    const subject = encodeURIComponent(`Inquiry about ${property.title}`)
+    const body = encodeURIComponent(`Hi ${agencyName},\n\nI am interested in ${property.title} located at ${property.address}. Please share more details.`)
+    window.location.href = `mailto:${agencyEmail}?subject=${subject}&body=${body}`
+  }
+
+  const handleCallClick = () => {
+    if (!hasValidPhone) return
+
+    window.location.href = `tel:${normalizedPhone}`
+  }
+
+  const structuredData = useMemo(() => {
+    if (!property) return null
+
+    const canonicalUrl = new URL(`/listing/${property._id}`, window.location.origin).toString()
+    const address = {
+      '@type': 'PostalAddress',
+      streetAddress: property.address,
+      addressLocality: property.city,
+      addressCountry: property.country,
+    }
+
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'RealEstateListing',
+          '@id': `${canonicalUrl}#listing`,
+          name: property.title,
+          url: canonicalUrl,
+          description: property.description,
+          image: [firstImage],
+          mainEntity: `${canonicalUrl}#residence`,
+          offers: `${canonicalUrl}#offer`,
+          provider: {
+            '@type': 'RealEstateAgent',
+            name: property.agency?.name,
+          },
+        },
+        {
+          '@type': 'Residence',
+          '@id': `${canonicalUrl}#residence`,
+          name: property.title,
+          description: property.description,
+          address,
+          numberOfRooms: property.facilities?.bedrooms,
+          numberOfBathroomsTotal: property.facilities?.bathrooms,
+          photo: [firstImage],
+          amenityFeature: (property.amenities ?? []).map((amenity) => ({
+            '@type': 'LocationFeatureSpecification',
+            name: amenity,
+            value: true,
+          })),
+        },
+        {
+          '@type': 'Offer',
+          '@id': `${canonicalUrl}#offer`,
+          url: canonicalUrl,
+          priceCurrency: currencyCode,
+          price: property.price?.sale,
+          availability: property.isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          itemOffered: `${canonicalUrl}#place`,
+        },
+        {
+          '@type': 'Place',
+          '@id': `${canonicalUrl}#place`,
+          name: property.title,
+          address,
+        },
+      ],
+    }
+  }, [currencyCode, firstImage, property])
+
+  const scrollToLeadForm = () => {
+    leadFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  if (!property) {
+    return (
+      <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
+        <Seo
+          title={t('property.notFoundTitle')}
+          description={t('property.notFoundDescription')}
+          canonicalPath={`/listing/${id}`}
+          noindex
+        />
+        <div className='max-padd-container'>
+          <EmptyState
+            title={t('property.notFoundTitle')}
+            description={t('property.notFoundDescription')}
+            action={
+              <Button onClick={() => navigate('/listing')} variant='primary'>
+                {t('property.backToListings')}
+              </Button>
+            }
+          />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className='bg-linear-to-r from-[#fffbee] to-white py-16 pt-28'>
+      <Seo
+        title={property.title}
+        description={property.description}
+        canonicalPath={`/listing/${property._id}`}
+        image={firstImage}
+        structuredData={structuredData}
+      />
+      <div className='max-padd-container'>
+        <div className='mb-6 flex flex-wrap items-center gap-2'>
+          <Badge variant='info'>{property.propertyType}</Badge>
+          <Badge variant={property.isAvailable ? 'success' : 'warning'}>
+            {property.isAvailable ? t('listing.available') : t('listing.hidden')}
+          </Badge>
+          <Badge variant='neutral'>
+            {property.city}, {property.country}
+          </Badge>
+        </div>
+
+        <Card className='p-3 sm:p-4'>
+          <div className='mb-3 flex flex-wrap items-center justify-between gap-3'>
+            <div>
+              <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('property.mediaLabel')}</p>
+              <h2 className='h2'>{property.title}</h2>
+            </div>
+            <div className='text-right'>
+              <p className='text-xs uppercase tracking-[0.2em] text-slate-500'>{t('property.saleLabel')}</p>
+              <p className='bold-18 text-secondary'>
+                {currency}{property.price?.sale}
+              </p>
+            </div>
+          </div>
+          <PropertyImages property={property} />
+        </Card>
+
+        <div className='mt-6 grid gap-8 xl:grid-cols-[1.7fr_0.9fr]'>
+          <div className='space-y-6'>
+            <Card className='p-5 sm:p-6'>
+              <p className='flexStart gap-x-2 text-slate-600'>
+                <img src={assets.pin} alt='' width={19} />
+                <span>{property.address}</span>
+              </p>
+
+              <div className='mt-3 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between'>
+                <div>
+                  <h3 className='h3'>{property.title}</h3>
+                  <p className='mt-1 text-sm text-slate-600'>{property.country}</p>
+                </div>
+                <div className='bold-18'>
+                  {currency}{property.price?.sale} | {currency}{property.price?.rent}{t('listing.row.perNight')}
+                </div>
+              </div>
+
+              <div className='mt-4 flex flex-wrap items-start justify-between gap-3'>
+                <div className='flex items-center gap-2'>
+                  <h4 className='h4 text-secondary'>{property.propertyType}</h4>
+                  <Badge variant='neutral'>#{property._id.slice(-5)}</Badge>
+                </div>
+                <div className='flex items-center gap-2'>
+                  <h4 className='bold-18 relative bottom-0.5 text-black'>5.0</h4>
+                  <div className='flex items-center gap-0.5'>
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <img key={idx} src={assets.star} alt='star icon' width={18} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className='mt-4 flex flex-wrap gap-x-4 gap-y-2'>
+                <p className='flexCenter gap-x-2 border-r border-slate-900/50 pr-4 font-medium'>
+                  <img src={assets.bed} alt='' width={19} />
+                  {property.facilities?.bedrooms}
+                </p>
+                <p className='flexCenter gap-x-2 border-r border-slate-900/50 pr-4 font-medium'>
+                  <img src={assets.bath} alt='' width={19} />
+                  {property.facilities?.bathrooms}
+                </p>
+                <p className='flexCenter gap-x-2 border-r border-slate-900/50 pr-4 font-medium'>
+                  <img src={assets.car} alt='' width={19} />
+                  {property.facilities?.garages}
+                </p>
+                <p className='flexCenter gap-x-2 border-r border-slate-900/50 pr-4 font-medium'>
+                  <img src={assets.ruler} alt='' width={19} />
+                  {property.area ?? 400}
+                </p>
+              </div>
+
+              <div className='mt-6'>
+                <h4 className='h4 mb-2'>{t('property.propertyDetailsTitle')}</h4>
+                <p className='leading-7 text-slate-700'>{property.description}</p>
+              </div>
+
+              <div className='mt-6'>
+                <h4 className='h4 mb-3'>{t('property.amenitiesTitle')}</h4>
+                <div className='flex flex-wrap gap-3'>
+                  {property.amenities?.map((amenity, index) => (
+                    <Badge key={index} variant='neutral'>
+                      {amenity}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </Card>
+
+            <Card className='p-5 sm:p-6'>
+              <div className='mb-4 flex items-center justify-between gap-3 flex-wrap'>
+                <div>
+                  <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('property.inquiryLabel')}</p>
+                  <h4 className='h4'>{t('property.inquiryHeading')}</h4>
+                </div>
+                <Badge variant='info'>{t('property.quickResponse')}</Badge>
+              </div>
+
+              <div className='space-y-4'>
+                <p className='text-sm leading-6 text-slate-600'>
+                  {t('property.inquiryDescription')}
+                </p>
+
+                <div className='rounded-2xl bg-secondary/10 p-4 text-sm text-slate-700'>
+                  <p className='font-semibold text-slate-900'>{t('property.whatHappensNextTitle')}</p>
+                  <p className='mt-1'>{t('property.whatHappensNextDesc')}</p>
+                </div>
+
+                <Button type='button' onClick={scrollToLeadForm} className='w-full rounded-lg'>
+                  {t('property.inquireNow')}
+                </Button>
+              </div>
+            </Card>
+
+            <Card className='p-5 sm:p-6'>
+              <div className='mb-4 flex items-center justify-between gap-3 flex-wrap'>
+                <div>
+                  <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('property.mediaNotesLabel')}</p>
+                  <h4 className='h4'>{t('property.mediaWhatYouAreSeeingTitle')}</h4>
+                </div>
+                <Badge variant='neutral'>{t('property.photosCount', { count: property.images?.length ?? 0 })}</Badge>
+              </div>
+              <div className='grid gap-3 sm:grid-cols-2'>
+                <div className='rounded-2xl bg-secondary/10 p-4'>
+                  <p className='text-sm font-semibold text-slate-900'>{t('property.highResTitle')}</p>
+                  <p className='text-sm text-slate-600'>{t('property.highResDesc')}</p>
+                </div>
+                <div className='rounded-2xl bg-secondary/10 p-4'>
+                  <p className='text-sm font-semibold text-slate-900'>{t('property.mediaReadyTitle')}</p>
+                  <p className='text-sm text-slate-600'>{t('property.mediaReadyDesc')}</p>
+                </div>
+              </div>
+            </Card>
+
+            {similarProperties.length > 0 && (
+              <Card className='p-5 sm:p-6'>
+                <div className='mb-4 flex items-center justify-between gap-3 flex-wrap'>
+                  <div>
+                    <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('property.moreToExplore')}</p>
+                      <h4 className='h4'>{t('property.similarProperties')}</h4>
+                  </div>
+                    <Link to='/listing' className='text-sm font-semibold text-secondary'>{t('property.viewAll')}</Link>
+                </div>
+                <div className='space-y-4'>
+                  {similarProperties.map((item) => (
+                    <ListingCard key={item._id} property={item} currency={currency} showDescription={false} />
+                  ))}
+                </div>
+              </Card>
+            )}
+          </div>
+
+          <Card className='p-6 sticky top-28 h-fit'>
+              <div className='mb-4 flex flex-wrap items-center justify-between gap-3'>
+              <div>
+                <p className='text-xs font-semibold uppercase tracking-[0.2em] text-secondary'>{t('property.contactLabel')}</p>
+                <h4 className='h4 mb-1'>{t('property.agencyInformationTitle')}</h4>
+              </div>
+              <Badge variant='success'>{t('property.verified')}</Badge>
+            </div>
+
+            <div className='flex items-center justify-between gap-4 rounded-2xl bg-secondary/10 p-3'>
+              <div>
+                <div className='flex items-center gap-2'>
+                  <h5 className='h5'>{agencyName}</h5>
+                  <Badge variant='neutral'>{t('property.agencyLabel')}</Badge>
+                </div>
+                <p className='text-sm text-slate-600'>{t('property.agencyOffice')}</p>
+              </div>
+              <img src={agencyOwnerImage} alt='Agency owner' className='h-12 w-12 rounded-full object-cover' />
+            </div>
+
+            <div className='mt-4 space-y-3'>
+              <div className='flexStart gap-2 rounded-xl border border-slate-900/10 p-3'>
+                <div className='rounded-full border border-green-500/30 bg-green-500/20 p-1'>
+                  <img src={assets.phone} alt='' width={14} />
+                </div>
+                <p>{agencyContact}</p>
+              </div>
+
+              <div className='flexStart gap-2 rounded-xl border border-slate-900/10 p-3'>
+                <div className='rounded-full border border-green-500/30 bg-green-500/20 p-1'>
+                  <img src={assets.mail} alt='' width={14} />
+                </div>
+                <p>{agencyEmail}</p>
+              </div>
+            </div>
+
+              <div className='mt-4 flex items-center gap-3'>
+              <Button variant='secondary' className='flex-1 rounded-xl' onClick={handleEmailClick} disabled={!hasValidEmail}>
+                <img src={assets.mail} alt='' width={16} />
+                {t('property.sendEmail')}
+              </Button>
+              <Button className='flex-1 rounded-xl' onClick={handleCallClick} disabled={!hasValidPhone}>
+                <img src={assets.phone} alt='' width={16} />
+                {t('property.callNow')}
+              </Button>
+            </div>
+
+            <div ref={leadFormRef} id='property-contact' className='mt-5 border-t border-slate-900/10 pt-5'>
+              <LeadForm
+                source={LEAD_SOURCES.LISTING_DETAIL}
+                propertyId={property._id}
+                listingTitle={property.title}
+              />
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default PropertyDetails

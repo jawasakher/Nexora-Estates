@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>دليل استخدام مشروع Nexora Estates</title>
+</head>
+<body>
+<section dir="rtl" lang="ar">
+<h1>دليل استخدام مشروع Nexora Estates</h1>
+<hr>
+<h2>العربية</h2>
+<p><strong>عنوان:</strong> دليل استخدام مشروع Nexora Estates</p>
+<p><strong>مقدمة قصيرة:</strong><br>هذا المستند يشرح خطوات تشغيل المشروع محلياً، نشره، وإرشادات إدارة المحتوى الأساسية (عقارات، مالك، ومدونة) باللغتين العربية والإنجليزية.</p>
+<ol>
+<li><strong>المتطلبات الأساسية</strong>
+<ul>
+<li>Node.js (النسخة 16+ موصى بها)</li>
+<li>npm أو pnpm</li>
+</ul>
+</li>
+<li><strong>التثبيت وتشغيل محلي</strong>
+<pre>npm install
+npm run dev</pre>
+<p>الموقع سيعمل عادة على http://localhost:5173 أو المنفذ المحدد.</p>
+</li>
+<li><strong>إعداد المتغيرات والبيئة</strong>
+<p>تحقق من إعدادات المشروع في <em>src/config/env.js</em> لتعديل متغيرات البيئة (نقاط النهاية، مفاتيح API، إعدادات البريد).</p>
+</li>
+<li><strong>أوامر مفيدة</strong>
+<ul>
+<li>تشغيل التطوير: <code>npm run dev</code></li>
+<li>بناء للإنتاج: <code>npm run build</code></li>
+<li>معاينة البناء: <code>npm run preview</code></li>
+</ul>
+</li>
+<li><strong>إضافة/تحديث عقار</strong>
+<p>واجهة العرض توجد في <em>src/pages</em> و<em>src/components/property</em>. بيانات العينات قد تكون في <em>src/assets/data.js</em> أو <em>src/assets/blogs</em>.</p>
+</li>
+<li><strong>إدارة لوحة المالك</strong>
+<p>الصفحات في <em>src/pages/owner</em> و<em>src/components/owner</em>. تأكد من ربط واجهة الرفع بنقطة نهاية التخزين.</p>
+</li>
+<li><strong>المدونة والمحتوى</strong>
+<p>المقالات في <em>src/assets/blogs</em> بصيغة MDX. لإضافة مقالة جديدة، انسخ قالب MDX وأضف الملف.</p>
+</li>
+<li><strong>تعدد اللغات (EN/AR)</strong>
+<p>عدّل النصوص في <em>src/components</em> و<em>src/pages</em>. إن وُجدت مكتبة i18n، راجع <em>src/i18n</em>.</p>
+</li>
+<li><strong>النشر</strong>
+<pre>npm run build
+# اتبع تعليمات مزود الاستضافة لنشر مجلد البناء</pre>
+</li>
+<li><strong>الدعم والصيانة</strong>
+<p>افحص سجلّات الأخطاء ومراقبة الأداء، ووثّق تغييرات API عند الضرورة.</p>
+</li>
+</ol>
+</section>
+<section dir="ltr" lang="en">
+<hr>
+<h2>English</h2>
+<p><strong>Title:</strong> Nexora Estates — User Guide</p>
+<p><strong>Quick intro:</strong><br>This guide explains how to run the project locally, deploy it, and manage core content (properties, owner dashboard and blog).</p>
+<ol>
+<li><strong>Prerequisites</strong>
+<ul>
+<li>Node.js (v16+ recommended)</li>
+<li>npm or pnpm</li>
+</ul>
+</li>
+<li><strong>Install &amp; run locally</strong>
+<pre>npm install
+npm run dev</pre>
+<p>Site runs on http://localhost:5173 by default (or configured port).</p>
+</li>
+<li><strong>Environment &amp; configuration</strong>
+<p>Check <em>src/config/env.js</em> to update environment variables (API endpoints, mail settings, keys).</p>
+</li>
+<li><strong>Useful scripts</strong>
+<ul>
+<li>Dev: <code>npm run dev</code></li>
+<li>Build: <code>npm run build</code></li>
+<li>Preview build: <code>npm run preview</code></li>
+</ul>
+</li>
+<li><strong>Adding/updating a property</strong>
+<p>Frontend files: <em>src/pages</em> and <em>src/components/property</em>. Sample data may be in <em>src/assets/data.js</em>.</p>
+</li>
+<li><strong>Owner dashboard management</strong>
+<p>Owner pages/components: <em>src/pages/owner</em> and <em>src/components/owner</em>. Ensure upload endpoints are connected to backend/storage.</p>
+</li>
+<li><strong>Blog &amp; content</strong>
+<p>Blog posts in <em>src/assets/blogs</em> as MDX files. Add new MDX and update index if needed.</p>
+</li>
+<li><strong>Bilingual content (EN/AR)</strong>
+<p>Edit static strings in <em>src/components</em> and <em>src/pages</em>. If i18n is used, check <em>src/i18n</em>.</p>
+</li>
+<li><strong>Deployment</strong>
+<pre>npm run build
+# Follow hosting provider steps to serve the production build</pre>
+</li>
+<li><strong>Support &amp; maintenance</strong>
+<p>Inspect browser console and server logs, monitor images and caching, and document API changes.</p>
+</li>
+</ol>
+</section>
+</body>
+</html>
