@@ -17,7 +17,7 @@ const Header = () => {
   const location = useLocation();
   const { navigate, user, isOwner } = useAppContext();
   const { openSignIn } = useClerk();
-  const { t } = useI18n()
+  const { t, isRTL } = useI18n()
 
   const toggleMenu = () => {
     setMenuOpened((prev) => !prev);
@@ -44,6 +44,7 @@ const Header = () => {
 
   return (
     <header
+      dir={isRTL ? 'rtl' : 'ltr'}
       className={`${
         active
           ? "bg-white/95 backdrop-blur-md py-3 shadow-lg shadow-black/5"
@@ -51,10 +52,9 @@ const Header = () => {
       } fixed top-0 w-full left-0 right-0 z-50 transition-all duration-300`}
     >
       <div className="max-padd-container">
-        <div className="flexBetween">
-          
+        <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
           {/* Logo */}
-          <div className="flex flex-1">
+          <div className={`flex flex-1 ${isRTL ? 'justify-end' : 'justify-start'}`}>
             <Link to="/">
               <img
                 src={assets.logoImg}
@@ -71,10 +71,11 @@ const Header = () => {
             active={active}
             setMenuOpened={setMenuOpened}
             isOwner={isOwner}
+            isRTL={isRTL}
             containerStyles={`${
               menuOpened
-                ? "fixed top-20 right-4 z-50 flex w-[84vw] max-w-72 translate-y-0 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-100 shadow-xl backdrop-blur-md"
-                : "fixed top-20 right-4 z-50 flex w-[84vw] max-w-72 -translate-y-4 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-0 shadow-xl backdrop-blur-md pointer-events-none lg:pointer-events-auto lg:static lg:opacity-100 lg:flex-row lg:gap-x-2 lg:bg-transparent lg:p-1 lg:shadow-none"
+                ? `fixed top-20 ${isRTL ? 'left-4' : 'right-4'} z-50 flex w-[84vw] max-w-72 translate-y-0 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-100 shadow-xl backdrop-blur-md`
+                : `fixed top-20 ${isRTL ? 'left-4' : 'right-4'} z-50 flex w-[84vw] max-w-72 -translate-y-4 flex-col gap-y-3 rounded-2xl bg-white/95 p-4 opacity-0 shadow-xl backdrop-blur-md pointer-events-none lg:pointer-events-auto lg:static lg:opacity-100 lg:flex-row lg:gap-x-2 lg:bg-transparent lg:p-1 lg:shadow-none`
             }`}
           />
 
@@ -86,11 +87,10 @@ const Header = () => {
           )}
 
           {/* Right Side */}
-          <div className="flex sm:flex-1 items-center sm:justify-end gap-x-3 sm:gap-x-6">
-            
+          <div className={`flex items-center gap-x-3 sm:gap-x-6 ${isRTL ? 'flex-row-reverse sm:flex-row-reverse' : 'flex-row sm:flex-row'}`}>
             {/* Search */}
             <div className="relative hidden sm:flex items-center">
-              <div className="bg-white/90 rounded-full px-3 py-2 flex items-center gap-2">
+              <div className={`bg-white/90 rounded-full px-3 py-2 flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                 <img src={assets.search} className="size-4 opacity-60" />
                 {showSearch && (
                   <Input
@@ -105,7 +105,7 @@ const Header = () => {
                 onClick={() => setshowSearch((p) => !p)}
                 variant="primary"
                 size="sm"
-                className="absolute right-0 rounded-full text-xs"
+                className={`absolute ${isRTL ? 'left-0' : 'right-0'} rounded-full text-xs`}
               >
                 {showSearch ? t('common.close') : t('common.search')}
               </Button>

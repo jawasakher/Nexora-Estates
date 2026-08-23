@@ -9,7 +9,7 @@ import Badge from '../components/ui/Badge'
 import { useI18n } from '../i18n/I18nContext.jsx'
 
 const Blog = () => {
-  const { t } = useI18n()
+  const { t, isRTL } = useI18n()
   const posts = blogEntries
 
   return (
@@ -29,21 +29,21 @@ const Blog = () => {
       />
       <div className='max-padd-container'>
         {posts.length ? (
-          <div className='grid grid-cols-1 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
             {posts.map((blog, index) => (
-              <Card key={`${blog.title}-${index}`} className='overflow-hidden p-0'>
+              <Card key={`${blog.title}-${index}`} className='min-w-0 overflow-hidden p-0'>
                 <div className='relative'>
                   <OptimizedImage
                     src={blog.image}
                     alt={blog.title}
-                    className='h-56 w-full'
+                    className='h-56 w-full object-cover'
                     useSkeleton
                   />
-                  <Badge variant='info' className='absolute left-4 top-4'>
+                  <Badge variant='info' className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'}`}>
                     {blog.category}
                   </Badge>
                 </div>
-                <div className='p-4'>
+                <div className='flex h-full flex-col p-4'>
                   <h5 className='h5 mb-2 line-clamp-2'>{blog.title}</h5>
                   <p className='text-sm text-slate-600'>{blog.description}</p>
                   <Link to={`/blog/${blog.slug || index}`} className='mt-3 inline-block underline bold-14 line-clamp-2'>

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useI18n } from '../i18n/I18nContext.jsx'
 
-export const Navbar = ({ setMenuOpened, containerStyles, isOwner = false }) => {
+export const Navbar = ({ setMenuOpened, containerStyles, isOwner = false, isRTL = false }) => {
   const { t } = useI18n()
   const navLinks = [
     { to: "/", label: t('nav.home') },
@@ -11,13 +11,15 @@ export const Navbar = ({ setMenuOpened, containerStyles, isOwner = false }) => {
     ...(isOwner ? [{ to: "/owner", label: t('nav.ownerDashboard') }] : []),
   ];
 
+  const orderedLinks = isRTL ? [...navLinks].reverse() : navLinks
+
   const handleNavClick = () => {
     setMenuOpened(false);
   };
 
   return (
-    <nav className={containerStyles}>
-      {navLinks.map((link) => (
+    <nav className={`${containerStyles} ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+      {orderedLinks.map((link) => (
         <NavLink
           key={link.to}
           to={link.to}
