@@ -27,3 +27,23 @@ npx prisma validate
 ```
 
 Never commit `server/.env` or paste database credentials into source files.
+
+## Media uploads
+
+Media uses signed direct uploads to Cloudinary. Configure these variables in `server/.env`:
+
+```env
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_FOLDER=nexora-estates/properties
+```
+
+The backend exposes:
+
+- `POST /api/v1/owner/media/signature` to create a short-lived upload signature.
+- `POST /api/v1/owner/properties/:propertyId/images` to attach the uploaded URL and Cloudinary public ID.
+- `PATCH /api/v1/owner/properties/:propertyId/images/reorder` to persist image order.
+- `DELETE /api/v1/owner/properties/:propertyId/images/:imageId` to remove metadata and the Cloudinary asset.
+
+All media endpoints require an authenticated `OWNER` or `ADMIN` and enforce property ownership.
