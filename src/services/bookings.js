@@ -4,6 +4,11 @@ import { endpoints } from '../api/endpoints.js'
 import { isApiClientError } from '../api/errors.js'
 import { requestJson } from '../api/client.js'
 
+const extractBookingList = (response) => {
+  if (Array.isArray(response)) return response
+  return Array.isArray(response?.data) ? response.data : []
+}
+
 export const getBookings = async (options = {}) => {
   if (!envConfig.bookingsApiUrl) {
     return {
@@ -18,7 +23,7 @@ export const getBookings = async (options = {}) => {
 
     return {
       success: true,
-      data: Array.isArray(data) ? data : [],
+      data: extractBookingList(data),
       source: 'api',
     }
   } catch (error) {

@@ -5,6 +5,7 @@ import { HealthModule } from './health/health.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { PropertiesModule } from './properties/properties.module'
 import { MediaModule } from './media/media.module'
+import { BookingsModule } from './bookings/bookings.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MediaModule } from './media/media.module'
     AuthModule,
     PropertiesModule,
     MediaModule,
+    BookingsModule,
   ],
 })
 export class AppModule {}
