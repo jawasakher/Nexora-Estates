@@ -39,6 +39,11 @@ const normalizeProperty = (property) => ({
   status: property?.status || (property?.isAvailable === false ? 'hidden' : 'available'),
 })
 
+const extractPropertyList = (response) => {
+  if (Array.isArray(response)) return response
+  return Array.isArray(response?.data) ? response.data : []
+}
+
 const buildPropertyPayload = (input = {}) => ({
   title: input.title?.trim() || '',
   description: input.description?.trim() || '',
@@ -103,7 +108,7 @@ export const getOwnerProperties = async (options = {}) => {
 
     return {
       success: true,
-      data: Array.isArray(data) ? data.map(normalizeProperty) : [],
+      data: extractPropertyList(data).map(normalizeProperty),
       source: 'api',
     }
   } catch (error) {

@@ -5,6 +5,10 @@ import { isApiClientError } from '../api/errors.js'
 import { requestJson } from '../api/client.js'
 
 const normalizeProperty = (property) => property
+const extractPropertyList = (response) => {
+  if (Array.isArray(response)) return response
+  return Array.isArray(response?.data) ? response.data : []
+}
 
 export const getProperties = async () => {
   if (!envConfig.propertiesApiUrl) {
@@ -20,7 +24,7 @@ export const getProperties = async () => {
 
     return {
       success: true,
-      data: Array.isArray(data) ? data.map(normalizeProperty) : [],
+      data: extractPropertyList(data).map(normalizeProperty),
       source: 'api',
     }
   } catch (error) {
