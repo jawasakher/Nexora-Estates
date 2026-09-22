@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  OWNER
+  AGENT
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum PropertyStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  HIDDEN
+  ARCHIVED
+}
+
+enum ListingType {
+  SALE
+  RENT
+  BOTH
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PENDING
+  PAID
+  REFUNDED
+}
+
+model User {
+  id          String       @id @default(uuid()) @db.Uuid
+  clerkUserId String       @unique
+  email       String       @unique
+  name        String?
+  avatarUrl   String?
+  role        UserRole     @default(USER)
+  status      UserStatus   @default(ACTIVE)
+  properties  Property[]
+  bookings    Booking[]
+  favorites   Favorite[]
+  leads       Lead[]       @relation("LeadSubmitter")
+  assignedLeads Lead[]     @relation("LeadAssignee")
+  notifications Notification[]
+  auditLogs   AuditLog[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([role, status])
+}
+
+model Property {
+  id           String          @id @default(uuid()) @db.Uuid
+  ownerId      String          @db.Uuid
+  owner        User            @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+  title        String
+  slug         String          @unique
+  description  String
+  propertyType String
+  status       PropertyStatus  @default(DRAFT)
+  listingType  ListingType     @default(BOTH)
+  priceSale    Decimal?        @db.Decimal(14, 2)
+  priceRent    Decimal?        @db.Decimal(14, 2)
+  currency     String          @default("USD")
+  area         Decimal?        @db.Decimal(12, 2)
+  bedrooms     Int?
+  bathrooms    Int?
+  garages      Int?
+  city         String
+  country      String
+  address      String
+  latitude     Decimal?        @db.Decimal(10, 7)
+  longitude    Decimal?        @db.Decimal(10, 7)
+  isAvailable  Boolean         @default(true)
+  publishedAt  DateTime?
+  images       PropertyImage[]
+  bookings     Booking[]
+  favorites    Favorite[]
+  leads        Lead[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([ownerId])
+  @@index([status, city, country])
+  @@index([propertyType, listingType])
+}
+
+model PropertyImage {
+  id         String   @id @default(uuid()) @db.Uuid
+  propertyId String   @db.Uuid
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  url        String
+  storageKey String?
+  altText    String?
+  sortOrder  Int      @default(0)
+  isCover    Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([propertyId, sortOrder])
+}
+
+model Booking {
+  id             String        @id @default(uuid()) @db.Uuid
+  userId         String        @db.Uuid
+  propertyId     String        @db.Uuid
+  user           User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  property       Property      @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+  checkInDate    DateTime
+  checkOutDate   DateTime
+  guests         Int
+  totalPrice     Decimal       @db.Decimal(14, 2)
+  currency       String        @default("USD")
+  status         BookingStatus @default(PENDING)
+  paymentStatus  PaymentStatus @default(UNPAID)
+  customerNote   String?
+  ownerNote      String?
+  rejectionReason String?
+  notifications  Notification[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([userId, status])
+  @@index([propertyId, status, checkInDate, checkOutDate])
+}
+
+model Lead {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String?  @db.Uuid
+  propertyId   String?  @db.Uuid
+  assignedToId String?  @db.Uuid
+  submitter    User?    @relation("LeadSubmitter", fields: [userId], references: [id], onDelete: SetNull)
+  property     Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  assignedTo   User?    @relation("LeadAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  name         String
+  email        String
+  phone        String?
+  message      String
+  source       String
+  status       String   @default("NEW")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([assignedToId, status])
+}
+
+model Favorite {
+  userId     String   @db.Uuid
+  propertyId String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([userId, propertyId])
+}
+
+model Notification {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  bookingId String?  @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  booking   Booking? @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String
+  readAt    DateTime?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt, createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  actorId    String?  @db.Uuid
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String
+  before     Json?
+  after      Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+  @@index([actorId, createdAt])
+}
