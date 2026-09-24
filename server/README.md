@@ -63,3 +63,19 @@ Endpoints:
 - `POST /api/v1/owner/bookings/:id/reject` rejects a pending booking with a reason.
 
 Booking status values are `PENDING`, `CONFIRMED`, `REJECTED`, `CANCELLED`, and `COMPLETED`. All protected endpoints require a Clerk Bearer token.
+
+## Admin
+
+Admin routes reuse the existing Clerk `AuthGuard`, local `User.role`, and `RolesGuard`. They require `role=ADMIN`; no parallel permission system is introduced.
+
+- `GET /api/v1/admin/overview` returns platform counts.
+- `GET /api/v1/admin/users` lists users with pagination and search.
+- `PATCH /api/v1/admin/users/:id/role` changes another user's role and writes an audit log.
+- `GET /api/v1/admin/properties` lists properties with owner and usage counts.
+- `POST /api/v1/admin/properties/:id/publish` publishes a property and audits the action.
+- `POST /api/v1/admin/properties/:id/reject` hides a property and requires a rejection reason.
+- `GET /api/v1/admin/bookings` lists bookings with user/property context.
+- `GET /api/v1/admin/leads` lists CRM leads with assignment context.
+- `GET /api/v1/admin/audit-logs` lists the audit trail.
+
+Admins cannot change their own role. Role changes and property moderation are transactional with their corresponding audit record.
