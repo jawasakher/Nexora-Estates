@@ -5,14 +5,12 @@ import { assets } from "../assets/data";
 import { Navbar } from "./Navbar";
 import { useAppContext } from "../context/AppContext.jsx";
 import Button from "./ui/Button";
-import Input from "./ui/Input";
 import LanguageSwitcher from './ui/LanguageSwitcher.jsx'
 import { useI18n } from '../i18n/I18nContext.jsx'
 
 const Header = () => {
   const [active, setActive] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
-  const [showSearch, setshowSearch] = useState(false);
 
   const location = useLocation();
   const { navigate, user, isOwner } = useAppContext();
@@ -88,29 +86,6 @@ const Header = () => {
 
           {/* Right Side */}
           <div className={`flex items-center gap-x-3 sm:gap-x-6 ${isRTL ? 'flex-row-reverse sm:flex-row-reverse' : 'flex-row sm:flex-row'}`}>
-            {/* Search */}
-            <div className="relative hidden sm:flex items-center">
-              <div className={`bg-white/90 rounded-full px-3 py-2 flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <img src={assets.search} className="size-4 opacity-60" />
-                {showSearch && (
-                  <Input
-                    type="text"
-                    placeholder={`${t('common.search')}...`}
-                    className="border-0 bg-transparent px-0 py-0 text-sm focus:ring-0"
-                  />
-                )}
-              </div>
-
-              <Button
-                onClick={() => setshowSearch((p) => !p)}
-                variant="primary"
-                size="sm"
-                className={`absolute ${isRTL ? 'left-0' : 'right-0'} rounded-full text-xs`}
-              >
-                {showSearch ? t('common.close') : t('common.search')}
-              </Button>
-            </div>
-
             <LanguageSwitcher className='inline-flex' />
 
             {/* Menu */}
